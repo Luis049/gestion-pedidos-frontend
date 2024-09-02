@@ -1,0 +1,32 @@
+<div class="container-form-login">
+  <app-card class="card-form-login">
+    <app-title text="INGRESO AL SISTEMA" size="h2" class="title" />
+    <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="body-form-login">
+        <div class="input-group">
+          <label for="username">Nombre</label>
+          <input formControlName="username" type="text" placeholder="Nombre" />
+          @if (getErrorUsername) {
+            <span class="error">Campo requerido</span>
+          }
+        </div>
+        <div class="input-group">
+          <label for="password">Número de teléfono </label>
+          <input
+            formControlName="password"
+            placeholder="Número de teléfono"
+          />
+          @if (getErrorPassword) {
+            <span class="error">Campo requerido</span>
+          }
+        </div>
+        @if (credentialsInvalid) {
+          <span class="error">Credenciales incorrectas</span>
+        }
+        <button class="btn" [disabled]="loginForm.invalid" >
+          Ingresar
+        </button>
+      </div>
+    </form>
+  </app-card>
+</div>

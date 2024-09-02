@@ -1,0 +1,14 @@
+<aside class="sidebar">
+  <div class="sidebar__logo-container">
+    <app-logo [appName]="company.name"></app-logo>
+  </div>
+  <div class="sidebar__profile">
+    <app-profile [userName]="user.name" [avatarUrl]="'/assets/avatar-default.png'"></app-profile>
+  </div>
+  <nav class="sidebar__menu">
+    <app-menu></app-menu>
+  </nav>
+  <div class="sidebar__mode-switch">
+    <!-- Switch de modo claro/oscuro irá aquí -->
+  </div>
+</aside>

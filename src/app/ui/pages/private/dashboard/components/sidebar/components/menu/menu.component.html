@@ -1,0 +1,13 @@
+<nav class="menu">
+  <ul class="menu__list">
+    <li *ngFor="let item of menuItems"
+        class="menu__item"
+        [class.menu__item--active]="item.active"
+        (click)="onMenuItemClick(item)">
+      <a [routerLink]="item.route" class="menu__link">
+        <i class="menu__icon" [ngClass]="'icon-' + item.icon"></i>
+        <span class="menu__label">{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

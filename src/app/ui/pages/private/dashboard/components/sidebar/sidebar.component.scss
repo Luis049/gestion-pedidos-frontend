@@ -1,0 +1,59 @@
+// sidebar.component.scss
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--color-backgroundDark, #121212);
+  color: var(--color-on-background, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-4, 1rem);
+
+  &__logo-container {
+    padding: var(--spacing-4, 1rem) 0;
+    margin-bottom: var(--spacing-6, 2rem);
+  }
+
+  &__logo {
+    // Estilos para el logo
+  }
+
+  &__profile {
+    margin-bottom: var(--spacing-6, 2rem);
+  }
+
+  &__menu {
+    flex-grow: 1;
+    margin-top: var(--spacing-6, 2rem);
+    margin-bottom: var(--spacing-6, 2rem);
+  }
+
+  &__mode-switch {
+    // Estilos para el switch de modo
+  }
+}
+
+// styles.scss (o tu archivo de estilos globales)
+:root {
+  --color-background: #121212;
+  --color-on-background: #FFFFFF;
+  --spacing-4: 1rem;
+  --spacing-6: 2rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+
+  .content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    // Aquí irán los estilos para el contenido principal
+  }
+}

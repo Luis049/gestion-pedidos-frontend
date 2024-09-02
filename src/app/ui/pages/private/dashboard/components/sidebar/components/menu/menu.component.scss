@@ -1,0 +1,41 @@
+
+// menu.component.scss
+.menu {
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    margin-bottom: var(--spacing-2, 0.5rem);
+
+    &--active .menu__link {
+      background-color: var(--color-primary-light, rgba(247, 223, 30, 0.1));
+      color: var(--color-primary, #F7DF1E);
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-3, 0.75rem);
+    border-radius: var(--border-radius-md, 8px);
+    text-decoration: none;
+    color: var(--color-on-background, #FFFFFF);
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: var(--color-hover, rgba(255, 255, 255, 0.1));
+    }
+  }
+
+  &__icon {
+    margin-right: var(--spacing-3, 0.75rem);
+    font-size: var(--font-size-lg, 1.25rem);
+  }
+
+  &__label {
+    font-size: var(--font-size-md, 1rem);
+  }
+}
