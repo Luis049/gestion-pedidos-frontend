@@ -1,0 +1,22 @@
+<div class="stores">
+  <div class="stores__header">
+    <div class="stores__header-title">
+      <h1>Tiendas</h1>
+    </div>
+    <div class="stores__header-search">
+      <input type="text" placeholder="Buscar..." />
+    </div>
+  </div>
+  <div class="stores__list">
+    <div class="stores__list-item" *ngFor="let store of stores">
+      <div class="stores__list-item-info">
+        <div class="stores__list-item-info-name">
+          {{ store.name }}
+        </div>
+        <div class="stores__list-item-info-address">
+          {{ store.address }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

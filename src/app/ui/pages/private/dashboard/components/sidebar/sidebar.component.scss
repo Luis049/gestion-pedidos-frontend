@@ -9,7 +9,6 @@
   color: var(--color-on-background, #FFFFFF);
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-4, 1rem);
 
   &__logo-container {
     padding: var(--spacing-4, 1rem) 0;
@@ -30,8 +29,9 @@
     margin-bottom: var(--spacing-6, 2rem);
   }
 
-  &__mode-switch {
-    // Estilos para el switch de modo
+    &__mode-switch {
+    margin-top: auto; // Empuja el switch al fondo del sidebar
+    padding: var(--spacing-3, 0.75rem);
   }
 }
 

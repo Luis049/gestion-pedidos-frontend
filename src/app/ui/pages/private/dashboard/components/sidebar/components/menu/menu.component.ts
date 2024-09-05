@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { GetInfoUser } from '../../../../../../../../presentation/apiRquest';
 import { TypeRole } from '../../../../../../../../core/domain/info-user/models/user.model';
 
@@ -17,6 +17,7 @@ interface MenuItem {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
 
     RouterLink,
   ],
@@ -53,10 +54,10 @@ export class MenusComponent {
   }
 
   @Input() menuItems: MenuItem[] = [
-    { icon: 'Home', label: 'Home', route: '/home', active: true, roles: ['admin', 'super-admin'] },
-    { icon: 'activity', label: 'Empresas', route: '/empresas', active: false, roles: ['super-admin'] },
-    { icon: 'calendar', label: 'Tiendas', route: '/tiendas', active: false, roles: ['admin'] },
-    { icon: 'settings', label: 'Maquinas', route: '/maquinas', active: false, roles: ['admin'] },
+    { icon: 'Home', label: 'Home', route: 'home', active: true, roles: ['admin', 'super-admin'] },
+    { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, roles: ['super-admin'] },
+    { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, roles: ['admin'] },
+    { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, roles: ['admin'] },
   ];
 
   validMenusRoles(){
@@ -67,7 +68,8 @@ export class MenusComponent {
 
   onMenuItemClick(clickedItem: MenuItem) {
     this.menuItems.forEach(item => item.active = (item === clickedItem));
-    this.router.navigate([]);
+    console.log(clickedItem.route);
+    this.router.navigate(['dashboard', clickedItem.route]);
   }
 
  }

@@ -9,6 +9,6 @@
     <app-menu></app-menu>
   </nav>
   <div class="sidebar__mode-switch">
-    <!-- Switch de modo claro/oscuro irá aquí -->
+    <app-switch (modeChange)="onModeChange($event)"></app-switch>
   </div>
 </aside>

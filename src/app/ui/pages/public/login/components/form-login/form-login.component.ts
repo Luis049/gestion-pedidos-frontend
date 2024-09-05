@@ -40,7 +40,7 @@ export class FormLoginComponent {
       return;
     }
     this.requestLogin = true;
-    const result = await apiLogin.execute({
+    const result = await apiLogin.loginAdmin.execute({
       username: this.loginForm.value.username || '',
       password: this.loginForm.value.password || ''
     })
@@ -52,7 +52,6 @@ export class FormLoginComponent {
         this.requestLogin = false;
       },
       (response) => {
-        console.log(response);
         this.credentialsInvalid = false;
         this.uiPreferences.loadUserPreferences();
         this.router.navigate(['/dashboard']);

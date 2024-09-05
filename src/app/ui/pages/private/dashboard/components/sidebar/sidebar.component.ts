@@ -5,11 +5,12 @@ import { LogoComponent } from './components/Logo/Logo.component';
 import { GetInfoCompany, GetInfoUser } from '../../../../../../presentation/apiRquest';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MenusComponent } from './components/menu/menu.component';
+import { SwitchComponent } from './components/switch/switch.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, LogoComponent, ProfileComponent, MenusComponent],
+  imports: [CommonModule, RouterLink, LogoComponent, ProfileComponent, MenusComponent, SwitchComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,4 +46,10 @@ export class SidebarComponent implements OnInit {
     const isChecked = (event.target as HTMLInputElement).checked;
     document.body.classList.toggle('dark-mode', isChecked);
   }
+
+  onModeChange(isDarkMode: boolean) {
+    // Aquí puedes manejar el cambio de modo a nivel de aplicación
+    console.log('Dark mode:', isDarkMode);
+  }
+
 }

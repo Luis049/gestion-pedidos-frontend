@@ -5,7 +5,7 @@ import { InfoUserPresentation } from "./info-user.presentation";
 
 export const {
   login: apiLogin,
-
+  stores: apiStores,
   getInfoUser: GetInfoUser,
   getInfoCompany: GetInfoCompany,
   getToken: GetToken,

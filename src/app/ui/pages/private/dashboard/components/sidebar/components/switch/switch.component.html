@@ -1,0 +1,10 @@
+<div class="mode-switch">
+  <span class="mode-switch__label">Light</span>
+  <label class="mode-switch__toggle">
+    <input type="checkbox"
+           [checked]="isDarkMode"
+           (change)="toggleMode()">
+    <span class="mode-switch__slider"></span>
+  </label>
+  <span class="mode-switch__label">Dark</span>
+</div>
