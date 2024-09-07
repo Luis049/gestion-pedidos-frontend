@@ -36,11 +36,13 @@
 
         .card__header__icon{
           font-size: 30px;
+          color: #9333ea;
         }
 
         span{
           font-size: 20px;
           font-weight: 800;
+          color: #9333ea;
         }
       }
 
@@ -53,8 +55,14 @@
         label{
           font-size: 14px;
           font-weight: 800;
-          color: #202224;
+          color: #9333ea;
           margin-right: 10px;
+        }
+        span{
+          font-size: 14px;
+          font-weight: 800;
+          color: #374151;
+          opacity: 80%;
         }
       }
     }
