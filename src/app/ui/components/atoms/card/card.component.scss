@@ -1,5 +1,12 @@
 .card {
-  padding: var(--spacing-5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 520px;
+  padding: 56px 40px;
   background-color:  #FFFFFF;
-  border-radius: var(--borderRadius-md);
+  border-radius: 12px;
+  box-sizing: border-box;
 }
