@@ -1,11 +1,12 @@
 <div class="container-form-login">
   <app-card class="card-form-login">
-    <app-title text="INGRESO AL SISTEMA" size="h2" class="title" />
+    <app-title text="Iniciar sesión" size="h2" class="title" />
+    <p>Ingrese su usuario y número de teléfono para continuar</p>
     <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="body-form-login">
         <div class="input-group">
           <label for="username">Nombre</label>
-          <input formControlName="username" type="text" placeholder="Nombre" />
+          <input formControlName="username" type="text" placeholder="Jhon Lopez" />
           @if (getErrorUsername) {
             <span class="error">Campo requerido</span>
           }
@@ -14,7 +15,7 @@
           <label for="password">Número de teléfono </label>
           <input
             formControlName="password"
-            placeholder="Número de teléfono"
+            placeholder="3008096234"
           />
           @if (getErrorPassword) {
             <span class="error">Campo requerido</span>
@@ -23,6 +24,12 @@
         @if (credentialsInvalid) {
           <span class="error">Credenciales incorrectas</span>
         }
+
+        <div>
+          <input type="checkbox" id="remember">
+          <label for="remember">Recordar datos</label>
+        </div>
+
         <button class="btn" [disabled]="loginForm.invalid" >
           Ingresar
         </button>
