@@ -13,8 +13,8 @@
 }
 
 .title {
-  color: var(--color-primary);
-  font-weight: bold;
+  color: #374151;
+  font-weight: 700px;
   font-size: 32px;
 }
 
@@ -63,8 +63,9 @@ span.error{
   border-radius: 5px;
   cursor: pointer;
   width: 80%;
+  color: #fff;
   &:hover{
-    background-color: var(--color-primary);
+    background-color: #9333EA;
     opacity: 0.8;
   }
   .btn-disabled{
@@ -80,4 +81,10 @@ span.error{
   }
 }
 
+.checkbox_remember label{
+  color: #202224;
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 60%;
+}
 

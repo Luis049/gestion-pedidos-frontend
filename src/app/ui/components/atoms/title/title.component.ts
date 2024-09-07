@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     CommonModule,
   ],
   templateUrl: './title.component.html',
-  styleUrl: './title.component.css',
+  styleUrl: './title.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TitleComponent {
