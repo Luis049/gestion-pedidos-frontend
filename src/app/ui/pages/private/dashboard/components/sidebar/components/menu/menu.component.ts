@@ -3,6 +3,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { GetInfoUser } from '../../../../../../../../presentation/apiRquest';
 import { TypeRole } from '../../../../../../../../core/domain/info-user/models/user.model';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { featherHome, featherPrinter, featherSend } from '@ng-icons/feather-icons';
+import { jamStore } from '@ng-icons/jam-icons';
 
 interface MenuItem {
   icon: string;
@@ -10,6 +13,7 @@ interface MenuItem {
   route: string;
   active: boolean;
   roles: TypeRole[];
+  iconMenu: string;
 }
 
 @Component({
@@ -20,9 +24,11 @@ interface MenuItem {
     RouterModule,
 
     RouterLink,
+    NgIcon
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
+  providers: [provideIcons({ featherSend, featherHome, featherPrinter, jamStore })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenusComponent {
@@ -54,10 +60,11 @@ export class MenusComponent {
   }
 
   @Input() menuItems: MenuItem[] = [
-    { icon: 'Home', label: 'Home', route: 'home', active: true, roles: ['admin', 'super-admin'] },
-    { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, roles: ['super-admin'] },
-    { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, roles: ['admin'] },
-    { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, roles: ['admin'] },
+    { icon: 'Home', label: 'Home', route: 'home', active: true, iconMenu: 'featherHome',roles: ['admin', 'super-admin'] },
+    { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, iconMenu: 'featherSend',roles: ['super-admin'] },
+    { icon: 'calendar', label: 'Pedidos', route: 'pedidos', active: false, iconMenu: 'featherSend',roles: ['admin'] },
+    { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, iconMenu: 'jamStore',roles: ['admin'] },
+    { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, iconMenu: 'featherPrinter',roles: ['admin'] },
   ];
 
   validMenusRoles(){

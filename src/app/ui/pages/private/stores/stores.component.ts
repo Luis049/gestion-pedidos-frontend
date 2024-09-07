@@ -6,13 +6,20 @@ import {
 } from '@angular/core';
 import { apiStores } from '../../../../presentation/apiRquest';
 import { StoresModel } from '../../../../core/domain/context/stores/models/stores.model';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { jamStore } from '@ng-icons/jam-icons';
 
 @Component({
   selector: 'app-stores',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+
+    NgIcon,
+  ],
   templateUrl: './stores.component.html',
   styleUrl: './stores.component.scss',
+  providers: [provideIcons({ jamStore })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StoresComponent {
@@ -24,13 +31,11 @@ export class StoresComponent {
 
   async updateStore() {
     const res = await apiStores.getStores.execute();
-
     res.fold(
       (error) => {
         console.log(error);
       },
       (response) => {
-        console.log(response);
         this.stores = response.map((store) => {
           return {
             id: store.id,

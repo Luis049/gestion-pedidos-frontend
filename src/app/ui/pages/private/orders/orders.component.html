@@ -1,0 +1,66 @@
+<div class="container">
+  <h1>Pedidos</h1>
+
+  <app-filters />
+
+  <div class="container_table">
+    <div class="container_table__header">
+      <div class="container_table__header-item">
+        <div class="container_table__header-item-title">
+          <span>REF</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>FECHA DEL PEDIDO</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>CLIENTE</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>ARCHIVO</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>MÁQUINA</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>TéCNICO</span>
+        </div>
+        <div class="container_table__header-item-title">
+          <span>ESTADO</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table_body">
+      @for (order of orders; track order.id) {
+      <div class="row">
+        <div class="cell">
+          <div class="cell__title">
+            <span>{{order.ref}}</span>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="cell__title">
+            <span>{{order.date}}</span>
+          </div>
+        </div>
+        <div class="cell">
+          <span>{{order.client}}</span>
+        </div>
+        <div class="cell file">
+          <ng-icon name="tablerDownload" />
+          <span>{{order.file}}</span>
+        </div>
+        <div class="cell">
+          <sd-dropdown itemSelected="{{order.machine?.id}}" [iconPrinter]="true" (itemSelectedChange)="selectMachine(order.id, $event )" idUnique="machines-{{order.id}}" [listaItems]="maquinas" />
+        </div>
+        <div class="cell">
+          <sd-dropdown itemSelected="{{order.tecnico?.id}}" (itemSelectedChange)="selectTecnico(order.id, $event )" idUnique="tecnicos-{{order.id}}" [listaItems]="tecnicos" />
+        </div>
+        <div class="cell">
+          <sd-dropdown itemSelected="{{order.state?.id}}" (itemSelectedChange)="selectState(order.id, $event )" idUnique="states-{{order.id}}" [listaItems]="states" />
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

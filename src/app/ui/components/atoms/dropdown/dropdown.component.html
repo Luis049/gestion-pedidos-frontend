@@ -1,0 +1,15 @@
+<button [ngpMenuTrigger]="menu" ngpButton class="dropdown-{{idUnique}}">
+  @if (iconPrinter) {
+    <ng-icon name="featherPrinter" />
+  }
+  {{getItemSelected}}
+  <ng-icon name="featherChevronDown" />
+</button>
+
+<ng-template #menu>
+  <div ngpMenu>
+    @for (item of listaItems; track item.value) {
+      <button (click)="onItemSelected(item)" ngpMenuItem>{{item.label}}</button>
+    }
+  </div>
+</ng-template>

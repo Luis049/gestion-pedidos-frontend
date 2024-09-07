@@ -5,6 +5,7 @@ import { DashboardComponent } from './ui/pages/private/dashboard/dashboard.compo
 import { logginGuardFunction } from './shared/guards/loggin.guard';
 import { CompaniesComponent } from './ui/pages/private/companies/companies.component';
 import { StoresComponent } from './ui/pages/private/stores/stores.component';
+import { OrdersComponent } from './ui/pages/private/orders/orders.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,7 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'companies', component: CompaniesComponent },
       { path: 'tiendas', component: StoresComponent },
+      { path: 'pedidos', component: OrdersComponent },
       { path: '**', redirectTo: '/home' }
     ]
   },

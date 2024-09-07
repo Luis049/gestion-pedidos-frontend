@@ -1,0 +1,48 @@
+
+.container_filters{
+  background-color: #f9f9fb;
+  height: 70px;
+  border-radius: 10px;
+  border: 1px solid #D5D5D5;
+
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
+
+  & div {
+    align-content: center;
+    text-align: center;
+    & span {
+      font-weight: 700;
+    }
+  }
+
+  & .with-border {
+    border-left: 1px solid #D5D5D5;
+    cursor: pointer;
+  }
+
+  & .item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: #EA0234;
+    font-weight: 700;
+    & ng-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  & .container_filters__search {
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+    padding: 10px;
+    justify-items: stretch;
+
+    & ng-icon {
+      width: 25px;
+      height: 25px;
+      color: #7d7d7d;
+      cursor: pointer;
+    }
+  }
+}

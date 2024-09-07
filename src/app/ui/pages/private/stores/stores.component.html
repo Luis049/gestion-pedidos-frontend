@@ -1,22 +1,25 @@
-<div class="stores">
-  <div class="stores__header">
-    <div class="stores__header-title">
-      <h1>Tiendas</h1>
-    </div>
-    <div class="stores__header-search">
-      <input type="text" placeholder="Buscar..." />
-    </div>
-  </div>
-  <div class="stores__list">
-    <div class="stores__list-item" *ngFor="let store of stores">
-      <div class="stores__list-item-info">
-        <div class="stores__list-item-info-name">
-          {{ store.name }}
+<div class="container">
+  <h1>Tiendas</h1>
+
+  <div class="container_cards">
+    @for (store of stores; track store.id) {
+    <div class="card">
+      <div class="card__header">
+        <ng-icon class="card__header__icon" name="jamStore"></ng-icon>
+        <span>{{ store.name }}</span>
+      </div>
+      <div class="card__body">
+        <div class="card__body__item">
+          <label>Dirección:</label>
+          <span>{{ store.address }}</span>
         </div>
-        <div class="stores__list-item-info-address">
-          {{ store.address }}
+        <div class="card__body__item">
+          <label>Encargado:</label>
+          <span>Cristian González</span>
         </div>
       </div>
     </div>
+    }
   </div>
 </div>
+

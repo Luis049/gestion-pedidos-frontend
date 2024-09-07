@@ -1,0 +1,14 @@
+<div ngpSearchField>
+  <div class="search-container">
+    <ng-icon name="heroMagnifyingGlass" />
+    <input
+      [(ngModel)]="query"
+      ngpInput
+      type="search"
+      placeholder="Buscar ..."
+    />
+    <button ngpSearchFieldClear ngpButton aria-label="Clear search">
+      X
+    </button>
+  </div>
+</div>
