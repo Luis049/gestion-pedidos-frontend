@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { featherSend } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-logo',

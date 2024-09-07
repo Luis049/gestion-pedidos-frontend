@@ -5,7 +5,7 @@
         [class.menu__item--active]="item.active"
         (click)="onMenuItemClick(item)">
       <a [routerLink]="item.route" class="menu__link">
-        <i class="menu__icon" [ngClass]="'icon-' + item.icon"></i>
+        <ng-icon class="menu__icon" name="{{item.iconMenu}}"></ng-icon>
         <span class="menu__label">{{ item.label }}</span>
       </a>
     </li>

@@ -1,5 +1,5 @@
 :host {
-  --button-color: rgb(10 10 10);
+  --button-color: rgb(255, 255, 255);
   --button-background-color: rgb(255 255 255);
   --button-hover-color: rgb(10 10 10);
   --button-hover-background-color: rgb(250 250 250);
@@ -16,11 +16,14 @@
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 0.5rem;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   color: light-dark(var(--button-color), var(--button-color-dark));
   border: none;
   outline: none;
-  height: 2.5rem;
-  font-weight: 500;
+  font-weight: 600;
   background-color: light-dark(
     var(--button-background-color),
     var(--button-background-color-dark)
@@ -30,6 +33,11 @@
     0 1px 3px 0 rgb(0 0 0 / 0.1),
     0 1px 2px -1px rgb(0 0 0 / 0.1),
     0 0 0 1px rgb(0 0 0 / 0.05);
+
+    ng-icon {
+      width: 20px;
+      height: 20px;
+    }
 }
 
 [ngpButton][data-hover="true"] {

@@ -37,6 +37,13 @@
         border-bottom: 1px solid #D5D5D5;
         padding: 10px;
 
+        .file{
+          color: #3B82F6;
+          cursor: pointer;
+          display: flex;
+          gap: 10px;
+        }
+
         span{
           font-size: 14px;
           font-weight: 500;

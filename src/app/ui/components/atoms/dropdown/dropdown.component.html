@@ -1,5 +1,9 @@
-<button [ngpMenuTrigger]="menu" ngpButton>
+<button [ngpMenuTrigger]="menu" ngpButton class="dropdown-{{idUnique}}">
+  @if (iconPrinter) {
+    <ng-icon name="featherPrinter" />
+  }
   {{getItemSelected}}
+  <ng-icon name="featherChevronDown" />
 </button>
 
 <ng-template #menu>

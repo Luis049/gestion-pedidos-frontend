@@ -1,3 +1,62 @@
-:host {
-  display: block;
+.container {
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+
+  & h1 {
+    margin: 0 0 24px 0;
+  }
+
+  .container_cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .card{
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .card__header{
+        font-size: 18px;
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+        font-weight: 600;
+        color: #202224;
+        border-bottom: 1px solid #D5D5D5;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .card__header__icon{
+          font-size: 30px;
+        }
+
+        span{
+          font-size: 20px;
+          font-weight: 800;
+        }
+      }
+
+      .card__body{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        label{
+          font-size: 14px;
+          font-weight: 800;
+          color: #202224;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
 }

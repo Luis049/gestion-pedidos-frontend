@@ -19,11 +19,10 @@
           <span>ARCHIVO</span>
         </div>
         <div class="container_table__header-item-title">
-          <span>MAQUINA</span>
+          <span>MÁQUINA</span>
         </div>
-
         <div class="container_table__header-item-title">
-          <span>TECNICO</span>
+          <span>TéCNICO</span>
         </div>
         <div class="container_table__header-item-title">
           <span>ESTADO</span>
@@ -32,38 +31,36 @@
     </div>
 
     <div class="table_body">
+      @for (order of orders; track order.id) {
       <div class="row">
         <div class="cell">
           <div class="cell__title">
-            <span>54893</span>
+            <span>{{order.ref}}</span>
           </div>
         </div>
         <div class="cell">
           <div class="cell__title">
-            <span>03 Sep 2024, 8:28 AM</span>
+            <span>{{order.date}}</span>
           </div>
         </div>
         <div class="cell">
-          <span>Juan Pérez</span>
+          <span>{{order.client}}</span>
+        </div>
+        <div class="cell file">
+          <ng-icon name="tablerDownload" />
+          <span>{{order.file}}</span>
         </div>
         <div class="cell">
-          <span>archivo.png</span>
+          <sd-dropdown itemSelected="{{order.machine?.id}}" [iconPrinter]="true" (itemSelectedChange)="selectMachine(order.id, $event )" idUnique="machines-{{order.id}}" [listaItems]="maquinas" />
         </div>
         <div class="cell">
-          <sd-dropdown
-          [listaItems]="maquinas"
-          />
+          <sd-dropdown itemSelected="{{order.tecnico?.id}}" (itemSelectedChange)="selectTecnico(order.id, $event )" idUnique="tecnicos-{{order.id}}" [listaItems]="tecnicos" />
         </div>
         <div class="cell">
-          <sd-dropdown
-          [listaItems]="tecnicos"
-          />
-        </div>
-        <div class="cell">
-          <sd-dropdown
-          [listaItems]="states" />
+          <sd-dropdown itemSelected="{{order.state?.id}}" (itemSelectedChange)="selectState(order.id, $event )" idUnique="states-{{order.id}}" [listaItems]="states" />
         </div>
       </div>
+      }
     </div>
   </div>
 </div>

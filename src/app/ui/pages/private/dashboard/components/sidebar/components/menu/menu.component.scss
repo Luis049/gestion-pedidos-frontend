@@ -11,8 +11,8 @@
     margin-bottom: var(--spacing-2, 0.5rem);
 
     &--active .menu__link {
-      background-color: var(--color-primary-light, rgba(247, 223, 30, 0.1));
-      color: var(--color-primary, #F7DF1E);
+      background-color: var(--color-primary-light, #9333ea);
+      color: #fff;
     }
   }
 
@@ -22,9 +22,10 @@
     padding: var(--spacing-3, 0.75rem);
     border-radius: var(--border-radius-md, 8px);
     text-decoration: none;
-    color: var(--color-on-background, #FFFFFF);
+    color: var(--color-on-background, #202224);
+    font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
-
+    margin: 0px 20px;
     &:hover {
       background-color: var(--color-hover, rgba(255, 255, 255, 0.1));
     }
