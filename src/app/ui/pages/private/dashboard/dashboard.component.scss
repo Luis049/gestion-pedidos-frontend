@@ -5,8 +5,8 @@
 }
 
 .content {
-  margin-left: 20px;
-  width: calc(100% - 250px);
+  box-sizing: content-box;
+  background-color: #F5F6FA;;
 }
 
 .sidebar {

@@ -1,0 +1,11 @@
+<button [ngpMenuTrigger]="menu" ngpButton>
+  {{getItemSelected}}
+</button>
+
+<ng-template #menu>
+  <div ngpMenu>
+    @for (item of listaItems; track item.value) {
+      <button (click)="onItemSelected(item)" ngpMenuItem>{{item.label}}</button>
+    }
+  </div>
+</ng-template>

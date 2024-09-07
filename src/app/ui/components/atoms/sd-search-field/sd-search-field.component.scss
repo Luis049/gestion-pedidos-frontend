@@ -1,0 +1,78 @@
+:host {
+}
+
+:host {
+  display: contents;
+}
+
+
+[ngpInput] {
+  height: 36px;
+  width: 100%;
+  border-radius: 200px;
+  padding: 0 16px 0 40px;
+  border: none;
+  box-shadow:
+    0 1px 2px light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05)),
+    0 0 0 1px light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+  outline: none;
+  background-color: #F5F6FA;
+}
+
+/* clears the 'X' from Chrome */
+[ngpInput]::-webkit-search-decoration,
+[ngpInput]::-webkit-search-cancel-button,
+[ngpInput]::-webkit-search-results-button,
+[ngpInput]::-webkit-search-results-decoration {
+  display: none;
+}
+
+[ngpInput][data-focus="true"] {
+  box-shadow: 0 0 0 2px rgb(59, 130, 246);
+}
+
+[ngpInput]::placeholder {
+  color: rgb(161 161 170);
+}
+
+[ngpLabel] {
+  color: light-dark(rgb(9 9 11), rgb(255 255 255));
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.search-container {
+  position: relative;
+}
+
+[ngpButton] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  background-color: transparent;
+  color: rgb(59, 130, 246);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  cursor: pointer;
+  outline: none;
+  display: none;
+}
+
+[ngpButton][data-empty="false"] {
+  display: block;
+}
+
+ng-icon {
+  position: absolute;
+  font-size: 1.25rem;
+  top: 18px;
+  left: 12px;
+  transform: translateY(-50%);
+  color: rgb(161 161 170);
+}

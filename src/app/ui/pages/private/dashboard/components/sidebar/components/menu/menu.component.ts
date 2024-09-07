@@ -56,6 +56,7 @@ export class MenusComponent {
   @Input() menuItems: MenuItem[] = [
     { icon: 'Home', label: 'Home', route: 'home', active: true, roles: ['admin', 'super-admin'] },
     { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, roles: ['super-admin'] },
+    { icon: 'calendar', label: 'Pedidos', route: 'pedidos', active: false, roles: ['admin'] },
     { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, roles: ['admin'] },
     { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, roles: ['admin'] },
   ];
