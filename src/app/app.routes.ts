@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'companies', component: CompaniesComponent },
       { path: 'tiendas', component: StoresComponent },
       { path: 'pedidos', component: OrdersComponent },
+      { path: 'operadores', component: OrdersComponent },
       { path: '**', redirectTo: '/home' }
     ]
   },

@@ -1,0 +1,67 @@
+.nabvar {
+  height: 100%;
+  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  #icon-menu {
+    width: 24px;
+    height: 24px;
+    color: rgb(107, 114, 128);
+
+    &:hover {
+      color: rgb(126, 34, 206);
+      cursor: pointer;
+    }
+  }
+
+  .nabvar__profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    #icon-bell {
+      width: 24px;
+      height: 24px;
+      color: rgb(107, 114, 128);
+    }
+
+    .nabvar__mode-switch{
+      background-color: transparent;
+      border: 0.3px solid rgb(229, 231, 235);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+      border-radius: 6px;
+
+      #icon-switch{
+        width: 100%;
+        height: 100%;
+        color: rgb(234, 179, 8);
+      }
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .info-user {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      span {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgb(107, 114, 128);
+      }
+    }
+  }
+
+}

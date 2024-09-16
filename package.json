@@ -25,6 +25,7 @@
     "@ng-icons/feather-icons": "^29.5.0",
     "@ng-icons/heroicons": "^29.5.0",
     "@ng-icons/jam-icons": "^29.5.0",
+    "@ng-icons/lucide": "^29.5.0",
     "@ng-icons/tabler-icons": "^29.5.0",
     "@types/jest": "^29.5.12",
     "axios": "^1.7.5",
@@ -32,6 +33,7 @@
     "jest-preset-angular": "^14.2.2",
     "ng-primitives": "^0.9.0",
     "rxjs": "~7.8.0",
+    "sse.js": "^2.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },

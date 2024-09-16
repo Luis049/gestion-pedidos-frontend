@@ -1,0 +1,9 @@
+<button [ngpDialogTrigger]="dialog" #dialogTrigger></button>
+
+<ng-template #dialog let-close="close">
+  <div ngpDialogOverlay #dialogOverlay>
+    <div ngpDialog>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>

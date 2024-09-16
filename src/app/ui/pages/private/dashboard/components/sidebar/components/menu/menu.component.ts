@@ -32,27 +32,6 @@ interface MenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenusComponent {
-  // menuItems = [
-  //   {
-  //     label: 'Home',
-  //     icon: 'icon-dashboard',
-  //     route: '/dashboard',
-  //     active: true,
-  //   },
-  //   {
-  //     label: 'Empresas',
-  //     icon: 'icon-activity',
-  //     route: '/activity',
-  //     active: false,
-  //   },
-  //   {
-  //     label: 'Tiendas',
-  //     icon: 'icon-schedule',
-  //     route: '/schedule',
-  //     active: false,
-  //   },
-  // ];
-
   constructor(
     private router: Router,
   ) {
@@ -63,7 +42,8 @@ export class MenusComponent {
     { icon: 'Home', label: 'Home', route: 'home', active: true, iconMenu: 'featherHome',roles: ['admin', 'super-admin'] },
     { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, iconMenu: 'featherSend',roles: ['super-admin'] },
     { icon: 'calendar', label: 'Pedidos', route: 'pedidos', active: false, iconMenu: 'featherSend',roles: ['admin'] },
-    { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, iconMenu: 'jamStore',roles: ['admin'] },
+    { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, iconMenu: 'jamStore',roles: ['admin', 'attendant'] },
+    { icon: 'calendar', label: 'Operadores', route: 'operadores', active: false, iconMenu: 'jamStore',roles: ['admin', 'attendant'] },
     { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, iconMenu: 'featherPrinter',roles: ['admin'] },
   ];
 

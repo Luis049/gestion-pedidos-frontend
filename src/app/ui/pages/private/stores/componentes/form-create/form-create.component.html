@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="header">
+    <h1>Agregar nueva tienda</h1>
+  </div>
+
+  <div class="body" [formGroup]="storeForm">
+    <div class="body__item">
+      <sd-input  placeholder="Nombre de la tienda" formName="name"></sd-input>
+    </div>
+    <div class="body__item">
+      <sd-input placeholder="Direccion"  formName="address"></sd-input>
+    </div>
+    <div class="body__item">
+      <sd-input placeholder="Encargado de la tienda"  formName="username"></sd-input>
+    </div>
+    <div class="body__item">
+      <sd-input placeholder="Contraseña"  formName="password"></sd-input>
+    </div>
+  </div>
+
+  <div class="footter">
+    <sd-button text="Cancelar" type="white" ></sd-button>
+    <sd-button text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
+  </div>
+</div>

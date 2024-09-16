@@ -3,9 +3,21 @@
   width: 100%;
   box-sizing: border-box;
 
-  & h1 {
-    margin: 0 0 24px 0;
+  .container_header{
+    display: flex;
+    justify-content: space-between;
   }
+
+  h1 {
+    margin: 0 0 24px 0;
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .btn-create{
+    background-color: rgb(147, 51, 234);
+  }
+
 
   .container_cards{
     display: flex;
@@ -14,13 +26,19 @@
 
     .card{
       background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      border-radius: 12px;
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+      display: grid;
+      grid-template-rows: 84px auto 56px;
+      transition: all 0.3s ease;
+
+      &:hover{
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
+      }
 
       .card__header{
+        background-image: linear-gradient(to right, rgb(219, 234, 254), rgb(243, 232, 255));
+        border-radius: 12px 12px 0 0;
         font-size: 18px;
         width: 100%;
         text-align: center;
@@ -28,7 +46,7 @@
         box-sizing: border-box;
         font-weight: 600;
         color: #202224;
-        border-bottom: 1px solid #D5D5D5;
+        border-bottom: 0px solid #D5D5D5;
         justify-content: center;
         display: flex;
         align-items: center;
@@ -36,33 +54,126 @@
 
         .card__header__icon{
           font-size: 30px;
-          color: #9333ea;
+          color: rgb(37, 99, 235);
         }
 
         span{
           font-size: 20px;
-          font-weight: 800;
-          color: #9333ea;
+          font-weight: 600;
+          color: rgb(31, 41, 55);
         }
       }
 
       .card__body{
-        padding: 20px;
+        padding: 24px;
         display: flex;
         flex-direction: column;
         gap: 20px;
 
-        label{
+        .card__body__item{
+          display: flex;
+          align-items: center;
+          gap: 10px;
           font-size: 14px;
-          font-weight: 800;
-          color: #9333ea;
-          margin-right: 10px;
+        }
+
+
+        .icon{
+          width: 16px;
+          height: 16px;
+        }
+
+        .icon-address{
+          color: rgb(156, 163, 175);
+        }
+
+        .icon-user{
+          color: rgb(34, 197, 94);
+        }
+
+        .icon-users{
+          color: rgb(96, 165, 250);
+        }
+
+        .icon-printer{
+          color: rgb(192, 132, 252);
+        }
+
+        .icon-package{
+          color: rgb(250, 204, 21);
         }
         span{
           font-size: 14px;
-          font-weight: 800;
+          font-weight: 400;
           color: #374151;
           opacity: 80%;
+        }
+
+
+        .item-bold > span {
+          color:  rgb(55, 65, 81);
+          font-weight: 600;
+          opacity: 100%;
+        }
+      }
+    }
+
+    .card__footer{
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+      border-radius: 0 0 12px 12px;
+
+      .card__footer__btn {
+        padding: 0px 12px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid rgb(229, 229, 229);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .icon{
+          width: 16px;
+          height: 16px;
+        }
+
+      }
+
+      .btn-edit{
+        background-color: #fff;
+        color: rgb(37, 99, 235);
+
+        &:hover{
+          background-color: rgba(37, 99, 235, 0.1);
+          color: #000;
+        }
+      }
+
+      .btn-delete{
+        background-color: #fff;
+        color: #dc2626;
+
+        &:hover{
+          background-color: rgba(220, 38, 38, 0.1);
+          color: #000;
+        }
+      }
+
+      .btn-add-operator{
+        background-color: #fff;
+        color: rgb(37, 99, 235);
+
+        &:hover{
+          background-color: rgba(37, 99, 235, 0.1);
+          color: #000;
         }
       }
     }

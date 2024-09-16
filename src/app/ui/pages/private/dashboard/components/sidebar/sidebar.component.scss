@@ -9,6 +9,7 @@
   color: var(--color-on-background, #FFFFFF);
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   &__logo-container {
     padding: var(--spacing-4, 1rem) 0;

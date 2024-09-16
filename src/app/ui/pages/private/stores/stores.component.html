@@ -1,25 +1,76 @@
 <div class="container">
-  <h1>Tiendas</h1>
+  <div class="container_header">
+    <h1>Tiendas</h1>
+    <sd-button
+      (click)="modalCreateStore()"
+      text="Agregar nueva tienda"
+      type="primary"
+    ></sd-button>
+  </div>
 
   <div class="container_cards">
     @for (store of stores; track store.id) {
     <div class="card">
       <div class="card__header">
-        <ng-icon class="card__header__icon" name="jamStore"></ng-icon>
+        <ng-icon class="card__header__icon" name="lucideStore"></ng-icon>
         <span>{{ store.name }}</span>
       </div>
       <div class="card__body">
         <div class="card__body__item">
-          <label>Dirección:</label>
-          <span>{{ store.address }}</span>
+          <ng-icon class="icon icon-address" name="lucideMapPin"></ng-icon>
+          <span>Calle Principal 123</span>
         </div>
+
+        <div class="card__body__item item-bold">
+          <ng-icon class="icon icon-user" name="lucideUser"></ng-icon>
+          <span>Encargado: Ana García</span>
+        </div>
+
         <div class="card__body__item">
-          <label>Encargado:</label>
-          <span>Cristian González</span>
+          <ng-icon class="icon icon-users" name="lucideUsers"></ng-icon>
+          <span>{{store.operators?.length || 0 }} operadores</span>
         </div>
+
+        <div class="card__body__item">
+          <ng-icon class="icon icon-printer" name="lucidePrinter"></ng-icon>
+          <span>3 máquinas</span>
+        </div>
+
+        <div class="card__body__item">
+          <ng-icon class="icon icon-package" name="lucidePackage"></ng-icon>
+          <span>150 pedidos realizados</span>
+        </div>
+      </div>
+      <div class="card__footer">
+        <button class="card__footer__btn btn-edit">
+          <ng-icon class="icon" name="lucidePencil"></ng-icon>
+          <span> Editar </span>
+        </button>
+        <button class="card__footer__btn btn-delete">
+          <ng-icon class="icon" name="lucideTrash"></ng-icon>
+          <span> Eliminar </span>
+        </button>
+
+        <button class="card__footer__btn btn-add-operator" (click)="modalAddOperator(store.id)">
+          <ng-icon class="icon" name="lucideCross" ></ng-icon>
+          <span> Operador </span>
+        </button>
       </div>
     </div>
     }
   </div>
 </div>
+
+<app-dialog #dialogCreate>
+  <app-form-create-store
+  (storeCreated)="updateStore()"
+  ></app-form-create-store>
+</app-dialog>
+
+<app-dialog #dialogAddOperator>
+  <app-form-create-operator
+  [storeId]="storeId"
+  (storeCreated)="updateStore()"
+  ></app-form-create-operator>
+</app-dialog>
 

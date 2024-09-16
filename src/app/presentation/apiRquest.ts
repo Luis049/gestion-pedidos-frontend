@@ -6,6 +6,7 @@ import { InfoUserPresentation } from "./info-user.presentation";
 export const {
   login: apiLogin,
   stores: apiStores,
+  operators: apiOperators,
   getInfoUser: GetInfoUser,
   getInfoCompany: GetInfoCompany,
   getToken: GetToken,

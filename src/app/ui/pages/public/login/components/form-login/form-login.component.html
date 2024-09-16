@@ -5,17 +5,18 @@
     <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="body-form-login">
         <div class="input-group">
-          <label for="username">Nombre</label>
-          <input formControlName="username" type="text" placeholder="Jhon Lopez" />
+          <label for="username">Usuario</label>
+          <input formControlName="username" type="text" placeholder="" />
           @if (getErrorUsername) {
             <span class="error">Campo requerido</span>
           }
         </div>
         <div class="input-group">
-          <label for="password">Número de teléfono </label>
+          <label for="password">Password </label>
           <input
             formControlName="password"
-            placeholder="3008096234"
+            type="password"
+            placeholder=""
           />
           @if (getErrorPassword) {
             <span class="error">Campo requerido</span>

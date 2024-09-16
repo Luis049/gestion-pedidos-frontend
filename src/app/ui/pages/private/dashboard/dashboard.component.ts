@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
+import { NabvarComponent } from './components/nabvar/nabvar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,9 @@ import { RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     SidebarComponent,
-    RouterOutlet
+    RouterOutlet,
+
+    NabvarComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
