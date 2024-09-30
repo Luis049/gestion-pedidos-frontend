@@ -20,12 +20,12 @@ interface Item {
   selector: 'sd-dropdown',
   standalone: true,
   imports: [NgpButton, NgpMenu, NgpMenuTrigger, NgpMenuItem, NgIcon],
-  templateUrl: './dropdown.component.html',
-  styleUrl: './dropdown.component.scss',
+  templateUrl: './sd-dropdown.component.html',
+  styleUrl: './sd-dropdown.component.scss',
   viewProviders: [provideIcons({ featherChevronDown, featherPrinter })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownComponent implements AfterViewInit {
+export class SdDropdownComponent implements AfterViewInit {
   @Input() iconPrinter = false;
   ngAfterViewInit(): void {
     this.loadColors();

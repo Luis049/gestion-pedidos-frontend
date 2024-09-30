@@ -1,6 +1,6 @@
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Input } from '@angular/core';
 import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIcon, provideIcons } from "@ng-icons/core";
@@ -27,6 +27,7 @@ import { NgpSearchField, NgpSearchFieldClear } from "ng-primitives/search";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SdSearchFieldComponent {
+  @Input() placeholder: string = '';
    /**
    * Store the search query.
    */

@@ -1,39 +1,44 @@
 <div class="container-form-login">
-  <app-card class="card-form-login">
+  <sd-card class="card-form-login">
     <app-title text="Iniciar sesión" size="h2" class="title" />
-    <p>Ingrese su usuario y número de teléfono para continuar</p>
-    <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <p>{{textMessage}}</p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="body-form-login">
         <div class="input-group">
           <label for="username">Usuario</label>
           <input formControlName="username" type="text" placeholder="" />
           @if (getErrorUsername) {
-            <span class="error">Campo requerido</span>
+          <span class="error">Campo requerido</span>
           }
         </div>
         <div class="input-group">
-          <label for="password">Password </label>
+          <label for="password">
+            {{ getLabelCredentials }}
+          </label>
           <input
             formControlName="password"
-            type="password"
+            [type]="typeCredentials"
             placeholder=""
           />
           @if (getErrorPassword) {
-            <span class="error">Campo requerido</span>
+          <span class="error">Campo requerido</span>
           }
         </div>
         @if (credentialsInvalid) {
-          <span class="error">Credenciales incorrectas</span>
+        <span class="error">Credenciales incorrectas</span>
         }
         <div class="checkbox_remember">
-          <input type="checkbox"  id="remember">
+          <input type="checkbox" id="remember" />
           <label for="remember">Recordar datos</label>
         </div>
 
-        <button class="btn" [disabled]="loginForm.invalid" >
-          Ingresar
-        </button>
+        <button class="btn" [disabled]="loginForm.invalid">Ingresar</button>
+        @if (!isAdmin) {
+        <span class="linkRedirect" (click)="redirectToAdminLogin()">Iniciar sesión como administrador</span>
+        }@else {
+        <span class="linkRedirect" (click)="redirectToLogin()">Iniciar sesión como operador</span>
+        }
       </div>
     </form>
-  </app-card>
+  </sd-card>
 </div>

@@ -6,7 +6,6 @@ export const logginGuardFunction: CanActivateFn = (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot) => {
     return GetToken.execute().then(token => {
-      console.log(token);
       if (token !== null) {
         state.url = '/login';
       }

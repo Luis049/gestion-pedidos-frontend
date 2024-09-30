@@ -18,22 +18,22 @@
       <div class="card__body">
         <div class="card__body__item">
           <ng-icon class="icon icon-address" name="lucideMapPin"></ng-icon>
-          <span>Calle Principal 123</span>
+          <span>{{store.address}}</span>
         </div>
 
         <div class="card__body__item item-bold">
           <ng-icon class="icon icon-user" name="lucideUser"></ng-icon>
-          <span>Encargado: Ana García</span>
+          <span>Encargado: {{store.user.username}}</span>
         </div>
 
         <div class="card__body__item">
           <ng-icon class="icon icon-users" name="lucideUsers"></ng-icon>
-          <span>{{store.operators?.length || 0 }} operadores</span>
+          <span>{{store.operatorsCount }} operadores</span>
         </div>
 
         <div class="card__body__item">
           <ng-icon class="icon icon-printer" name="lucidePrinter"></ng-icon>
-          <span>3 máquinas</span>
+          <span>{{store.machinesCount }} máquinas</span>
         </div>
 
         <div class="card__body__item">
@@ -55,6 +55,11 @@
           <ng-icon class="icon" name="lucideCross" ></ng-icon>
           <span> Operador </span>
         </button>
+
+        <button class="card__footer__btn btn-add-operator" (click)="modalAddMaquina(store.id)">
+          <ng-icon class="icon" name="lucideCross" ></ng-icon>
+          <span> Maquina </span>
+        </button>
       </div>
     </div>
     }
@@ -72,5 +77,12 @@
   [storeId]="storeId"
   (storeCreated)="updateStore()"
   ></app-form-create-operator>
+</app-dialog>
+
+<app-dialog #dialogAddMachine>
+  <app-form-create-machine
+  [storeId]="storeId"
+  (storeCreated)="updateStore()"
+  ></app-form-create-machine>
 </app-dialog>
 

@@ -1,0 +1,29 @@
+.container{
+  padding: 48px;
+  width: 100%;
+  box-sizing: border-box;
+
+  & h1 {
+    margin: 0 0 24px 0;
+    font-size: 30px;
+    font-weight: 700;
+  }
+}
+
+.container-filters{
+  display: grid;
+  grid-template-columns: repeat(3, 3fr) 1fr;
+  gap: 20px;
+
+  .container-filters__search{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .container-filters__search > div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

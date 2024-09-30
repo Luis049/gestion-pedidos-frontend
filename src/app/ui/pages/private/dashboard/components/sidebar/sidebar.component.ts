@@ -36,7 +36,7 @@ export class SidebarComponent implements OnInit {
       this.company.name = response?.name || '';
     });
     GetInfoUser.execute().then((response) => {
-      this.user.name = response?.name || '';
+      this.user.name = response?.username || '';
     });
   }
 

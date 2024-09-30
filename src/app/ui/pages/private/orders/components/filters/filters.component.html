@@ -1,19 +1,24 @@
-<div class="container_filters">
-  <div class="container_filters__search">
-    <sd-search-field placeholder="Buscar..." />
-    <div>
-      <ng-icon name="jamFilter" />
-    </div>
+<div class="grid grid-cols-4 gap-4">
+  <div class="">
+    <sd-search-field placeholder="Buscar pedidos..." />
   </div>
-  <div class="with-border">
-    <span>Filtar por</span>
+  <div class="flex items-center gap-4">
+    <sd-checkbox
+      checked="true"
+      id="checkbox-date-now"
+    ></sd-checkbox>
+    <label for="check-arrived">
+      Filtrar por fecha actual
+    </label>
   </div>
-  <div class="with-border">
-    <span>Estado</span>
-  </div>
-  <div class="with-border"><span>Máquina</span>s</div>
-  <div class="with-border item-icon">
-    <ng-icon name="tablerUTurnLeft" />
-    <span>Restablecer filtro</span>
-  </div>
+  <sd-select
+    itemSelected="all"
+    [items]="status"
+    (itemSelectedChange)="statusSelectedChange.emit($event)"
+  />
+  <sd-select
+    [itemSelected]="machineSelected"
+    [items]="machines"
+    (itemSelectedChange)="machineSelectedChange.emit($event)"
+  />
 </div>

@@ -1,16 +1,23 @@
 <div class="container">
   <h1>Pedidos</h1>
 
-  <app-filters />
+  <app-filters
+    [machines]="machines()"
+    [machineSelected]="machineSelected()"
+    (machineSelectedChange)="machineSelected.set($event)"
+    [status]="status()"
+    [statusSelected]="statusSelected()"
+    (statusSelectedChange)="statusSelected.set($event)"
+  />
 
   <div class="container_table">
     <div class="container_table__header">
       <div class="container_table__header-item">
         <div class="container_table__header-item-title">
-          <span>REF</span>
+          <span>TURNO</span>
         </div>
         <div class="container_table__header-item-title">
-          <span>FECHA DEL PEDIDO</span>
+          <span>HORA</span>
         </div>
         <div class="container_table__header-item-title">
           <span>CLIENTE</span>
@@ -22,7 +29,7 @@
           <span>MÁQUINA</span>
         </div>
         <div class="container_table__header-item-title">
-          <span>TéCNICO</span>
+          <span>OPERADOR</span>
         </div>
         <div class="container_table__header-item-title">
           <span>ESTADO</span>
@@ -31,26 +38,55 @@
     </div>
 
     <div class="table_body">
-      @for (order of orders; track order.id) {
+      @for (order of orders(); track order.ref) {
       <div class="row">
         <div class="cell">
           <div class="cell__title">
-            <span>{{order.ref}}</span>
+            <span>{{ order.ref }}</span>
           </div>
         </div>
         <div class="cell">
           <div class="cell__title">
-            <span>{{order.date}}</span>
+            <span>{{ order.fecha }}</span>
           </div>
         </div>
         <div class="cell">
-          <span>{{order.client}}</span>
+          <span>{{ order.client }}</span>
         </div>
-        <div class="cell file">
+        <div
+          class="cell file"
+          (click)="downloadFile(order)"
+        >
           <ng-icon name="tablerDownload" />
-          <span>{{order.file}}</span>
+          <span>{{ order.nameFile }}</span>
         </div>
         <div class="cell">
+          <sd-tag
+            [isHexadecimal]="true"
+            [text]="order.maquina"
+            [bgColor]="order.colorBgMaquina"
+            [textColor]="'#ffffff'"
+            icon="lucidePrinter"
+          />
+        </div>
+        <div class="cell">
+          <sd-tag
+            [isHexadecimal]="true"
+            [text]="order.operador || 'Sin asignar'"
+            [bgColor]="order.colorBgOperador || '#CCCCCC'"
+            [textColor]="order.colorTextOperador || '#666666'"
+            icon="lucideUser"
+          />
+        </div>
+        <div class="cell">
+          <sd-tag
+            [text]="order.estado"
+            [bgColor]="order.colorEstado"
+            [textColor]="order.colorTextEstado"
+            [icon]="order.iconEstado"
+          />
+        </div>
+        <!-- <div class="cell">
           <sd-dropdown itemSelected="{{order.machine?.id}}" [iconPrinter]="true" (itemSelectedChange)="selectMachine(order.id, $event )" idUnique="machines-{{order.id}}" [listaItems]="maquinas" />
         </div>
         <div class="cell">
@@ -58,7 +94,7 @@
         </div>
         <div class="cell">
           <sd-dropdown itemSelected="{{order.state?.id}}" (itemSelectedChange)="selectState(order.id, $event )" idUnique="states-{{order.id}}" [listaItems]="states" />
-        </div>
+        </div> -->
       </div>
       }
     </div>

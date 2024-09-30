@@ -41,7 +41,8 @@ export class MenusComponent {
   @Input() menuItems: MenuItem[] = [
     { icon: 'Home', label: 'Home', route: 'home', active: true, iconMenu: 'featherHome',roles: ['admin', 'super-admin'] },
     { icon: 'activity', label: 'Empresas', route: 'empresas', active: false, iconMenu: 'featherSend',roles: ['super-admin'] },
-    { icon: 'calendar', label: 'Pedidos', route: 'pedidos', active: false, iconMenu: 'featherSend',roles: ['admin'] },
+    { icon: 'calendar', label: 'Pedidos', route: 'pedidos', active: false, iconMenu: 'featherSend',roles: ['admin', 'operator', 'attendant'] },
+    { icon: 'calendar', label: 'Mis pedidos', route: 'mis-pedidos', active: false, iconMenu: 'featherSend',roles: ['client'] },
     { icon: 'calendar', label: 'Tiendas', route: 'tiendas', active: false, iconMenu: 'jamStore',roles: ['admin', 'attendant'] },
     { icon: 'calendar', label: 'Operadores', route: 'operadores', active: false, iconMenu: 'jamStore',roles: ['admin', 'attendant'] },
     { icon: 'settings', label: 'Maquinas', route: 'maquinas', active: false, iconMenu: 'featherPrinter',roles: ['admin'] },
@@ -55,7 +56,6 @@ export class MenusComponent {
 
   onMenuItemClick(clickedItem: MenuItem) {
     this.menuItems.forEach(item => item.active = (item === clickedItem));
-    console.log(clickedItem.route);
     this.router.navigate(['dashboard', clickedItem.route]);
   }
 

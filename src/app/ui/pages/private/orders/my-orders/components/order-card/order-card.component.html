@@ -1,0 +1,46 @@
+<sd-card class="grid gap-4">
+  <div class="columns-2 gap-4 mb-4">
+    <span class="font-semibold text-2xl"> Referencia: {{ order.ref }} </span>
+    <sd-tag
+      [text]="order.estado"
+      [bgColor]="order.colorEstado"
+      [textColor]="order.colorTextEstado"
+      [icon]="order.iconEstado"
+    />
+  </div>
+  <div class="grid gap-4">
+    <div class="">
+      <ng-icon name="lucideCalendar"></ng-icon>
+      <label class="font-semibold text-md ml-3">Turno:</label>
+      <span class="text-md ml-2">{{ order.turno }}</span>
+    </div>
+    <div class="">
+      <ng-icon name="lucideClock"></ng-icon>
+      <label class="font-semibold text-md ml-3">Fecha:</label>
+      <span class="text-md ml-2">{{ order.fecha | date : "d 'de' MMMM y, h:mm a" }}</span>
+    </div>
+    <div class="columns-2 gap-4 mt-4 mb-4">
+      <!-- @if (order.maquina) { -->
+      <sd-tag
+        [text]="order.operador || 'Maquina 3'"
+        icon="lucidePrinter"
+        bgColor="machine-bg"
+        textColor="machine-text"
+      />
+      <!-- } -->
+      <!-- @if (order.operador) { -->
+        <sd-tag
+          [text]="order.operador || 'yan Carlos'"
+          icon="lucideUser"
+          bgColor="operator-bg"
+          textColor="operator-text"
+        />
+      <!-- } -->
+    </div>
+  </div>
+  <div class="grid grid-cols-4  gap-4 mt-5">
+    <sd-button text="Detalles" type="white" size="sm"></sd-button>
+    <sd-button text="Editar" type="white" size="sm"></sd-button>
+    <sd-button text="Cancelar" type="danger" size="sm"></sd-button>
+  </div>
+</sd-card>

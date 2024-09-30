@@ -1,4 +1,7 @@
-<button ngpButton
-ngClass="btn btn-{{type}}"
->{{text}}</button>
-
+<button
+  ngpButton
+  class="text-{{ size }} btn"
+  ngClass="{{type === 'danger' ? 'bg-red-500 text-white' : 'bg-{{type}}'}}"
+>
+  {{ text }}
+</button>

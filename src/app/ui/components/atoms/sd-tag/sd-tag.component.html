@@ -1,0 +1,14 @@
+@if (isHexadecimal) {
+<span
+[style.backgroundColor]="bgColor"
+[style.color]="textColor"
+class="px-3 py-1 rounded-full">
+  <ng-icon [name]="icon" aria-hidden="true" />
+  {{ text }}
+</span>
+}@else {
+<span class="bg-{{bgColor}} text-{{textColor}} px-3 py-1 rounded-full">
+  <ng-icon [name]="icon" aria-hidden="true" />
+  {{ text }}
+</span>
+}

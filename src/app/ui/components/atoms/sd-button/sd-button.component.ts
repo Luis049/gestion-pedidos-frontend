@@ -15,6 +15,6 @@ import { NgpButton } from 'ng-primitives/button';
 })
 export class SdButtonComponent {
   @Input() text: string = '';
-
-  @Input() type: 'primary' | 'white' = 'primary';
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() type: 'primary' | 'secondary' | 'white' | 'danger' = 'primary';
  }

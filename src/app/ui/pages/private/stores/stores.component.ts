@@ -9,11 +9,22 @@ import { apiStores } from '../../../../presentation/apiRquest';
 import { StoreModel } from '../../../../core/domain/context/stores/models/store.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { jamStore } from '@ng-icons/jam-icons';
-import { lucideCross, lucideMapPin, lucidePackage, lucidePencil, lucidePrinter, lucideStore, lucideTrash, lucideUser, lucideUsers } from '@ng-icons/lucide';
+import {
+  lucideCross,
+  lucideMapPin,
+  lucidePackage,
+  lucidePencil,
+  lucidePrinter,
+  lucideStore,
+  lucideTrash,
+  lucideUser,
+  lucideUsers,
+} from '@ng-icons/lucide';
 import { DialogComponent } from '../../../components/molecules/dialog/dialog.component';
-import { FormCreateStoreComponent } from "./componentes/form-create/form-create.component";
+import { FormCreateStoreComponent } from './componentes/form-create/form-create.component';
 import { SdButtonComponent } from '../../../components/atoms/sd-button/sd-button.component';
 import { FormCreateOperatorComponent } from '../operators/components/form-create/form-create.component';
+import { FormCreateMachineComponent } from "../machines/components/form-create/form-create.component";
 
 @Component({
   selector: 'app-stores',
@@ -23,34 +34,34 @@ import { FormCreateOperatorComponent } from '../operators/components/form-create
     DialogComponent,
     SdButtonComponent,
     NgIcon,
-
-
     FormCreateStoreComponent,
-    FormCreateOperatorComponent
+    FormCreateOperatorComponent,
+    FormCreateMachineComponent
 ],
   templateUrl: './stores.component.html',
   styleUrl: './stores.component.scss',
-  providers: [provideIcons({
-    jamStore,
-     lucideStore,
-     lucidePencil,
-     lucideTrash,
-     lucideMapPin,
-     lucideUser,
-     lucideUsers,
-     lucidePrinter,
-     lucidePackage,
-     lucideCross
-    })],
+  providers: [
+    provideIcons({
+      jamStore,
+      lucideStore,
+      lucidePencil,
+      lucideTrash,
+      lucideMapPin,
+      lucideUser,
+      lucideUsers,
+      lucidePrinter,
+      lucidePackage,
+      lucideCross,
+    }),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StoresComponent {
-
   @ViewChild('dialogCreate') dialogCreate!: DialogComponent;
   @ViewChild('dialogAddOperator') dialogAddOperator!: DialogComponent;
+  @ViewChild('dialogAddMachine') dialogAddMachine!: DialogComponent;
 
   storeId: string = '';
-
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     this.updateStore();
@@ -65,12 +76,15 @@ export class StoresComponent {
         console.log(error);
       },
       (response) => {
+        console.log(response);
         this.stores = response.map((store) => {
           return {
             id: store.id,
             name: store.name,
-            operators: store.operators,
+            operatorsCount: store.operatorsCount,
+            machinesCount: store.machinesCount,
             address: store.address,
+            user: store.user,
           };
         });
         this.changeDetectorRef.detectChanges();
@@ -78,27 +92,17 @@ export class StoresComponent {
     );
   }
 
-  async pin(){
-    const res = await apiStores.getPing.getEventSourceWithGet();
-    res.onmessage = (event) => {
-      console.log(event);
-    }
-
-    res.onerror = (error) => {
-      console.log(error);
-    }
-
-    res.onabort = (error) => {
-      console.log(error);
-    }
-  }
-
-  modalCreateStore(){
+  modalCreateStore() {
     this.dialogCreate.openDialog();
   }
 
-  modalAddOperator(storeId: string){
-    this.storeId= storeId;
+  modalAddOperator(storeId: string) {
+    this.storeId = storeId;
     this.dialogAddOperator.openDialog();
+  }
+
+  modalAddMaquina(storeId: string) {
+    this.storeId = storeId;
+    this.dialogAddMachine.openDialog();
   }
 }

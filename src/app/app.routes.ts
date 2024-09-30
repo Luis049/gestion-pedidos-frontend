@@ -6,10 +6,15 @@ import { logginGuardFunction } from './shared/guards/loggin.guard';
 import { CompaniesComponent } from './ui/pages/private/companies/companies.component';
 import { StoresComponent } from './ui/pages/private/stores/stores.component';
 import { OrdersComponent } from './ui/pages/private/orders/orders.component';
+import { MyOrdersComponent } from './ui/pages/private/orders/my-orders/my-orders.component';
 
 export const routes: Routes = [
   {
     path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'admin-login',
     component: LoginComponent,
   },
   {
@@ -21,6 +26,7 @@ export const routes: Routes = [
       { path: 'companies', component: CompaniesComponent },
       { path: 'tiendas', component: StoresComponent },
       { path: 'pedidos', component: OrdersComponent },
+      { path: 'mis-pedidos', component: MyOrdersComponent },
       { path: 'operadores', component: OrdersComponent },
       { path: '**', redirectTo: '/home' }
     ]

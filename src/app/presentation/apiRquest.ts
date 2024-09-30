@@ -7,6 +7,8 @@ export const {
   login: apiLogin,
   stores: apiStores,
   operators: apiOperators,
+  orders: apiOrders,
+  machines: apiMachines,
   getInfoUser: GetInfoUser,
   getInfoCompany: GetInfoCompany,
   getToken: GetToken,
