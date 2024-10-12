@@ -13,7 +13,7 @@ import { NgpButton } from 'ng-primitives/button';
   styleUrl: './sd-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SdButtonComponent {
+export class SdButtonComponent  {
   @Input() text: string = '';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() type: 'primary' | 'secondary' | 'white' | 'danger' = 'primary';

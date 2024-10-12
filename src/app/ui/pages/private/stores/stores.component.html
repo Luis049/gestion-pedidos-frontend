@@ -66,23 +66,26 @@
   </div>
 </div>
 
-<app-dialog #dialogCreate>
+<sd-dialog #dialogCreate title="Crear tienda">
   <app-form-create-store
+  #formCreateStore
   (storeCreated)="updateStore()"
+  (storeCancel)="dialogCreate.closeDialog()"
+  (storeSaved)="dialogCreate.closeDialog(); updateStore()"
   ></app-form-create-store>
-</app-dialog>
+</sd-dialog>
 
-<app-dialog #dialogAddOperator>
+<sd-dialog #dialogAddOperator>
   <app-form-create-operator
   [storeId]="storeId"
-  (storeCreated)="updateStore()"
+  (operatorCreated)="dialogAddOperator.closeDialog(); updateStore()"
   ></app-form-create-operator>
-</app-dialog>
+</sd-dialog>
 
-<app-dialog #dialogAddMachine>
+<sd-dialog #dialogAddMachine>
   <app-form-create-machine
   [storeId]="storeId"
-  (storeCreated)="updateStore()"
+  (machineCreated)="dialogAddMachine.closeDialog(); updateStore()"
   ></app-form-create-machine>
-</app-dialog>
+</sd-dialog>
 

@@ -1,12 +1,14 @@
 <div class="container-form-login">
   <sd-card class="card-form-login">
-    <app-title text="Iniciar sesión" size="h2" class="title" />
+    <app-title test-id="title" text="Iniciar sesión" size="h2" class="title" />
     <p>{{textMessage}}</p>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="body-form-login">
         <div class="input-group">
           <label for="username">Usuario</label>
-          <input formControlName="username" type="text" placeholder="" />
+          <input
+          data-test-id="username"
+          formControlName="username" type="text" placeholder="" />
           @if (getErrorUsername) {
           <span class="error">Campo requerido</span>
           }
@@ -16,6 +18,7 @@
             {{ getLabelCredentials }}
           </label>
           <input
+            data-test-id="password"
             formControlName="password"
             [type]="typeCredentials"
             placeholder=""
@@ -32,7 +35,7 @@
           <label for="remember">Recordar datos</label>
         </div>
 
-        <button class="btn" [disabled]="loginForm.invalid">Ingresar</button>
+        <button data-test-id="btn-login" class="btn" [disabled]="loginForm.invalid">Ingresar</button>
         @if (!isAdmin) {
         <span class="linkRedirect" (click)="redirectToAdminLogin()">Iniciar sesión como administrador</span>
         }@else {

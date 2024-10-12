@@ -1,8 +1,4 @@
 <div class="container">
-  <div class="header">
-    <h1>Agregar nueva tienda</h1>
-  </div>
-
   <div class="body" [formGroup]="storeForm">
     <div class="body__item">
       <sd-input  placeholder="Nombre de la tienda" formName="name"></sd-input>
@@ -19,7 +15,7 @@
   </div>
 
   <div class="footter">
-    <sd-button text="Cancelar" type="white" ></sd-button>
+    <sd-button text="Cancelar" type="white" (click)="cancel()" ></sd-button>
     <sd-button text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
   </div>
 </div>

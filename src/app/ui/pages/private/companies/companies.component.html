@@ -1,5 +1,8 @@
 <div class="p-4">
   <h1 class="text-2xl font-bold">Empresas</h1>
+  <div class="w-full flex justify-end">
+    <sd-button data-test-id="btn-add-company" text="Agregar nueva empresa" type="primary" size="md" (click)="dialogAddCompany.openDialog()" ></sd-button>
+  </div>
   <div class="columns-4 mt-4 gap-4">
     @for (company of companies(); track company.id) {
     <sd-card class="p-4">
@@ -15,3 +18,9 @@
     }
   </div>
 </div>
+
+<sd-dialog title="Agregar nueva empresa" #dialogAddCompany>
+  <app-form-create-company
+  (companyCreated)="updateCompany()"
+  ></app-form-create-company>
+</sd-dialog>

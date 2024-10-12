@@ -12,10 +12,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    title: 'Iniciar sesión',
   },
   {
     path: 'admin-login',
     component: LoginComponent,
+    title: 'Iniciar sesión como administrador',
   },
   {
     path: 'dashboard',

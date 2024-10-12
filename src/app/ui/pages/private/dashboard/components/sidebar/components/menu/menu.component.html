@@ -3,8 +3,8 @@
     <li *ngFor="let item of menuItems"
         class="menu__item"
         [class.menu__item--active]="item.active"
-        (click)="onMenuItemClick(item)">
-      <a [routerLink]="item.route" class="menu__link">
+        (click)="onMenuItemClick(item)" [attr.data-test-id]="item.data_test">
+      <a [routerLink]="item.route" class="menu__link" >
         <ng-icon class="menu__icon" name="{{item.iconMenu}}"></ng-icon>
         <span class="menu__label">{{ item.label }}</span>
       </a>

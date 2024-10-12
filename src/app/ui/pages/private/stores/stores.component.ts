@@ -5,7 +5,7 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { apiStores } from '../../../../presentation/apiRquest';
+import { apiStores, GetToken } from '../../../../presentation/apiRquest';
 import { StoreModel } from '../../../../core/domain/context/stores/models/store.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { jamStore } from '@ng-icons/jam-icons';
@@ -76,7 +76,6 @@ export class StoresComponent {
         console.log(error);
       },
       (response) => {
-        console.log(response);
         this.stores = response.map((store) => {
           return {
             id: store.id,

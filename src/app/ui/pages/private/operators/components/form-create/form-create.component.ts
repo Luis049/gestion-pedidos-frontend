@@ -46,6 +46,7 @@ export class FormCreateOperatorComponent {
           console.log(error);
         },
         (response) => {
+          this.operatorCreated.emit();
           console.log(response);
         }
       )

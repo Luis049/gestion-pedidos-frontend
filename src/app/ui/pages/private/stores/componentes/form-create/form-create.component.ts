@@ -22,6 +22,8 @@ import { apiStores } from '../../../../../../presentation/apiRquest';
 export class FormCreateStoreComponent {
 
   @Output() storeCreated = new EventEmitter<void>();
+  @Output() storeCancel = new EventEmitter<void>();
+  @Output() storeSaved = new EventEmitter<void>();
 
   storeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -44,10 +46,13 @@ export class FormCreateStoreComponent {
           console.log(error);
         },
         (response) => {
-          console.log(response);
+          this.storeSaved.emit();
         }
       )
     }
-    console.log(this.storeForm.value);
+  }
+
+  cancel(){
+    this.storeCancel.emit();
   }
 }

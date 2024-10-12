@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
 import { apiMachines } from '../../../../../../presentation/apiRquest';
@@ -12,6 +12,8 @@ import { apiMachines } from '../../../../../../presentation/apiRquest';
 export class FormCreateMachineComponent {
   @Input() storeId: string = '';
   machineForm: FormGroup;
+
+  @Output() machineCreated = new EventEmitter<void>();
 
   constructor(private fb: FormBuilder) {
     this.machineForm = this.fb.group({
@@ -33,6 +35,7 @@ export class FormCreateMachineComponent {
           console.log(error);
         },
         (response) => {
+          this.machineCreated.emit();
           console.log(response);
         }
       );
