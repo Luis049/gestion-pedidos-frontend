@@ -23,7 +23,7 @@ export const routes: Routes = [
     canActivate: [logginGuardFunction],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'companies', component: CompaniesComponent },
+      { path: 'empresas', component: CompaniesComponent },
       { path: 'tiendas', component: StoresComponent },
       { path: 'pedidos', component: OrdersComponent },
       { path: 'mis-pedidos', component: MyOrdersComponent },

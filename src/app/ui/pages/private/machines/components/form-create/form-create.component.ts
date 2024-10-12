@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
-import { apiMachines, apiStores } from '../../../../../../presentation/apiRquest';
+import { apiMachines } from '../../../../../../presentation/apiRquest';
 
 @Component({
   selector: 'app-form-create-machine',

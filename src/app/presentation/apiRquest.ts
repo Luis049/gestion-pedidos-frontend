@@ -9,6 +9,7 @@ export const {
   operators: apiOperators,
   orders: apiOrders,
   machines: apiMachines,
+  companies: apiCompanies,
   getInfoUser: GetInfoUser,
   getInfoCompany: GetInfoCompany,
   getToken: GetToken,
