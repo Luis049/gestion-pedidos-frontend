@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@angular/core';
 import { apiOrders, apiStores } from '../../../../../presentation/apiRquest';
 import { SdSelectComponent } from '../../../../components/atoms/sd-select/sd-select.component';
 import { SdSearchFieldComponent } from '../../../../components/atoms/sd-search-field/sd-search-field.component';
@@ -7,6 +7,9 @@ import { SdCheckboxComponent } from '../../../../components/atoms/sd-checkbox/sd
 import { OrderModel } from '../../../../../core/domain/context/orders/models/order.model';
 import { OrderCardComponent, OrderCardComponentInterface } from './components/order-card/order-card.component';
 import { OrderMapper } from './mappers/order.mapper';
+import { SdButtonComponent } from "../../../../components/atoms/sd-button/sd-button.component";
+import { DialogComponent } from "../../../../components/molecules/dialog/dialog.component";
+import { FormCreateOrderComponent } from "../components/form-create-order/form-create-order.component";
 
 @Component({
   selector: 'app-my-orders',
@@ -17,12 +20,16 @@ import { OrderMapper } from './mappers/order.mapper';
     SdSelectComponent,
     SdSearchFieldComponent,
     SdCheckboxComponent,
-  ],
+    SdButtonComponent,
+    DialogComponent,
+    FormCreateOrderComponent
+],
   templateUrl: './my-orders.component.html',
   styleUrl: './my-orders.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyOrdersComponent implements OnInit {
+  @ViewChild('dialogCreateOrder') dialogCreateOrder!: DialogComponent;
   stores = signal<{ label: string; value: string }[]>([]);
   storeSelected = '0';
   status: { label: string; value: string }[] = [

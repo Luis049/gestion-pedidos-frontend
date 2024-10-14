@@ -3,16 +3,18 @@
   <div class="w-full flex justify-end">
     <sd-button data-test-id="btn-add-company" text="Agregar nueva empresa" type="primary" size="md" (click)="dialogAddCompany.openDialog()" ></sd-button>
   </div>
-  <div class="columns-4 mt-4 gap-4">
+  <div class="flex flex-wrap justify-start gap-4">
     @for (company of companies(); track company.id) {
     <sd-card class="p-4">
-      <div class="grid gap-4">
-        <div class="font-semibold text-lg">
+      <div class="">
+        <div class="">
           <span>Nombre: {{ company.name }}</span>
         </div>
-        <div class="font-semibold text-lg">
-          <span>Telefono: {{ company.phone }}</span>
-        </div>
+        @if (company.phone) {
+          <div class="">
+            <span>Telefono: {{ company.phone }}</span>
+          </div>
+        }
       </div>
     </sd-card>
     }

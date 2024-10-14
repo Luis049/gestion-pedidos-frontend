@@ -18,7 +18,7 @@ import { FormCreateCompanyComponent } from "./components/form-create-company/for
     FormCreateCompanyComponent
 ],
   templateUrl: './companies.component.html',
-  styleUrl: './companies.component.css',
+  styleUrl: './companies.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompaniesComponent implements OnInit {

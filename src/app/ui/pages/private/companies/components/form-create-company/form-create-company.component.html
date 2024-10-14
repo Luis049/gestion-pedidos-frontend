@@ -1,1 +1,22 @@
-El formulario de creación de empresas
+<div class="p-4">
+  <div class="w-full flex justify-center">
+    <div [formGroup]="companyForm">
+      <div class="mb-4">
+        <sd-input dataTestId="input-name-company" formName="name" placeholder="Nombre"></sd-input>
+        <div *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched" class="text-red-500 text-sm">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="mb-4">
+        <sd-input dataTestId="input-password-company" formName="password" placeholder="Password"></sd-input>
+        <div *ngIf="companyForm.get('password')?.invalid && companyForm.get('password')?.touched" class="text-red-500 text-sm">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full flex justify-center gap-4">
+    <sd-button text="Cancelar" type="white" (click)="cancel()" ></sd-button>
+    <sd-button data-test-id="btn-create-company" text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
+  </div>
+</div>

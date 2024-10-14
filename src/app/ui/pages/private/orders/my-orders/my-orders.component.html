@@ -1,5 +1,14 @@
 <div class="container">
   <h1>Mis pedidos</h1>
+  <div class="flex justify-end">
+    <sd-button
+      data-test-id="btn-add-order"
+      text="Crear pedido"
+      type="primary"
+      size="md"
+      (click)="dialogCreateOrder.openDialog()"
+    ></sd-button>
+  </div>
   <div class="container-filters">
     <sd-select
       (itemSelectedChange)="storeSelected = $event"
@@ -13,19 +22,21 @@
       [items]="status"
     ></sd-select>
     <div class="flex items-center gap-4">
-      <sd-checkbox
-        id="check-arrived"
-        label="Archivados"
-      />
-      <label for="check-arrived">
-        Archivados
-      </label>
+      <sd-checkbox id="check-arrived" label="Archivados" />
+      <label for="check-arrived"> Archivados </label>
     </div>
   </div>
 
   <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     @for (order of orders(); track order.ref) {
-      <order-card [order]="order"/>
+    <order-card [order]="order" />
     }
   </div>
 </div>
+
+<sd-dialog title="Crear pedido" #dialogCreateOrder>
+  <app-form-create-order
+    (orderCreated)="dialogCreateOrder.closeDialog(); getStores()"
+    (orderCancel)="dialogCreateOrder.closeDialog()"
+  ></app-form-create-order>
+</sd-dialog>

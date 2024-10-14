@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormGroup, FormGroupDirective, ReactiveFormsModule } from "@angular/forms";
 import { NgpInput } from "ng-primitives/input";
 @Component({
@@ -10,7 +10,7 @@ import { NgpInput } from "ng-primitives/input";
   ],
   template: `
   <form [formGroup]="form">
-    <input ngpInput type="text" [placeholder]="placeholder" [formControlName]="formName" />
+    <input [attr.data-test-id]="dataTestId" ngpInput [type]="type" [placeholder]="placeholder" [formControlName]="formName" (change)="onChange($event)" />
 </form>
   `,
   styleUrl: "./sd-input.component.scss",
@@ -18,11 +18,18 @@ import { NgpInput } from "ng-primitives/input";
 export class SdInputComponent {
   @Input() placeholder: string = "";
   @Input() formName: string = "";
+  @Input() type: string = 'text';
+  @Input() dataTestId: string = '';
+  @Output() changeInput = new EventEmitter<Event>();
   form!: FormGroup;
 
   constructor(private rootFormGroup: FormGroupDirective) {}
 
   ngOnInit(): void {
     this.form = this.rootFormGroup.control;
+  }
+
+  onChange(event: Event) {
+    this.changeInput.emit(event);
   }
 }

@@ -79,15 +79,19 @@ export class OrdersComponent implements OnInit {
     this.getOrders();
   }
 
+  machineSelectedChange(machineId: string) {
+    this.machineSelected.set(machineId);
+    localStorage.setItem('machineSelected', machineId);
+  }
+
 
   async getMachines() {
-    const res = await apiMachines.listMachines.execute();
+    const res = await apiMachines.listMachines.execute({});
     res.fold(
       (error) => {
         console.log(error);
       },
       (response) => {
-        console.log(response);
         const stores = [{ label: 'Maquinas', value: '0' }].concat(
           response.map((store) => {
             return {
@@ -96,7 +100,14 @@ export class OrdersComponent implements OnInit {
             };
           })
         );
+        const machineSelectedStorage = localStorage.getItem('machineSelected');
         this.machines.set(stores);
+        if(machineSelectedStorage !== null){
+          setTimeout(() => {
+            this.machineSelected.set(machineSelectedStorage);
+            this.changeDetectorRef.detectChanges();
+          });
+        }
       }
     );
   }
@@ -176,9 +187,8 @@ export class OrdersComponent implements OnInit {
 
   async updateOrder(order: OrderRowInterface) {
     if(order.estado === 'Recibido'){
-      const res = await apiOrders.patchOrders.execute({
+      const res = await apiOrders.switchPrinting.execute({
         orderId: order.id,
-        status: 'printing',
         machineId : this.machineSelected(),
       });
 

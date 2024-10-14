@@ -4,7 +4,7 @@
   <app-filters
     [machines]="machines()"
     [machineSelected]="machineSelected()"
-    (machineSelectedChange)="machineSelected.set($event)"
+    (machineSelectedChange)="machineSelectedChange($event)"
     [status]="status()"
     [statusSelected]="statusSelected()"
     (statusSelectedChange)="statusSelected.set($event)"

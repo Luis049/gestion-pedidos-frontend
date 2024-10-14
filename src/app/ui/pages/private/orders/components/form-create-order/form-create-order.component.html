@@ -1,0 +1,31 @@
+<div class="m-10">
+  <form [formGroup]="formOrder">
+    <div class="flex flex-col gap-4">
+      <sd-input placeholder="Descripción" formName="description"></sd-input>
+      <sd-select
+        placeholder="Tipo de pedido"
+        formName="storeId"
+        [items]="storesList()"
+        [itemSelected]="storeSelected"
+        (itemSelectedChange)="changeStore($event)"
+      ></sd-select>
+      <sd-input
+        placeholder="Archivo"
+        type="file"
+        (changeInput)="onImagePicked($event)"
+      ></sd-input>
+    </div>
+  </form>
+  <div class="mt-4 flex justify-center items-center">
+    <sd-button
+      text="Cancelar"
+      type="white"
+      (click)="orderCancel.emit()"
+    ></sd-button>
+    <sd-button
+      text="Crear pedido"
+      type="primary"
+      (click)="onSubmit()"
+    ></sd-button>
+  </div>
+</div>
