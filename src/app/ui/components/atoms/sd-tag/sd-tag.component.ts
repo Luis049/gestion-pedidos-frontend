@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideArchive, lucideCheck, lucideCircleCheckBig, lucidePackage, lucidePrinter, lucideTriangleAlert, lucideTruck, lucideUser } from '@ng-icons/lucide';
+import { getClassColor, getClassStatus } from '../../shared/utils';
 
 @Component({
   selector: 'sd-tag',
@@ -31,7 +32,14 @@ export class SdTagComponent {
   @Input() textColor = '#000'
   @Input() icon: string = '';
 
-  @Input() isHexadecimal = false;
+  @Input() type: 'hexadecimal' | 'status' | 'machine' = 'hexadecimal';
 
 
+  get getClass(){
+    return `${getClassColor(this.bgColor)} text-white px-3 py-1 rounded-full`;
+  }
+
+  get getClassStatus(){
+    return `${getClassStatus(this.bgColor)} px-3 py-1 rounded-full`;
+  }
  }

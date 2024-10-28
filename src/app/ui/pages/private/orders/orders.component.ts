@@ -13,7 +13,7 @@ import { tecnicos } from './data/tecnicos.data';
 import { states } from './data/states.data';
 import { ordersData } from './data/orders.data';
 import { OrderModel } from '../../../../core/domain/context/orders/models/order.model';
-import { apiMachines, apiOrders } from '../../../../presentation/apiRquest';
+import { apiMachines, apiOrders, GetInfoUser } from '../../../../presentation/apiRquest';
 import { OrderMapper } from './my-orders/mappers/order.mapper';
 import { SdTagComponent } from "../../../components/atoms/sd-tag/sd-tag.component";
 
@@ -103,10 +103,12 @@ export class OrdersComponent implements OnInit {
         const machineSelectedStorage = localStorage.getItem('machineSelected');
         this.machines.set(stores);
         if(machineSelectedStorage !== null){
-          setTimeout(() => {
-            this.machineSelected.set(machineSelectedStorage);
-            this.changeDetectorRef.detectChanges();
+          const machine = stores.find(store => store.value === machineSelectedStorage);
+          if(machine !== undefined){
+            setTimeout(() => {
+            this.machineSelected.set(machine.value);
           });
+          }
         }
       }
     );
@@ -176,12 +178,15 @@ export class OrdersComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  downloadFile(order: OrderRowInterface) {
+  async downloadFile(order: OrderRowInterface) {
     if(order.estado === 'Recibido' && this.machineSelected() === '0'){
       alert('No puedes tomar un pedido sin asignar una máquina');
     }else{
-      window.open(order.urlFile, '_blank');
-      this.updateOrder(order);
+      const user = await GetInfoUser.execute();
+      if(user?.roles[0] === 'operator'){
+        window.open(order.urlFile, '_blank');
+        this.updateOrder(order);
+      }
     }
   }
 

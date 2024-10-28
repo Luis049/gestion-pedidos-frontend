@@ -6,6 +6,8 @@ import { SdCardComponent } from "../../../components/atoms/sd-card/sd-card.compo
 import { SdButtonComponent } from "../../../components/atoms/sd-button/sd-button.component";
 import { DialogComponent } from "../../../components/molecules/dialog/dialog.component";
 import { FormCreateCompanyComponent } from "./components/form-create-company/form-create-company.component";
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucideWarehouse } from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-companies',
@@ -15,10 +17,12 @@ import { FormCreateCompanyComponent } from "./components/form-create-company/for
     SdCardComponent,
     SdButtonComponent,
     DialogComponent,
-    FormCreateCompanyComponent
+    FormCreateCompanyComponent,
+    NgIcon,
 ],
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss',
+  providers: [provideIcons({ lucideWarehouse })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompaniesComponent implements OnInit {
@@ -37,7 +41,6 @@ export class CompaniesComponent implements OnInit {
         console.log(error);
       },
       (response) => {
-        console.log(response);
         this.companies.set(response.companies);
       }
     );

@@ -79,4 +79,8 @@ export class MyOrdersComponent implements OnInit {
     ))
   }
 
+  cancelOrder(orderId: string) {
+    console.log(orderId);
+  }
+
 }

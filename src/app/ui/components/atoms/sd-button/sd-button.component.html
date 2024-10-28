@@ -1,7 +1,27 @@
-<button
-  ngpButton
-  class="text-{{ size }} btn"
-  ngClass="{{type === 'danger' ? 'bg-red-500 text-white' : 'bg-{{type}}'}}"
->
-  {{ text }}
-</button>
+@if (type === "outline") {
+  <button
+    [attr.data-test-id]="dataTestId"
+    class="text-{{
+      size
+    }} px-4 py-2 rounded-lg disabled:opacity-75 outline outline-2 outline-offset-2 text-type-text-{{
+      color
+    }} outline-type-bg-{{ color }} hover:outline-type-bg-{{
+      color
+    }} focus:outline-type-bg-{{ color }}"
+    [disabled]="disabled"
+  >
+    {{ text }}
+  </button>
+} @else {
+  <button
+    [attr.data-test-id]="dataTestId"
+    class="text-{{
+      size
+    }} px-4 py-2 rounded-lg disabled:opacity-75 text-type-text-{{
+      color
+    }} bg-type-bg-{{ color }}"
+    [disabled]="disabled"
+  >
+    {{ text }}
+  </button>
+}

@@ -1,0 +1,13 @@
+<div
+  (ngpFileUploadSelected)="onFilesSelected($event)"
+  ngpFileUpload
+>
+  <ng-icon name="heroCloudArrowUp" aria-hidden="true" />
+  @if (nameFile) {
+    <p class="heading">{{ nameFile }}</p>
+  }
+  @else {
+    <p class="heading">Seleccione un archivo</p>
+    <p class="subheading">Maximo 2 MB</p>
+  }
+</div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'sd-card',
@@ -11,4 +11,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './sd-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SdCardComponent { }
+export class SdCardComponent {
+  @Input() class: string = '';
+ }

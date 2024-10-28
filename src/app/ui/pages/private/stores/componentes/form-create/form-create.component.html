@@ -1,21 +1,20 @@
-<div class="container">
-  <div class="body" [formGroup]="storeForm">
+<div class="w-full gap-4">
+  <div class="h-full grid grid-cols-2 gap-4" [formGroup]="storeForm">
     <div class="body__item">
-      <sd-input  placeholder="Nombre de la tienda" formName="name"></sd-input>
+      <sd-input dataTestId="input-name-store" placeholder="Nombre de la tienda" formName="name"></sd-input>
     </div>
     <div class="body__item">
-      <sd-input placeholder="Direccion"  formName="address"></sd-input>
+      <sd-input dataTestId="input-address-store" placeholder="Direccion"  formName="address"></sd-input>
     </div>
     <div class="body__item">
-      <sd-input placeholder="Encargado de la tienda"  formName="username"></sd-input>
+      <sd-input dataTestId="input-username-store" placeholder="Encargado de la tienda"  formName="username"></sd-input>
     </div>
     <div class="body__item">
-      <sd-input placeholder="Contraseña"  formName="password"></sd-input>
+      <sd-input dataTestId="input-password-store" placeholder="Contraseña"  formName="password"></sd-input>
     </div>
   </div>
-
-  <div class="footter">
-    <sd-button text="Cancelar" type="white" (click)="cancel()" ></sd-button>
-    <sd-button text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
+  <div class="mt-6 flex justify-center gap-4">
+    <sd-button dataTestId="btn-cancel-store" text="Cancelar" color="secondary" type="outline" (click)="cancel()" ></sd-button>
+    <sd-button dataTestId="btn-save-store" text="Guardar" color="primary" (click)="onSubmit()"></sd-button>
   </div>
 </div>

@@ -1,28 +1,38 @@
 <div class="p-4">
   <h1 class="text-2xl font-bold">Empresas</h1>
-  <div class="w-full flex justify-end">
-    <sd-button data-test-id="btn-add-company" text="Agregar nueva empresa" type="primary" size="md" (click)="dialogAddCompany.openDialog()" ></sd-button>
+  <div class="flex w-full justify-end">
+    <sd-button
+      data-test-id="btn-add-company"
+      text="Agregar nueva empresa"
+      color="primary"
+      size="md"
+      (click)="dialogAddCompany.openDialog()"
+    ></sd-button>
   </div>
   <div class="flex flex-wrap justify-start gap-4">
     @for (company of companies(); track company.id) {
-    <sd-card class="p-4">
-      <div class="">
-        <div class="">
-          <span>Nombre: {{ company.name }}</span>
-        </div>
-        @if (company.phone) {
-          <div class="">
-            <span>Telefono: {{ company.phone }}</span>
+      <sd-card class="h-44">
+        <div class="w-full bg-gradient-to-t from-white to-gray-100 p-10">
+          <div class="h-10">
+            <ng-icon class="icon" name="lucideWarehouse"></ng-icon>
+            <span class="text-lg font-semibold">
+              {{ company.name }}
+            </span>
           </div>
-        }
-      </div>
-    </sd-card>
+        </div>
+        <div class="flex p-4">
+          <div class="">
+            <span>Telefono: {{ company.phone || "--" }}</span>
+          </div>
+        </div>
+      </sd-card>
     }
   </div>
 </div>
 
 <sd-dialog title="Agregar nueva empresa" #dialogAddCompany>
   <app-form-create-company
-  (companyCreated)="updateCompany()"
+    (companyCreated)="updateCompany(); dialogAddCompany.closeDialog()"
+    (companyCancel)="dialogAddCompany.closeDialog()"
   ></app-form-create-company>
 </sd-dialog>

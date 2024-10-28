@@ -1,7 +1,12 @@
-<div class="p-4">
+<div class="p-2 w-64">
+  @if(errorMessage!=null){
+    <div class="text-red-500 text-sm">
+      {{errorMessage}}
+    </div>
+  }
   <div class="w-full flex justify-center">
     <div [formGroup]="companyForm">
-      <div class="mb-4">
+      <div class="mb-2">
         <sd-input dataTestId="input-name-company" formName="name" placeholder="Nombre"></sd-input>
         <div *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched" class="text-red-500 text-sm">
           Este campo es obligatorio
@@ -16,7 +21,9 @@
     </div>
   </div>
   <div class="w-full flex justify-center gap-4">
-    <sd-button text="Cancelar" type="white" (click)="cancel()" ></sd-button>
-    <sd-button data-test-id="btn-create-company" text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
+    <sd-button text="Cancelar" color="white" (click)="cancel()" ></sd-button>
+    <sd-button
+    [disabled]="companyForm.invalid"
+    data-test-id="btn-create-company" text="Guardar" color="primary" (click)="onSubmit()"></sd-button>
   </div>
 </div>

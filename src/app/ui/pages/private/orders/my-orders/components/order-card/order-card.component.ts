@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SdCardComponent } from "../../../../../../components/atoms/sd-card/sd-card.component";
 import { OrderModel } from '../../../../../../../core/domain/context/orders/models/order.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -8,6 +8,7 @@ import { SdTagComponent } from "../../../../../../components/atoms/sd-tag/sd-tag
 import { SdButtonComponent } from "../../../../../../components/atoms/sd-button/sd-button.component";
 
 export interface OrderCardComponentInterface {
+  id: string;
   ref: string;
   turno: number;
   fecha: string;
@@ -15,11 +16,11 @@ export interface OrderCardComponentInterface {
   colorEstado: string;
   colorTextEstado: string;
   iconEstado: string;
-  maquina?: string;
-  colorMaquina?: string;
-  operador?: string;
-  colorBgOperador?: string;
-  colorTextOperador?: string;
+  maquina: string;
+  colorMaquina: string;
+  operador: string;
+  colorBgOperador: string;
+  colorTextOperador: string;
 }
 
 @Component({
@@ -39,4 +40,5 @@ export interface OrderCardComponentInterface {
 })
 export class OrderCardComponent {
   @Input() order!: OrderCardComponentInterface;
+  @Output() orderCancel = new EventEmitter<void>();
 }

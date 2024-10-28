@@ -1,19 +1,26 @@
 <div class="container">
-  <div class="header">
-    <h1>Agregar operador</h1>
-  </div>
-
   <div class="body" [formGroup]="operatorForm">
     <div class="body__item">
-      <sd-input placeholder="Nombre"  formName="name"></sd-input>
+      <sd-input dataTestId="input-name-operator" placeholder="Nombre" formName="name"></sd-input>
     </div>
     <div class="body__item">
-      <sd-input placeholder="Contraseña"  formName="password"></sd-input>
+      <sd-input dataTestId="input-password-operator" placeholder="Contraseña" formName="password"></sd-input>
     </div>
   </div>
 
   <div class="footter">
-    <sd-button text="Cancelar" type="white" ></sd-button>
-    <sd-button text="Guardar" type="primary" (click)="onSubmit()"></sd-button>
+    <sd-button
+      dataTestId="btn-cancel-operator"
+      (click)="operatorCancel.emit()"
+      text="Cancelar"
+      color="white"
+    ></sd-button>
+    <sd-button
+      dataTestId="btn-save-operator"
+      [disabled]="operatorForm.invalid"
+      text="Guardar"
+      color="primary"
+      (click)="onSubmit()"
+    ></sd-button>
   </div>
 </div>

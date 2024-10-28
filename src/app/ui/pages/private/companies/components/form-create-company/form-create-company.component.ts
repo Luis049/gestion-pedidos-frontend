@@ -21,7 +21,7 @@ import { SdInputComponent } from "../../../../../components/atoms/sd-input/sd-in
 export class FormCreateCompanyComponent {
   @Output() companyCreated = new EventEmitter<void>();
   @Output() companyCancel = new EventEmitter<void>();
-
+  errorMessage: string | null = null;
   companyForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -38,7 +38,9 @@ export class FormCreateCompanyComponent {
     });
     res.fold(
       (error) => {
-        console.log(error);
+        if(error.status === 400){
+          this.errorMessage = error.message[0];
+        }
       },
       (response) => {
         this.companyCreated.emit();

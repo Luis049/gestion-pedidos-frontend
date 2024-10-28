@@ -17,6 +17,7 @@ import { apiOrders, apiStores } from '../../../../../../presentation/apiRquest';
 import { SdInputComponent } from '../../../../../components/atoms/sd-input/sd-input.component';
 import { SdButtonComponent } from '../../../../../components/atoms/sd-button/sd-button.component';
 import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-select.component';
+import { SdFileUploadComponent } from "../../../../../components/molecules/file-upload/file-upload.component";
 
 @Component({
   selector: 'app-form-create-order',
@@ -27,7 +28,8 @@ import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-
     SdInputComponent,
     SdButtonComponent,
     SdSelectComponent,
-  ],
+    SdFileUploadComponent
+],
   templateUrl: './form-create-order.component.html',
   styleUrl: './form-create-order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,25 +82,21 @@ export class FormCreateOrderComponent implements OnInit {
         storeId: this.formOrder.value.storeId || '',
         file: this.formOrder.value.file!,
       });
-      console.log(res);
       res.fold(
         (error) => {
           console.log(error);
         },
         (response) => {
           this.orderCreated.emit();
-          console.log(response);
+          this.formOrder.reset();
         }
       );
     }
   }
 
-  onImagePicked(event: Event) {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
+  onImagePicked(fileList: FileList) {
     const file = fileList?.item(0);
     if (file !== null && file !== undefined) {
-      file;
       this.formOrder.patchValue({ file });
     }
   }

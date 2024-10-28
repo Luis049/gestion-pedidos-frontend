@@ -2,15 +2,16 @@
   <div class="container_header">
     <h1>Tiendas</h1>
     <sd-button
+      data-test-id="btn-add-store"
       (click)="modalCreateStore()"
       text="Agregar nueva tienda"
-      type="primary"
+      color="primary"
     ></sd-button>
   </div>
 
   <div class="container_cards">
     @for (store of stores; track store.id) {
-    <div class="card">
+    <div class="card" attr.data-test-id="card-store-{{store.name}}">
       <div class="card__header">
         <ng-icon class="card__header__icon" name="lucideStore"></ng-icon>
         <span>{{ store.name }}</span>
@@ -51,12 +52,12 @@
           <span> Eliminar </span>
         </button>
 
-        <button class="card__footer__btn btn-add-operator" (click)="modalAddOperator(store.id)">
+        <button class="card__footer__btn btn-add-operator" (click)="modalAddOperator(store.id)" attr.data-test-id="btn-add-operator-{{store.name}}">
           <ng-icon class="icon" name="lucideCross" ></ng-icon>
           <span> Operador </span>
         </button>
 
-        <button class="card__footer__btn btn-add-operator" (click)="modalAddMaquina(store.id)">
+        <button class="card__footer__btn btn-add-operator" (click)="modalAddMaquina(store.id)" attr.data-test-id="btn-add-machine-{{store.name}}">
           <ng-icon class="icon" name="lucideCross" ></ng-icon>
           <span> Maquina </span>
         </button>
@@ -75,17 +76,19 @@
   ></app-form-create-store>
 </sd-dialog>
 
-<sd-dialog #dialogAddOperator>
+<sd-dialog #dialogAddOperator title="Agregar operador">
   <app-form-create-operator
   [storeId]="storeId"
   (operatorCreated)="dialogAddOperator.closeDialog(); updateStore()"
+  (operatorCancel)="dialogAddOperator.closeDialog()"
   ></app-form-create-operator>
 </sd-dialog>
 
-<sd-dialog #dialogAddMachine>
+<sd-dialog #dialogAddMachine title="Agregar maquina">
   <app-form-create-machine
   [storeId]="storeId"
   (machineCreated)="dialogAddMachine.closeDialog(); updateStore()"
+  (machineCancel)="dialogAddMachine.closeDialog()"
   ></app-form-create-machine>
 </sd-dialog>
 

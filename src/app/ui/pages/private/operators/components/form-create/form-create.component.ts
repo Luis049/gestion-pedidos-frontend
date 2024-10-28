@@ -24,6 +24,7 @@ export class FormCreateOperatorComponent {
 
 
   @Output() operatorCreated = new EventEmitter<void>();
+  @Output() operatorCancel = new EventEmitter<void>();
 
   operatorForm = new FormGroup({
     name: new FormControl('', [Validators.required]),

@@ -38,4 +38,13 @@ export class DialogComponent {
   closeDialog(){
     this.visible.set(false);
   }
+
+  closeDialogIfOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const dialogContainer = document.getElementById('dialog-container');
+
+    if (dialogContainer && !dialogContainer.contains(target)) {
+      this.closeDialog();
+    }
+  }
 }

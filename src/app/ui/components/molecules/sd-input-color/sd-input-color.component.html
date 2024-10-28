@@ -1,0 +1,31 @@
+<div
+attr.data-test-id="{{dataTestId}}"
+id="color-picker"
+(click)="open = !open"
+  class="w-50 border border-gray-300 rounded-md shadow-sm p-2 text-sm flex justify-between gap-4 items-center"
+>
+  <div class="flex items-center gap-4">
+    <sd-circule-color [color]="colorSelected"></sd-circule-color>
+    <span class="text-sm text-gray-700">
+      {{ getLabelSelected }}
+    </span>
+  </div>
+  <ng-icon name="featherChevronDown"></ng-icon>
+</div>
+
+@if (open) {
+  <div
+    class="absolute z-10 bg-white rounded-md shadow-lg w-2/3"
+  >
+    <div class="flex flex-col ">
+      @for (color of colorsItems; track color.value) {
+        <div attr.data-test-id="item-color-{{color.value}}" class="flex items-center gap-4 py-3 px-5 cursor-pointer hover:bg-gray-100" (click)="onChange(color.value)">
+          <sd-circule-color [color]="color.value"></sd-circule-color>
+          <span class="text-sm text-gray-700">
+            {{ color.label }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+}

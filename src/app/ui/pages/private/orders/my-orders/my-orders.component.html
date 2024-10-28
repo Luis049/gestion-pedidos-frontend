@@ -4,7 +4,7 @@
     <sd-button
       data-test-id="btn-add-order"
       text="Crear pedido"
-      type="primary"
+      color="primary"
       size="md"
       (click)="dialogCreateOrder.openDialog()"
     ></sd-button>
@@ -27,9 +27,11 @@
     </div>
   </div>
 
-  <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-4 gap-6 flex flex-wrap justify-center">
     @for (order of orders(); track order.ref) {
-    <order-card [order]="order" />
+    <order-card
+    (orderCancel)="cancelOrder(order.id)"
+    [order]="order" />
     }
   </div>
 </div>

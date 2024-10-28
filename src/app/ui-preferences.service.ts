@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ITokens, TOKENS_JSON } from './styles';
-import { GetInfoCompany, GetInfoUser } from "../app/presentation/apiRquest";
+import { GetInfoCompany } from "../app/presentation/apiRquest";
 
 
 @Injectable({

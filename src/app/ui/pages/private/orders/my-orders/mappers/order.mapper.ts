@@ -39,7 +39,6 @@ export class OrderMapper {
       colorTextOperador = '#666666'; // Gris oscuro
     } else {
       if (!OrderMapper.coloresOperador[operador]) {
-        // Genera un nuevo color para el operador
         colorBgOperador = OrderMapper.generarColor(OrderMapper.indiceColorOperador);
         colorTextOperador = OrderMapper.obtenerColorTextoAdecuado(colorBgOperador);
         OrderMapper.coloresOperador[operador] = { colorBgOperador, colorTextOperador };
@@ -51,15 +50,16 @@ export class OrderMapper {
     }
 
     return {
+      id: order.id,
       ref: order.ref,
       turno: order.shiftDay,
       fecha: order.createdAt,
       estado: OrderMapper.getEstado(order.status),
-      colorEstado: OrderMapper.getColorBgEstado(order.status),
+      colorEstado: order.status,
       colorTextEstado: OrderMapper.getColorTextEstado(order.status),
       iconEstado: OrderMapper.getIconEstado(order.status),
-      maquina: order.machine?.name,
-      colorMaquina: order.machine?.color,
+      maquina: order.machine?.name || 'Sin asignar',
+      colorMaquina: order.machine?.color || 'gray',
       operador: operador,
       colorBgOperador: colorBgOperador,
       colorTextOperador: colorTextOperador,
@@ -74,8 +74,8 @@ export class OrderMapper {
 
     if (!operador) {
       operador = 'Sin asignar';
-      colorBgOperador = '#CCCCCC'; // Gris claro
-      colorTextOperador = '#666666'; // Gris oscuro
+      colorBgOperador = '#9ca3af'; // Gris claro
+      colorTextOperador = '#fff'; // Gris oscuro
     } else {
       if (!OrderMapper.coloresOperador[operador]) {
         // Genera un nuevo color para el operador
@@ -98,11 +98,11 @@ export class OrderMapper {
       nameFile: order.file.name,
       urlFile: order.file.url,
       estado: OrderMapper.getEstado(order.status),
-      colorEstado: OrderMapper.getColorBgEstado(order.status),
+      colorEstado: order.status,
       colorTextEstado: OrderMapper.getColorTextEstado(order.status),
       iconEstado: OrderMapper.getIconEstado(order.status),
       maquina: order.machine?.name || 'Sin asignar',
-      colorBgMaquina: order.machine?.color || 'status-bg-archived',
+      colorBgMaquina: order.machine?.color || 'gray',
       colorTextMaquina: order.machine?.color || 'status-text-archived',
       operador: operador,
       colorBgOperador: colorBgOperador,

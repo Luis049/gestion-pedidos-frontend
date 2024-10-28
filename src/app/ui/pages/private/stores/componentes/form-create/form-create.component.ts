@@ -20,7 +20,6 @@ import { apiStores } from '../../../../../../presentation/apiRquest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCreateStoreComponent {
-
   @Output() storeCreated = new EventEmitter<void>();
   @Output() storeCancel = new EventEmitter<void>();
   @Output() storeSaved = new EventEmitter<void>();

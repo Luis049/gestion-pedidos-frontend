@@ -1,15 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{html,ts}",
-    // "./src/**/*.{bg-*,text-*}",
   ],
   safelist: [
     {
-      pattern: /(bg|text)-status-(bg|text)-.+/,
+      pattern: /(operator|machine)-(bg|text)+/,
     },
     {
-      pattern: /(operator|machine)-(bg|text)+/,
+      pattern: /status-(bg|text)-.+/,
+    },
+    {
+      pattern: /bg-type-bg-(primary|secondary|danger|success)/,
+    },
+    {
+      pattern: /text-type-text-(primary|secondary|danger|success)/,
+    },
+    {
+      pattern: /outline-type-bg-(primary|secondary|danger|success)/,
     },
     {
       pattern: /text-.+/,
@@ -19,8 +28,27 @@ module.exports = {
     },
   ],
   theme: {
+    fontFamily: {
+      'Nunito': ['Nunito Sans', 'sans-serif'],
+    },
     extend: {
       colors: {
+        'fondo': 'var(--color-fondo)',
+        'primary': 'var(--color-primary)',
+        type: {
+          bg: {
+            primary: '#9333EA',
+            secondary: '#b6b6b6',
+            danger: '#fee2e2',
+            success: '#9333EA',
+          },
+          text: {
+            primary: '#FFFFFF',
+            secondary: '#696969',
+            danger: '#FFFFFF',
+            success: '#FFFFFF',
+          }
+        },
         status: {
           bg: {
             received: '#ffedd5',

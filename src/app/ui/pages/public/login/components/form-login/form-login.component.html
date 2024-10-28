@@ -1,47 +1,81 @@
-<div class="container-form-login">
-  <sd-card class="card-form-login">
-    <app-title test-id="title" text="Iniciar sesión" size="h2" class="title" />
-    <p>{{textMessage}}</p>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="body-form-login">
-        <div class="input-group">
-          <label for="username">Usuario</label>
-          <input
-          data-test-id="username"
-          formControlName="username" type="text" placeholder="" />
-          @if (getErrorUsername) {
-          <span class="error">Campo requerido</span>
+<div class="relative flex h-screen items-center justify-center bg-primary">
+  <sd-card class="h-[570px] w-96">
+    <div class="p-10">
+      <h1 class="mb-4 justify-self-center text-3xl font-bold">
+        Iniciar sesión
+      </h1>
+      <p class="mb-4 text-sm text-gray-500">{{ textMessage }}</p>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="grid w-full gap-10">
+          <div class="grid">
+            <label class="mb-2 text-xl text-gray-600" for="username"
+              >Usuario</label
+            >
+            <input
+              class="rounded-md border-2 border-gray-300 p-2"
+              data-test-id="username"
+              formControlName="username"
+              type="text"
+              placeholder="Nombre de usuario"
+            />
+            @if (getErrorUsername) {
+              <span class="error">Campo requerido</span>
+            }
+          </div>
+          <div class="grid">
+            <label class="mb-2 text-xl text-gray-600" for="password">
+              {{ getLabelCredentials }}
+            </label>
+            <input
+              class="rounded-md border-2 border-gray-300 p-2"
+              data-test-id="password"
+              formControlName="password"
+              [type]="typeCredentials"
+              [placeholder]="getLabelCredentials"
+            />
+            @if (getErrorPassword) {
+              <span class="text-red-600">Campo requerido</span>
+            }
+            @if (getErrorPasswordFormat) {
+              <span class="text-red-600"
+                >Debe ingresar un número de 10 dígitos</span
+              >
+            }
+          </div>
+          @if (credentialsInvalid) {
+            <span class="text-red-600">Credenciales incorrectas</span>
           }
-        </div>
-        <div class="input-group">
-          <label for="password">
-            {{ getLabelCredentials }}
-          </label>
-          <input
-            data-test-id="password"
-            formControlName="password"
-            [type]="typeCredentials"
-            placeholder=""
-          />
-          @if (getErrorPassword) {
-          <span class="error">Campo requerido</span>
-          }
-        </div>
-        @if (credentialsInvalid) {
-        <span class="error">Credenciales incorrectas</span>
-        }
-        <div class="checkbox_remember">
-          <input type="checkbox" id="remember" />
-          <label for="remember">Recordar datos</label>
-        </div>
+          <div class="checkbox_remember">
+            <input type="checkbox" id="remember" class="peer: mr-2" />
+            <label
+              for="remember"
+              class="text-sm text-gray-600 peer-checked:text-primary"
+            ></label>
+            <label for="remember">Recordar datos</label>
+          </div>
 
-        <button data-test-id="btn-login" class="btn" [disabled]="loginForm.invalid">Ingresar</button>
-        @if (!isAdmin) {
-        <span class="linkRedirect" (click)="redirectToAdminLogin()">Iniciar sesión como administrador</span>
-        }@else {
-        <span class="linkRedirect" (click)="redirectToLogin()">Iniciar sesión como operador</span>
-        }
-      </div>
-    </form>
+          <button
+            data-test-id="btn-login"
+            class="w-full rounded-md bg-primary py-2 text-white hover:opacity-90 disabled:opacity-50"
+            [disabled]="loginForm.invalid"
+          >
+            Ingresar
+          </button>
+          @if (!isAdmin) {
+            <span
+              class="cursor-pointer text-primary"
+              (click)="redirectToAdminLogin()"
+              >Iniciar sesión como administrador</span
+            >
+          } @else {
+            <span
+              class="cursor-pointer text-primary"
+              (click)="redirectToLogin()"
+              >Iniciar sesión como operador</span
+            >
+          }
+        </div>
+      </form>
+    </div>
   </sd-card>
 </div>

@@ -82,7 +82,7 @@ export interface ITokens {
 
 export const TOKENS_JSON: ITokens = {
   color: {
-    primary: '#0D9488',
+    primary: '#a855f7',
     secondary: '#1E1E1E',
     tertiary: '#2C2C2C',
     background: '#F0FDFA',

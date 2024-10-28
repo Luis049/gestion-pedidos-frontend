@@ -42,12 +42,12 @@
       <div class="row">
         <div class="cell">
           <div class="cell__title">
-            <span>{{ order.ref }}</span>
+            <span>{{ order.turno }}</span>
           </div>
         </div>
         <div class="cell">
           <div class="cell__title">
-            <span>{{ order.fecha }}</span>
+            <span>{{ order.fecha | date : "d 'de' MMMM y, h:mm a" }}</span>
           </div>
         </div>
         <div class="cell">
@@ -58,20 +58,19 @@
           (click)="downloadFile(order)"
         >
           <ng-icon name="tablerDownload" />
-          <span>{{ order.nameFile }}</span>
+          <!-- <span>{{ order.nameFile }}</span> -->
         </div>
         <div class="cell">
           <sd-tag
-            [isHexadecimal]="true"
+            type="machine"
             [text]="order.maquina"
             [bgColor]="order.colorBgMaquina"
-            [textColor]="'#ffffff'"
             icon="lucidePrinter"
           />
         </div>
         <div class="cell">
           <sd-tag
-            [isHexadecimal]="true"
+            type="hexadecimal"
             [text]="order.operador || 'Sin asignar'"
             [bgColor]="order.colorBgOperador || '#CCCCCC'"
             [textColor]="order.colorTextOperador || '#666666'"
@@ -80,9 +79,9 @@
         </div>
         <div class="cell">
           <sd-tag
+            type="status"
             [text]="order.estado"
             [bgColor]="order.colorEstado"
-            [textColor]="order.colorTextEstado"
             [icon]="order.iconEstado"
           />
         </div>

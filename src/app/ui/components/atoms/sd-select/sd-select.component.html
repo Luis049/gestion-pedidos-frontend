@@ -1,5 +1,7 @@
 <select ngpSelect [value]="itemSelected"(change)="onChange($event)">
   @for (item of items; track item.value) {
-    <option value="{{item.value}}">{{item.label}}</option>
-  }
-</select>
+    <option value="{{item.value}}">
+      <ng-content></ng-content>
+      {{item.label}}</option>
+      }
+    </select>

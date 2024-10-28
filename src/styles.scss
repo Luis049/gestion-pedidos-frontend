@@ -3,12 +3,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '@angular/cdk/overlay-prebuilt.css';
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: "Nunito Sans", sans-serif;
+:root {
+  --color-fondo: #f1f4f9;    /* Color de fondo en modo claro */
+  --color-primary: #a855f7;  /* Color primario en modo claro */
+}
+
+/* Modo oscuro */
+.dark {
+  --color-fondo: #d957ff;    /* Color de fondo en modo oscuro */
+  --color-primary: #020202;  /* Color primario en modo oscuro */
 }
 
 
-
+@layer base {
+  @font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../public/assets/fonts/Nunito_Sans/Nunito_Sans/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf') format('woff2');
+  }
+}

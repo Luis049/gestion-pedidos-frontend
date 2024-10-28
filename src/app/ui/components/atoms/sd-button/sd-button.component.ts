@@ -16,5 +16,8 @@ import { NgpButton } from 'ng-primitives/button';
 export class SdButtonComponent  {
   @Input() text: string = '';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() type: 'primary' | 'secondary' | 'white' | 'danger' = 'primary';
+  @Input() color: 'primary' | 'secondary' | 'white' | 'danger' = 'primary';
+  @Input() disabled: boolean = false;
+  @Input() type: 'outline' | 'solid' = 'solid';
+  @Input() dataTestId: string = '';
  }
