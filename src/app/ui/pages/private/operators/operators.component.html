@@ -1,1 +1,46 @@
-<p>operators works!</p>,
+<div class="container mx-auto pt-4">
+  <h1 class="my-5 w-fit text-4xl font-bold text-gray-600">Operadores</h1>
+  <div class="flex justify-end mb-5">
+    <sd-button
+        data-test-id="btn-add-store"
+        (click)="modalCreateOperator()"
+        text="Agregar operador"
+        color="primary"
+      ></sd-button>
+  </div>
+
+  @if (messageError() && !loading()) {
+    <sd-alert type="error" text="{{ messageError() }}" [reload]="reload()" (reloadClick)="updateOperator()"></sd-alert>
+  }
+  @else {
+    @if (loading()) {
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <sd-spinner/>
+        </div>
+      </div>
+    } @else {
+      @if (operators().length === 0) {
+        <div class="flex items-center justify-center">
+          <div class="text-center">
+            <span class="text-gray-600">No hay maquinas registradas</span>
+          </div>
+        </div>
+      } @else {
+        <sd-table
+          [data]="operators()"
+          [config]="tableConfig"
+          (actionClick)="onActionClick($event)"
+        >
+        </sd-table>
+      }
+    }
+  }
+</div>
+
+<sd-dialog #dialogAddOperator title="Agregar operador">
+  <app-form-create-operator
+  (operatorCreated)="dialogAddOperator.closeDialog(); updateOperator()"
+  (operatorCancel)="dialogAddOperator.closeDialog()"
+  ></app-form-create-operator>
+</sd-dialog>

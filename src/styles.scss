@@ -24,3 +24,14 @@
     src: url('../public/assets/fonts/Nunito_Sans/Nunito_Sans/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf') format('woff2');
   }
 }
+
+
+
+@layer components {
+  .btn {
+    @apply rounded-lg disabled:opacity-75 outline outline-2 outline-offset-2;
+  }
+  .btn-primary {
+    @apply bg-[var(--color-primary)] text-white;
+  }
+}

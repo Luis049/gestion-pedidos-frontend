@@ -1,13 +1,56 @@
 <div
-  (ngpFileUploadSelected)="onFilesSelected($event)"
-  ngpFileUpload
+  class="relative border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors cursor-pointer bg-gray-50"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+  [class.border-blue-500]="isDragging()"
+  [class.bg-blue-50]="isDragging()"
 >
-  <ng-icon name="heroCloudArrowUp" aria-hidden="true" />
-  @if (nameFile) {
-    <p class="heading">{{ nameFile }}</p>
-  }
-  @else {
-    <p class="heading">Seleccione un archivo</p>
-    <p class="subheading">Maximo 2 MB</p>
-  }
+  <input
+    #fileInput
+    [attr.data-test-id]="dataTestId"
+    type="file"
+    class="hidden"
+    accept=".pdf"
+    (change)="onFileSelected($event)"
+  />
+
+  <div class="space-y-4">
+    <ng-icon
+      name="heroCloudArrowUp"
+      class="w-12 h-12 mx-auto text-gray-400"
+    />
+
+    <div class="text-sm text-gray-600">
+      <button
+        type="button"
+        class="text-blue-600 hover:text-blue-700 font-medium"
+        (click)="fileInput.click()"
+      >
+        Seleccionar archivo
+      </button>
+      o arrastra y suelta
+    </div>
+
+    <p class="text-xs text-gray-500">Solo PDF (max. 1GB)</p>
+
+    @if (selectedFile()) {
+      <div class="mt-4 space-y-2 text-sm text-gray-900">
+        <p>Archivo: {{ selectedFile()?.name }}</p>
+        <p>Tamaño: {{ selectedFile()?.sizeInMB }} MB</p>
+        @if (selectedFile()?.dimensions) {
+          <p>
+            Dimensiones: {{ selectedFile()?.dimensions?.widthCm }}cm x
+            {{ selectedFile()?.dimensions?.heightCm }}cm
+          </p>
+        }
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <p class="mt-2 text-sm text-red-600">
+        {{ errorMessage() }}
+      </p>
+    }
+  </div>
 </div>

@@ -1,1 +1,58 @@
-<p>operators works!</p>,
+<div class="container mx-auto pt-4">
+  <h1 class="my-5 w-fit text-4xl font-bold text-gray-600">Maquinas</h1>
+
+  <div class="flex justify-end mb-5">
+    <sd-button
+        data-test-id="btn-add-store"
+        (click)="modalCreateMachine()"
+        text="Agregar maquina"
+        color="primary"
+      ></sd-button>
+  </div>
+
+  @if (messageError() && !loading()) {
+    <sd-alert type="error" text="{{ messageError() }}" [reload]="reload()" (reloadClick)="updateMachines()"></sd-alert>
+  }
+  @else {
+
+    @if(loading()){
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <sd-spinner/>
+        </div>
+      </div>
+    }
+    @else {
+      @if (machines().length === 0) {
+        <div class="flex items-center justify-center">
+          <div class="text-center">
+            <span class="text-gray-600">No hay maquinas registradas</span>
+          </div>
+        </div>
+      } @else {
+        <sd-table
+          [data]="machines()"
+          [config]="tableConfig"
+          (actionClick)="onActionClick($event)"
+        >
+          <!-- <ng-template [sdCustomColumn]="'status'" let-user>
+            <span [class]="getStatusClass(user.status)">
+              {{ user.status }}
+            </span>
+          </ng-template> -->
+        </sd-table>
+      }
+    }
+  }
+
+</div>
+
+<sd-dialog #dialogAddMachine title="Agregar maquina">
+  <app-form-create-machine
+  (machineCreated)="dialogAddMachine.closeDialog(); updateMachines()"
+  (machineCancel)="dialogAddMachine.closeDialog()"
+  ></app-form-create-machine>
+</sd-dialog>
+
+
+

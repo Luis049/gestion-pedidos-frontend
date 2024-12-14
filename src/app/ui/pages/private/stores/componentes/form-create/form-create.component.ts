@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { SdInputComponent } from '../../../../../components/atoms/sd-input/sd-input.component';
 import { SdButtonComponent } from '../../../../../components/atoms/sd-button/sd-button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,7 +19,8 @@ import { apiStores } from '../../../../../../presentation/apiRquest';
   styleUrl: './form-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormCreateStoreComponent {
+export class FormCreateStoreComponent  {
+
   @Output() storeCreated = new EventEmitter<void>();
   @Output() storeCancel = new EventEmitter<void>();
   @Output() storeSaved = new EventEmitter<void>();
@@ -32,6 +33,9 @@ export class FormCreateStoreComponent {
   });
 
 
+  messageError = signal<string | null>(null);
+
+
   async onSubmit(){
     if(this.storeForm.valid){
       const response = await apiStores.createStore.execute({
@@ -42,9 +46,14 @@ export class FormCreateStoreComponent {
       });
       response.fold(
         (error) => {
-          console.log(error);
+          console.log(error)
+          if(error.status === 400){
+            this.messageError.set(error.message[0]);
+          }
         },
         (response) => {
+          this.messageError.set(null);
+          this.storeForm.reset();
           this.storeSaved.emit();
         }
       )
@@ -52,6 +61,8 @@ export class FormCreateStoreComponent {
   }
 
   cancel(){
+    this.messageError.set(null);
+    this.storeForm.reset();
     this.storeCancel.emit();
   }
 }

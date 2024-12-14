@@ -1,0 +1,24 @@
+<div
+  [class]="
+    'flex w-full items-center gap-4 rounded-md p-4' +
+    (type === 'success'
+      ? ' border border-green-500 bg-green-50 text-green-600'
+      : ' border border-red-500 bg-red-50 text-red-600')
+  "
+>
+  <ng-icon
+    [name]="type === 'success' ? 'featherAlertTriangle' : 'featherAlertOctagon'"
+    class="h-6 w-6"
+  ></ng-icon>
+  <div class="text-sm">
+    {{ text }}
+  </div>
+  @if (reload) {
+    <button
+      class="text-sm text-primary hover:underline"
+      (click)="reloadClick.emit()"
+    >
+      Volver a cargar
+    </button>
+  }
+</div>

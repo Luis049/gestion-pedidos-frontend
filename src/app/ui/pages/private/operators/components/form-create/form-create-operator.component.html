@@ -1,0 +1,66 @@
+<div class="max-w-md mx-auto p-4 bg-white rounded">
+
+  @if (messageError) {
+    <div class="flex justify-center items-center">
+      <div class="text-center">
+        <span class="text-red-600">{{ messageError }}</span>
+      </div>
+    </div>
+  }
+
+  <div [formGroup]="operatorForm" class="flex flex-col gap-4">
+    @if(storeId === ''){
+      <div class="body__item" >
+        <sd-select
+          [items]="storesList()"
+          [itemSelected]="this.operatorForm.value.storedId"
+          dataTestId="select-store-operator"
+          (itemSelectedChange)="this.operatorForm.patchValue({ storedId: $event });"
+        >
+        </sd-select>
+      </div>
+    }
+    <div class="flex flex-col gap-4">
+      <sd-input
+        dataTestId="input-name-operator"
+        placeholder="Nombre"
+        formName="name"
+      ></sd-input>
+    </div>
+    <div class="flex flex-col gap-4">
+      <sd-input
+        dataTestId="input-password-operator"
+        placeholder="Contraseña"
+        formName="password"
+      ></sd-input>
+    </div>
+    <div class="mb-4">
+      <sd-input-color
+        dataTestId="input-color-operator"
+        (colorSelectedChange)="operatorForm.patchValue({ color: $event })"
+        [colorSelected]="operatorForm.get('color')?.value"
+      ></sd-input-color>
+
+      @if (
+        operatorForm.get("color")?.invalid && operatorForm.get("color")?.touched
+      ) {
+        <div class="text-sm text-red-500">Este campo es obligatorio</div>
+      }
+    </div>
+  </div>
+  <div class="flex justify-center items-center">
+    <sd-button
+      dataTestId="btn-cancel-operator"
+      (click)="cancel()"
+      text="Cancelar"
+      color="white"
+    ></sd-button>
+    <sd-button
+      dataTestId="btn-save-operator"
+      [disabled]="operatorForm.invalid || loading()"
+      [text]="loading() ? 'Guardando...' : 'Guardar'"
+      color="primary"
+      (click)="onSubmit()"
+    ></sd-button>
+  </div>
+</div>

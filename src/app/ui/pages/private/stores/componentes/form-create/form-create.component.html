@@ -1,4 +1,9 @@
 <div class="w-full gap-4">
+  @if (messageError()) {
+    <div data-test-id="messageError" class="bg-red-400 w-full text-white text-sm p-3 rounded-lg mb-4 transition-all">
+      {{messageError()}}
+    </div>
+  }
   <div class="h-full grid grid-cols-2 gap-4" [formGroup]="storeForm">
     <div class="body__item">
       <sd-input dataTestId="input-name-store" placeholder="Nombre de la tienda" formName="name"></sd-input>
@@ -15,6 +20,6 @@
   </div>
   <div class="mt-6 flex justify-center gap-4">
     <sd-button dataTestId="btn-cancel-store" text="Cancelar" color="secondary" type="outline" (click)="cancel()" ></sd-button>
-    <sd-button dataTestId="btn-save-store" text="Guardar" color="primary" (click)="onSubmit()"></sd-button>
+    <sd-button dataTestId="btn-save-store" [disabled]="storeForm.invalid" text="Guardar" color="primary" type="solid" (click)="onSubmit()"></sd-button>
   </div>
 </div>

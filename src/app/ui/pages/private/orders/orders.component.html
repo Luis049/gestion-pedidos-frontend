@@ -1,15 +1,35 @@
 <div class="container">
-  <h1>Pedidos</h1>
+  <h1 class="text-4xl font-bold text-gray-600">Pedidos</h1>
 
-  <app-filters
+  @if (orders().length === 0) {
+    <div class="flex items-center justify-center">
+      <div class="text-center">
+        <span class="text-gray-600">No hay ordenes para mostrar</span>
+      </div>
+    </div>
+  } @else {
+    <sd-table
+      [data]="orders()"
+      [config]="tableConfig"
+      (actionClick)="onActionClick($event)"
+    >
+      <ng-template [sdCustomColumn]="'nameFile'" let-order>
+        <div class="text-center text-blue-400 hover:text-blue-900 cursor-pointer" (click)="downloadFile(order)">
+          <ng-icon name="tablerDownload" />
+        </div>
+      </ng-template>
+    </sd-table>
+  }
+
+  <!-- <app-filters
     [machines]="machines()"
     [machineSelected]="machineSelected()"
     (machineSelectedChange)="machineSelectedChange($event)"
     [status]="status()"
     [statusSelected]="statusSelected()"
     (statusSelectedChange)="statusSelected.set($event)"
-  />
-
+  /> -->
+  <!--
   <div class="container_table">
     <div class="container_table__header">
       <div class="container_table__header-item">
@@ -58,7 +78,7 @@
           (click)="downloadFile(order)"
         >
           <ng-icon name="tablerDownload" />
-          <!-- <span>{{ order.nameFile }}</span> -->
+          <span>{{ order.nameFile }}</span>
         </div>
         <div class="cell">
           <sd-tag
@@ -85,7 +105,7 @@
             [icon]="order.iconEstado"
           />
         </div>
-        <!-- <div class="cell">
+        <div class="cell">
           <sd-dropdown itemSelected="{{order.machine?.id}}" [iconPrinter]="true" (itemSelectedChange)="selectMachine(order.id, $event )" idUnique="machines-{{order.id}}" [listaItems]="maquinas" />
         </div>
         <div class="cell">
@@ -93,9 +113,10 @@
         </div>
         <div class="cell">
           <sd-dropdown itemSelected="{{order.state?.id}}" (itemSelectedChange)="selectState(order.id, $event )" idUnique="states-{{order.id}}" [listaItems]="states" />
-        </div> -->
+        </div>
       </div>
       }
     </div>
   </div>
+</div> -->
 </div>

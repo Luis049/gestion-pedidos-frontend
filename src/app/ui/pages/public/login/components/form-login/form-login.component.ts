@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Output,
+  signal,
 } from '@angular/core';
 import { SdCardComponent } from '../../../../../components/atoms/sd-card/sd-card.component';
 import { TitleComponent } from '../../../../../components/atoms/title/title.component';
@@ -28,14 +29,14 @@ import { Router } from '@angular/router';
 })
 export class FormLoginComponent {
   credentialsInvalid = false;
-  requestLogin = false;
   loginForm: FormGroup;
+  loading = signal(false);
 
   constructor(
     private uiPreferences: UiPreferencesService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
@@ -56,7 +57,6 @@ export class FormLoginComponent {
     if (this.loginForm.invalid) {
       return;
     }
-    this.requestLogin = true;
 
     if (this.isAdmin) {
       await this.loginAdmin();
@@ -66,8 +66,9 @@ export class FormLoginComponent {
   }
 
   async loginAdmin() {
+    this.loading.set(true);
     const result = await apiLogin.loginAdmin.execute({
-      username: this.loginForm.value.username || '',
+      username: this.loginForm.value.username.toLowerCase().trim() || '',
       password: this.loginForm.value.password || '',
     });
 
@@ -75,20 +76,21 @@ export class FormLoginComponent {
       (error) => {
         this.credentialsInvalid = true;
         this.changeDetectorRef.detectChanges();
-        this.requestLogin = false;
+        this.loading.set(false);
       },
       (response) => {
         this.credentialsInvalid = false;
         this.uiPreferences.loadUserPreferences();
         this.router.navigate(['/dashboard']);
-        this.requestLogin = false;
-      }
+        this.loading.set(false);
+      },
     );
   }
 
   async loginClient() {
+    this.loading.set(true);
     const result = await apiLogin.loginClient.execute({
-      username: this.loginForm.value.username || '',
+      username: this.loginForm.value.username.toLowerCase().trim() || '',
       password: this.loginForm.value.password || '',
     });
 
@@ -96,14 +98,14 @@ export class FormLoginComponent {
       (error) => {
         this.credentialsInvalid = true;
         this.changeDetectorRef.detectChanges();
-        this.requestLogin = false;
+        this.loading.set(false);
       },
       (response) => {
         this.credentialsInvalid = false;
         this.uiPreferences.loadUserPreferences();
         this.router.navigate(['/dashboard']);
-        this.requestLogin = false;
-      }
+        this.loading.set(false);
+      },
     );
   }
 
@@ -134,7 +136,7 @@ export class FormLoginComponent {
   }
 
   get typeCredentials() {
-    return this.isAdmin ? 'password' : 'number';
+    return this.isAdmin ? 'password' : 'string';
   }
 
   get textMessage() {
@@ -149,5 +151,51 @@ export class FormLoginComponent {
 
   redirectToLogin() {
     this.router.navigate(['login']);
+  }
+
+  onNameInput(event: Event): void {
+    const input = event as InputEvent;
+    const element = input.target as HTMLInputElement;
+    this.loginForm.get('username')?.setValue(element.value);
+  }
+
+  phoneNumber: string = '';
+
+  onPhoneInput(event: Event): void {
+    const input = event as InputEvent;
+    const element = input.target as HTMLInputElement;
+
+    if (this.typeCredentials === 'string') {
+      // Prevenir la entrada si no es un número (excepto backspace y delete)
+      if (input.inputType === 'insertText' && !/^\d$/.test(input.data || '')) {
+        element.value = this.phoneNumber;
+        return;
+      }
+
+      // Obtener solo los números del valor actual
+      const digits = element.value.replace(/\D/g, '');
+
+      // Limitar a 10 dígitos
+      const limitedDigits = digits.slice(0, 10);
+
+      // Formatear el número
+      let formattedNumber = '';
+      if (limitedDigits.length > 0) {
+        const parts = limitedDigits.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+        if (parts) {
+          formattedNumber = parts.slice(1).filter(part => part).join('-');
+        }
+      }
+
+      // Actualizar el valor mostrado y el valor del formulario
+      this.phoneNumber = formattedNumber;
+      this.loginForm.get('password')?.setValue(limitedDigits);
+      element.value = formattedNumber;
+
+      // Forzar la actualización de la vista
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.loginForm.get('password')?.setValue(element.value);
+    }
   }
 }

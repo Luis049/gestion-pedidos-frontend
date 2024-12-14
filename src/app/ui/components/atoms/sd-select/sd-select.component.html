@@ -1,7 +1,22 @@
-<select ngpSelect [value]="itemSelected"(change)="onChange($event)">
+<select
+  ngpSelect
+  [value]="itemSelected"
+  (change)="onChange($event)"
+  [attr.data-test-id]="dataTestId"
+  pla
+>
   @for (item of items; track item.value) {
-    <option value="{{item.value}}">
-      <ng-content></ng-content>
-      {{item.label}}</option>
-      }
-    </select>
+    @if (item.value === '') {
+      <option disabled selected value="{{ item.value }}">
+        <ng-content></ng-content>
+        {{ item.label }}
+      </option>
+    }
+    @else {
+      <option value="{{ item.value }}">
+        <ng-content></ng-content>
+        {{ item.label }}
+      </option>
+    }
+  }
+</select>

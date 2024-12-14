@@ -10,85 +10,113 @@
   </div>
 
   <div class="container_cards">
-    @for (store of stores; track store.id) {
-    <div class="card" attr.data-test-id="card-store-{{store.name}}">
-      <div class="card__header">
-        <ng-icon class="card__header__icon" name="lucideStore"></ng-icon>
-        <span>{{ store.name }}</span>
-      </div>
-      <div class="card__body">
-        <div class="card__body__item">
-          <ng-icon class="icon icon-address" name="lucideMapPin"></ng-icon>
-          <span>{{store.address}}</span>
-        </div>
+    @if (messageError() && !loading()) {
+      <sd-alert type="error" text="{{ messageError() }}" [reload]="reload()" (reloadClick)="updateStore()"></sd-alert>
+    }
 
-        <div class="card__body__item item-bold">
-          <ng-icon class="icon icon-user" name="lucideUser"></ng-icon>
-          <span>Encargado: {{store.user.username}}</span>
-        </div>
-
-        <div class="card__body__item">
-          <ng-icon class="icon icon-users" name="lucideUsers"></ng-icon>
-          <span>{{store.operatorsCount }} operadores</span>
-        </div>
-
-        <div class="card__body__item">
-          <ng-icon class="icon icon-printer" name="lucidePrinter"></ng-icon>
-          <span>{{store.machinesCount }} máquinas</span>
-        </div>
-
-        <div class="card__body__item">
-          <ng-icon class="icon icon-package" name="lucidePackage"></ng-icon>
-          <span>150 pedidos realizados</span>
+    @if (loading()) {
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <sd-spinner />
         </div>
       </div>
-      <div class="card__footer">
-        <button class="card__footer__btn btn-edit">
-          <ng-icon class="icon" name="lucidePencil"></ng-icon>
-          <span> Editar </span>
-        </button>
-        <button class="card__footer__btn btn-delete">
-          <ng-icon class="icon" name="lucideTrash"></ng-icon>
-          <span> Eliminar </span>
-        </button>
+    } @else {
+      @for (store of stores(); track store.id) {
+        <div class="card w-80" attr.data-test-id="card-store-{{ store.name }}">
+          <div class="card__header">
+            <ng-icon class="card__header__icon" name="lucideStore"></ng-icon>
+            <span>{{ store.name }}</span>
+          </div>
+          <div class="card__body">
+            <div class="card__body__item">
+              <ng-icon class="icon icon-address" name="lucideMapPin"></ng-icon>
+              <span>{{ store.address }}</span>
+            </div>
 
-        <button class="card__footer__btn btn-add-operator" (click)="modalAddOperator(store.id)" attr.data-test-id="btn-add-operator-{{store.name}}">
-          <ng-icon class="icon" name="lucideCross" ></ng-icon>
-          <span> Operador </span>
-        </button>
+            <div class="card__body__item item-bold">
+              <ng-icon class="icon icon-user" name="lucideUser"></ng-icon>
+              <span>Encargado: {{ store.user.username }}</span>
+            </div>
 
-        <button class="card__footer__btn btn-add-operator" (click)="modalAddMaquina(store.id)" attr.data-test-id="btn-add-machine-{{store.name}}">
-          <ng-icon class="icon" name="lucideCross" ></ng-icon>
-          <span> Maquina </span>
-        </button>
-      </div>
-    </div>
+            <div class="card__body__item">
+              <ng-icon class="icon icon-users" name="lucideUsers"></ng-icon>
+              <span>{{ store.operatorsCount }} operadores</span>
+            </div>
+
+            <div class="card__body__item">
+              <ng-icon class="icon icon-printer" name="lucidePrinter"></ng-icon>
+              <span>{{ store.machinesCount }} máquinas</span>
+            </div>
+
+            <div class="card__body__item">
+              <ng-icon class="icon icon-package" name="lucidePackage"></ng-icon>
+              <span>{{ store.ordersCount }} pedidos realizados</span>
+            </div>
+          </div>
+          <div class="card__footer">
+            <button
+              class="card__footer__btn btn-add-operator"
+              (click)="modalAddOperator(store.id)"
+              attr.data-test-id="btn-add-operator-{{ store.name }}"
+            >
+              <ng-icon class="icon" name="lucideCross"></ng-icon>
+              <span> Operador </span>
+            </button>
+
+            <button
+              class="card__footer__btn btn-add-operator"
+              (click)="modalAddMaquina(store.id)"
+              attr.data-test-id="btn-add-machine-{{ store.name }}"
+            >
+              <ng-icon class="icon" name="lucideCross"></ng-icon>
+              <span> Maquina </span>
+            </button>
+            <button
+              class="card__footer__btn btn-add-operator"
+              (click)="modalEditStore(store.id)"
+              attr.data-test-id="btn-add-machine-{{ store.name }}"
+            >
+              <ng-icon class="icon" name="lucideCross"></ng-icon>
+              <span> Editar </span>
+            </button>
+          </div>
+        </div>
+      }
     }
   </div>
 </div>
 
 <sd-dialog #dialogCreate title="Crear tienda">
   <app-form-create-store
-  #formCreateStore
-  (storeCreated)="updateStore()"
-  (storeCancel)="dialogCreate.closeDialog()"
-  (storeSaved)="dialogCreate.closeDialog(); updateStore()"
+    #formCreateStore
+    (storeCreated)="updateStore()"
+    (storeCancel)="dialogCreate.closeDialog()"
+    (storeSaved)="dialogCreate.closeDialog(); updateStore()"
   ></app-form-create-store>
 </sd-dialog>
 
 <sd-dialog #dialogAddOperator title="Agregar operador">
   <app-form-create-operator
-  [storeId]="storeId"
-  (operatorCreated)="dialogAddOperator.closeDialog(); updateStore()"
-  (operatorCancel)="dialogAddOperator.closeDialog()"
+    [storeId]="storeId"
+    (operatorCreated)="dialogAddOperator.closeDialog(); updateStore()"
+    (operatorCancel)="dialogAddOperator.closeDialog()"
   ></app-form-create-operator>
 </sd-dialog>
 
 <sd-dialog #dialogAddMachine title="Agregar maquina">
   <app-form-create-machine
-  [storeId]="storeId"
-  (machineCreated)="dialogAddMachine.closeDialog(); updateStore()"
-  (machineCancel)="dialogAddMachine.closeDialog()"
+    [storeId]="storeId"
+    (machineCreated)="dialogAddMachine.closeDialog(); updateStore()"
+    (machineCancel)="dialogAddMachine.closeDialog()"
   ></app-form-create-machine>
 </sd-dialog>
 
+<sd-dialog #dialogEditStore title="Editar tienda">
+  @if (storeEdit()) {
+    <app-form-edit-store
+      [storeEdit]="storeEdit()"
+      (storeCreated)="dialogEditStore.closeDialog(); updateStore()"
+      (storeCancel)="dialogEditStore.closeDialog()"
+    ></app-form-edit-store>
+  }
+</sd-dialog>

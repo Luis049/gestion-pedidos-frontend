@@ -1,6 +1,7 @@
+import { CustomColumnDirective, TableActionEvent, TableConfig } from './../../../components/organisms/sd-table/sd-table.component';
 
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, OnInit, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherAirplay } from '@ng-icons/feather-icons';
 import { jamFilter } from '@ng-icons/jam-icons';
@@ -13,9 +14,11 @@ import { tecnicos } from './data/tecnicos.data';
 import { states } from './data/states.data';
 import { ordersData } from './data/orders.data';
 import { OrderModel } from '../../../../core/domain/context/orders/models/order.model';
-import { apiMachines, apiOrders, GetInfoUser } from '../../../../presentation/apiRquest';
+import { apiMachines, apiOrders, apiStores, GetInfoUser } from '../../../../presentation/apiRquest';
 import { OrderMapper } from './my-orders/mappers/order.mapper';
 import { SdTagComponent } from "../../../components/atoms/sd-tag/sd-tag.component";
+import { SdTableComponent } from "../../../components/organisms/sd-table/sd-table.component";
+import { OperatorUi } from '../operators/models/operator.ui';
 
 export interface OrderRowInterface {
   id: string;
@@ -47,10 +50,14 @@ export interface OrderRowInterface {
     SdSearchFieldComponent,
     FiltersComponent,
     SdDropdownComponent,
-    SdTagComponent
+    SdTagComponent,
+    SdTableComponent,
+
+    CustomColumnDirective
 ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
+  providers: [DatePipe],
   viewProviders: [provideIcons({ featherAirplay, jamFilter, tablerUTurnLeft, tablerDownload, tablerPrinter })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -70,9 +77,45 @@ export class OrdersComponent implements OnInit {
   ])
   statusSelected = signal<string>('all');
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    // Inject formatDatePipe
+    private formatDatePipe: DatePipe
+  ) {}
 
   orders = signal<OrderRowInterface[]>([]);
+
+  tableConfig: TableConfig<OrderRowInterface> = {
+    columns: [
+      { header: 'Turno', field: 'turno', sortable: true },
+      { header: 'Fecha', field: 'fecha', sortable: true,  format: (value) => value ? this.formatDatePipe.transform(value, `d 'de' MMMM y, h:mm a`) || '' : '' },
+      { header: 'Cliente', field: 'client', sortable: true },
+      { header: 'Archivo', field: 'nameFile', sortable: true, customTemplate: true, align: 'center' },
+      { header: 'Máquina', field: 'maquina', sortable: true },
+      { header: 'Operador', field: 'operador', sortable: true },
+      // { header: 'Estado', field: 'estado', sortable: true },
+    ],
+    // actions: [
+    //   {
+    //     label: 'Editar',
+    //     action: 'edit',
+    //     icon: 'fas fa-edit',
+    //     color: 'text-blue-600 hover:text-blue-900'
+    //   },
+    //   {
+    //     label: 'Eliminar',
+    //     action: 'delete',
+    //     icon: 'fas fa-trash',
+    //     color: 'text-red-600 hover:text-red-900',
+    //     showIf: (order) => order.status !== 'deleted'
+    //   }
+    // ],
+    showSearch: true,
+    showPagination: true,
+    sortable: true,
+    pageSize: 10,
+    customClass: 'my-custom-table'
+  }
 
   ngOnInit(): void {
     this.getMachines();
@@ -116,7 +159,6 @@ export class OrdersComponent implements OnInit {
 
   getOrders(){
     apiOrders.showOrders.execute().subscribe((response) => {
-      console.log(response);
       const ordersRow = response.map(OrderMapper.toOrderRow);
       this.orders.set(ordersRow);
     });
@@ -179,16 +221,28 @@ export class OrdersComponent implements OnInit {
   }
 
   async downloadFile(order: OrderRowInterface) {
-    if(order.estado === 'Recibido' && this.machineSelected() === '0'){
-      alert('No puedes tomar un pedido sin asignar una máquina');
-    }else{
-      const user = await GetInfoUser.execute();
-      if(user?.roles[0] === 'operator'){
-        window.open(order.urlFile, '_blank');
-        this.updateOrder(order);
-      }
+    const user = await GetInfoUser.execute();
+    const isOperator = user?.roles[0] === 'operator';
+    if(isOperator && order.estado === 'Recibido' && this.machineSelected() === '0'){
+        alert('No puedes tomar un pedido sin asignar una máquina');
+        return;
+    }
+
+    if(isOperator && order.estado === 'Recibido' && this.machineSelected() !== '0'){
+      this.openFile(order.urlFile);
+      this.updateOrder(order);
+    }
+
+    if(!isOperator){
+      this.openFile(order.urlFile);
     }
   }
+
+  openFile(url: string){
+    window.open(url, '_blank');
+  }
+
+
 
   async updateOrder(order: OrderRowInterface) {
     if(order.estado === 'Recibido'){
@@ -205,6 +259,18 @@ export class OrdersComponent implements OnInit {
           console.log(response);
         }
       )
+    }
+  }
+
+  onActionClick(event: TableActionEvent<OrderRowInterface>): void {
+    // Ahora puedes manejar el evento tipado correctamente
+    switch(event.action) {
+      case 'edit':
+        // Manejar edición
+        break;
+      case 'delete':
+        // Manejar eliminación
+        break;
     }
   }
 

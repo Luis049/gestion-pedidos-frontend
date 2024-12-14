@@ -10,9 +10,9 @@
 
     <img src="assets/avatar.webp" alt="logo" />
 
-    <div class="info-user">
+    <div class="info-user" data-test-id="user-info">
       <span>{{user.username}}</span>
-      <span>{{user.roles[0]}}</span>
+      <span data-test-id="user-role">{{user.roles[0]}}</span>
     </div>
   </div>
 </div>

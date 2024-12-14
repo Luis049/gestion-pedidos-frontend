@@ -20,7 +20,14 @@ export class StoreTest {
     await inputUsernameStore.fill(username);
     await inputPasswordStore.fill(password);
 
+     // Interceptar la petición de creación
+     const responsePromise = this.page.waitForResponse(
+      response => response.url().includes('/stores')
+    );
+
     const btnSaveStore = this.page.locator('[data-test-id="btn-save-store"]');
     await btnSaveStore.click();
+
+    await responsePromise;
   }
 }

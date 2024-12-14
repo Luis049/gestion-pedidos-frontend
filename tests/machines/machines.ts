@@ -29,7 +29,9 @@ export class MachineTest {
 
     await inputNameMachine.fill(name);
     await inputColorMachine.click();
-    await inputColorMachine.locator(`[data-test-id="item-color-${color}"]`).click();
+
+    const item = this.page.locator(`[data-test-id="item-color-${color}"]`)
+    await item.click();
 
     const btnSaveMachine = this.page.locator(
       `[data-test-id="btn-save-machine"]`,

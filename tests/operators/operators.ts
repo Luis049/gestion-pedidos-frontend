@@ -6,6 +6,7 @@ export class OperatorTest {
   async createOperatorInStore(
     name: string,
     password: string,
+    color: string,
     nameStore: string,
   ) {
     // Buscamos la tarjeta con el nombre de la tienda
@@ -26,6 +27,16 @@ export class OperatorTest {
 
     await inputNameOperator.fill(name);
     await inputPasswordOperator.fill(password);
+
+    const inputColorOperator = this.page.locator(
+      `[data-test-id="input-color-operator"]`,
+    );
+
+    await inputColorOperator.click();
+
+    const item = this.page.locator(`[data-test-id="item-color-${color}"]`)
+    await item.click();
+
 
     const btnSaveOperator = this.page.locator(
       `[data-test-id="btn-save-operator"]`,

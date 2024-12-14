@@ -33,11 +33,13 @@ export class SwitchComponent {
   async logout() {
     const res = await GetInfoUser.execute();
     let isAdmin = false;
-    res?.roles.forEach((role) => {
-      if (['admin', 'super-admin'].includes(role)) {
-        isAdmin = true;
-      }
-    });
+    if(res?.roles){
+      res?.roles.forEach((role) => {
+        if (['admin', 'super-admin', 'attendant'].includes(role)) {
+          isAdmin = true;
+        }
+      });
+    }
     if(isAdmin){
       this.router.navigate(['/admin-login']);
     }else{

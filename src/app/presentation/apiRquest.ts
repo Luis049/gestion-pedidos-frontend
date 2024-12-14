@@ -13,6 +13,7 @@ export const {
   getInfoUser: GetInfoUser,
   getInfoCompany: GetInfoCompany,
   getToken: GetToken,
+  params: apiParams,
 } = ApiAplicacion.api({
   intanceApiGateway: new ApiPresentation(),
   intanceInfoUser: new InfoUserPresentation(),

@@ -1,45 +1,60 @@
-<sd-card class="grid gap-4">
-  <div class="columns-2 gap-4 mb-4">
-    <span class="font-semibold text-2xl"> Referencia: {{ order.ref }} </span>
-    <sd-tag
-      type="status"
-      [text]="order.estado"
-      [bgColor]="order.colorEstado"
-      [icon]="order.iconEstado"
-    />
-  </div>
-  <div class="grid gap-4">
-    <div class="">
-      <ng-icon name="lucideCalendar"></ng-icon>
-      <label class="font-semibold text-md ml-3">Turno:</label>
-      <span class="text-md ml-2">{{ order.turno }}</span>
-    </div>
-    <div class="">
-      <ng-icon name="lucideClock"></ng-icon>
-      <label class="font-semibold text-md ml-3">Fecha:</label>
-      <span class="text-md ml-2">{{
-        order.fecha | date : "d 'de' MMMM y, h:mm a"
-      }}</span>
-    </div>
-    <div class="columns-2 gap-4 mt-4 mb-4">
+<sd-card class="grid gap-2">
+  <div class="bg-white p-8">
+    <div class="columns-2 gap-4">
+      <span class="text-2xl font-semibold" [attr.data-test-id]="'order-ref-' + order.ref">Referencia: {{ order.ref }}</span>
       <sd-tag
-        type="machine"
-        [text]="order.maquina"
-        [bgColor]="order.colorMaquina"
-        icon="lucidePrinter"
-      />
-      <sd-tag
-        type="hexadecimal"
-        [text]="order.operador"
-        [bgColor]="order.colorBgOperador"
-        [textColor]="order.colorTextOperador"
-        icon="lucideUser"
+        type="status"
+        [text]="order.estado"
+        [bgColor]="order.colorEstado"
+        [icon]="order.iconEstado"
       />
     </div>
-  </div>
-  <div class="grid grid-cols-4 gap-4 mt-5">
-    <sd-button text="Detalles" type="outline" color="white" size="sm"></sd-button>
-    <sd-button text="Editar" type="solid" color="white" size="sm"></sd-button>
-    <sd-button text="Cancelar" type="solid" color="danger" size="sm" (click)="orderCancel.emit()"></sd-button>
+    <div class="grid gap-4">
+      <div class="">
+        <ng-icon name="lucideCalendar"></ng-icon>
+        <label class="text-md ml-3 font-semibold">Turno:</label>
+        <span class="text-md ml-2">{{ order.turno }}</span>
+      </div>
+      <div class="">
+        <ng-icon name="lucideClock"></ng-icon>
+        <label class="text-md ml-3 font-semibold">Fecha:</label>
+        <span class="text-md ml-2">{{
+          order.fecha | date: "d 'de' MMMM y, h:mm a"
+        }}</span>
+      </div>
+      <div class="mb-4 mt-4 columns-2 gap-4">
+        <sd-tag
+          type="machine"
+          [text]="order.maquina"
+          [bgColor]="order.colorMaquina"
+          icon="lucidePrinter"
+        />
+        <sd-tag
+          type="hexadecimal"
+          [text]="order.operador"
+          [bgColor]="order.colorBgOperador"
+          [textColor]="order.colorTextOperador"
+          icon="lucideUser"
+        />
+      </div>
+    </div>
+    <div class="mt-5 grid grid-cols-4 gap-4">
+      <button
+        class="btn btn-primary"
+      >
+    Detalles
+    </button>
+      <button
+        class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-500 disabled:opacity-75"
+      >
+        Editar
+      </button>
+      <button
+        (click)="orderCancel.emit()"
+        class="rounded-lg bg-red-500 px-4 py-2 text-sm text-white disabled:opacity-75"
+      >
+        Cancelar
+      </button>
+    </div>
   </div>
 </sd-card>

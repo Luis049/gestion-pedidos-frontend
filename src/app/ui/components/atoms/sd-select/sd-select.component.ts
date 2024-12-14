@@ -15,8 +15,9 @@ interface IItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SdSelectComponent {
-  @Input() itemSelected = '';
+  @Input() itemSelected:  string | null  = null;
   @Input() items: IItem[] = [];
+  @Input() dataTestId: string = '';
 
   @Output() itemSelectedChange = new EventEmitter<string>();
 

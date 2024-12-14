@@ -17,7 +17,7 @@ import { apiOrders, apiStores } from '../../../../../../presentation/apiRquest';
 import { SdInputComponent } from '../../../../../components/atoms/sd-input/sd-input.component';
 import { SdButtonComponent } from '../../../../../components/atoms/sd-button/sd-button.component';
 import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-select.component';
-import { SdFileUploadComponent } from "../../../../../components/molecules/file-upload/file-upload.component";
+import { FileInfo, SdFileUploadComponent } from "../../../../../components/molecules/file-upload/file-upload.component";
 
 @Component({
   selector: 'app-form-create-order',
@@ -28,7 +28,7 @@ import { SdFileUploadComponent } from "../../../../../components/molecules/file-
     SdInputComponent,
     SdButtonComponent,
     SdSelectComponent,
-    SdFileUploadComponent
+    SdFileUploadComponent,
 ],
   templateUrl: './form-create-order.component.html',
   styleUrl: './form-create-order.component.scss',
@@ -48,6 +48,9 @@ export class FormCreateOrderComponent implements OnInit {
     description: new FormControl<string>('', [Validators.required]),
     storeId: new FormControl<string>('', [Validators.required]),
     file: new FormControl<File | null>(null, [Validators.required]),
+    sizeInMB: new FormControl<number>(0, [Validators.required]),
+    widthCm: new FormControl<number>(0, [Validators.required]),
+    heightCm: new FormControl<number>(0, [Validators.required]),
   });
 
   changeStore(storeId: string) {
@@ -75,12 +78,14 @@ export class FormCreateOrderComponent implements OnInit {
   }
 
   async onSubmit() {
-    console.log(this.formOrder.value);
     if (this.formOrder.value.file !== null) {
       const res = await apiOrders.createOrder.execute({
         description: this.formOrder.value.description || '',
         storeId: this.formOrder.value.storeId || '',
         file: this.formOrder.value.file!,
+        sizeInMB: this.formOrder.value.sizeInMB || 0,
+        widthCm: this.formOrder.value.widthCm || 0,
+        heightCm: this.formOrder.value.heightCm || 0,
       });
       res.fold(
         (error) => {
@@ -94,10 +99,12 @@ export class FormCreateOrderComponent implements OnInit {
     }
   }
 
-  onImagePicked(fileList: FileList) {
-    const file = fileList?.item(0);
-    if (file !== null && file !== undefined) {
-      this.formOrder.patchValue({ file });
-    }
+  onImagePicked(fileInfo: FileInfo) {
+    this.formOrder.patchValue({
+      file: fileInfo.file,
+      sizeInMB: fileInfo.sizeInMB,
+      widthCm: fileInfo.dimensions?.widthCm || 0,
+      heightCm: fileInfo.dimensions?.heightCm || 0,
+    });
   }
 }

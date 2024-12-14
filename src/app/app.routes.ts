@@ -7,6 +7,8 @@ import { CompaniesComponent } from './ui/pages/private/companies/companies.compo
 import { StoresComponent } from './ui/pages/private/stores/stores.component';
 import { OrdersComponent } from './ui/pages/private/orders/orders.component';
 import { MyOrdersComponent } from './ui/pages/private/orders/my-orders/my-orders.component';
+import { OperatorsComponent } from './ui/pages/private/operators/operators.component';
+import { MachinesComponent } from './ui/pages/private/machines/machines.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +31,8 @@ export const routes: Routes = [
       { path: 'tiendas', component: StoresComponent },
       { path: 'pedidos', component: OrdersComponent },
       { path: 'mis-pedidos', component: MyOrdersComponent },
-      { path: 'operadores', component: OrdersComponent },
+      { path: 'operadores', component: OperatorsComponent },
+      { path: 'maquinas', component: MachinesComponent },
       { path: '**', redirectTo: '/home' }
     ]
   },

@@ -1,0 +1,126 @@
+
+<div class="w-full">
+  <!-- Search Bar -->
+  <div *ngIf="config().showSearch" class="mb-4">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearch()"
+      placeholder="Buscar..."
+      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+  <!-- Table -->
+  <div class="overflow-x-auto rounded-lg shadow">
+    <table [class]="'min-w-full table-auto ' + (config().customClass || '')">
+      <!-- Headers -->
+      <thead class="bg-gray-50">
+        <tr>
+          @for (column of config().columns; track column.field) {
+            <th
+              [style.width]="column.width"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer "
+              (click)="onSort(column)"
+            >
+              <div [ngClass]="'flex justify-' + column.align || 'left'">
+                <div>
+                  {{ column.header }}
+                </div>
+                @if (column.sortable) {
+                  <span class="ml-2">
+                    @if (sortColumn === column.field) {
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        @if (sortDirection === 'asc') {
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                        } @else {
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        }
+                      </svg>
+                    }
+                  </span>
+                }
+              </div>
+            </th>
+          }
+          @if (config().actions) {
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Acciones
+            </th>
+          }
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody class="bg-white divide-y divide-gray-200">
+        @for (item of paginatedData; track item) {
+          <tr class="hover:bg-gray-50">
+            <!-- En el td donde usas el template personalizado -->
+          <td *ngFor="let column of config().columns" class="px-6 py-4 whitespace-nowrap">
+            @if (!column.customTemplate) {
+              {{ column.format ? column.format(item[column.field]) : item[column.field] }}
+            } @else {
+              <ng-container
+                [ngTemplateOutlet]="getCustomTemplate(column.field)"
+                [ngTemplateOutletContext]="{ $implicit: item, item: item }"
+              ></ng-container>
+            }
+          </td>
+            @if (config().actions) {
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                @for (action of config().actions; track action.action) {
+                  @if (!action.showIf || action.showIf(item)) {
+                    <button
+                      (click)="onActionClick(action.action, item)"
+                      [class]="'ml-2 inline-flex items-center px-3 py-1 rounded-md text-sm ' + (action.color || 'text-blue-600 hover:text-blue-900')"
+                    >
+                      @if (action.icon) {
+                        <i [class]="action.icon + ' mr-1'"></i>
+                      }
+                      {{ action.label }}
+                    </button>
+                  }
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  @if (config().showPagination) {
+    <div class="flex items-center justify-between mt-4">
+      <div class="flex items-center">
+        <select
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange()"
+          class="border rounded-md px-2 py-1"
+        >
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+        </select>
+        <span class="ml-2">items por página</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+          class="px-3 py-1 rounded-md bg-gray-200 disabled:opacity-50"
+        >
+          Anterior
+        </button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+          class="px-3 py-1 rounded-md bg-gray-200 disabled:opacity-50"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
+  }
+</div>

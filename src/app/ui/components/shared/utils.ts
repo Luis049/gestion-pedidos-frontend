@@ -11,7 +11,7 @@ export const getClassColor = (color: string) => {
     case 'purple':
       return 'bg-purple-500';
     case 'rose':
-      return 'bg-rose-500';
+      return 'bg-rose-300';
     case 'indigo':
       return 'bg-indigo-500';
     case 'gray':
