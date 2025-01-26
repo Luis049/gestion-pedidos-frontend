@@ -11,7 +11,7 @@ export class ApiPresentation implements ApiGateway {
     Promise.resolve();
   }
 
-  async getToken(): Promise<string> {
-    return Promise.resolve(sessionStorage.getItem('token') || '');
+  async getToken(): Promise<string | null> {
+    return Promise.resolve(sessionStorage.getItem('token'));
   }
 }

@@ -40,6 +40,7 @@ export class SwitchComponent {
         }
       });
     }
+    sessionStorage.removeItem('token');
     if(isAdmin){
       this.router.navigate(['/admin-login']);
     }else{

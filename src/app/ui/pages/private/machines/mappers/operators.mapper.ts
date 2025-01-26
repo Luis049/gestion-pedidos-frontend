@@ -7,7 +7,7 @@ export class MachinesMapper {
       id: machine.id,
       name: machine.name,
       storeName: machine.store?.name || '',
-      color: machine.color,
+      color: machine.color || '',
     };
   }
 }

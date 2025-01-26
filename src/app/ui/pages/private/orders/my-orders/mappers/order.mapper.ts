@@ -96,6 +96,7 @@ export class OrderMapper {
       fecha: order.createdAt,
       client: order.client.username,
       nameFile: order.file.name,
+      nameStore: order.store.name,
       urlFile: order.file.url,
       estado: OrderMapper.getEstado(order.status),
       colorEstado: order.status,

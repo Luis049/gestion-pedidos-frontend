@@ -1,5 +1,5 @@
 import { TypeColors } from '../../../../../components/atoms/sd-circule-color/sd-circule-color.component';
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
 import { apiMachines, apiStores } from '../../../../../../presentation/apiRquest';
@@ -14,7 +14,7 @@ import { SdSelectComponent } from "../../../../../components/atoms/sd-select/sd-
   imports: [ReactiveFormsModule, SdButtonComponent, SdInputColorComponent, SdInputComponent, SdSelectComponent],
 })
 export class FormCreateMachineComponent implements OnInit {
-  @Input() storeId: string = '';
+  @Input() storeId = signal<string>('');
   machineForm: FormGroup;
   storesList = signal<{ label: string; value: string }[]>([]);
 
@@ -31,12 +31,12 @@ export class FormCreateMachineComponent implements OnInit {
       color: ['green', Validators.required],
       storedId: ['', Validators.required],
     });
+
+    effect(() => this.storeId() !== '' && this.machineForm.patchValue({ storedId: this.storeId() }) );
   }
   ngOnInit(): void {
-    if (this.storeId === '') {
+    if (this.storeId() === '') {
       this.getStores();
-    } else {
-      this.machineForm.patchValue({ storedId: this.storeId });
     }
   }
 
@@ -58,7 +58,7 @@ export class FormCreateMachineComponent implements OnInit {
         },
         (response) => {
           this.messageError.set(null);
-          this.machineForm.reset();
+          this.resetForm();
           this.machineCreated.emit();
           this.loading.set(false);
         }
@@ -67,9 +67,18 @@ export class FormCreateMachineComponent implements OnInit {
       this.messageError.set('El formulario es inválido');
     }
   }
+
+  resetForm(){
+    this.machineForm.patchValue({
+      machineName: '',
+      color: 'green',
+      storedId: '',
+    });
+  }
+
   cancel(){
     this.messageError.set(null);
-    this.machineForm.reset();
+    this.resetForm();
     this.machineCancel.emit();
   }
 

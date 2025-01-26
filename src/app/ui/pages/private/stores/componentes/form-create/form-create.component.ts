@@ -48,7 +48,11 @@ export class FormCreateStoreComponent  {
         (error) => {
           console.log(error)
           if(error.status === 400){
-            this.messageError.set(error.message[0]);
+            if(Array.isArray(error.message)){
+              this.messageError.set(error.message[0]);
+            }else{
+              this.messageError.set(error.message);
+            }
           }
         },
         (response) => {

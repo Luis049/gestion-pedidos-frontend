@@ -69,7 +69,7 @@ export class StoresComponent {
   @ViewChild('dialogAddMachine') dialogAddMachine!: DialogComponent;
   @ViewChild('dialogEditStore') dialogEditStore!: DialogComponent;
 
-  storeId: string = '';
+  storeId = signal('');
 
   storeEdit = signal<StoreModel | null>(null);
   reload = signal(false);
@@ -85,6 +85,7 @@ export class StoresComponent {
 
   async updateStore() {
     this.loading.set(true);
+    this.storeId.set('');
     const res = await apiStores.getStores.execute();
     res.fold(
       (error) => {
@@ -121,12 +122,12 @@ export class StoresComponent {
   }
 
   modalAddOperator(storeId: string) {
-    this.storeId = storeId;
+    this.storeId.set(storeId);
     this.dialogAddOperator.openDialog();
   }
 
   modalAddMaquina(storeId: string) {
-    this.storeId = storeId;
+    this.storeId.set(storeId);
     this.dialogAddMachine.openDialog();
   }
 

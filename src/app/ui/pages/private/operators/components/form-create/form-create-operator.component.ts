@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   EventEmitter,
   Input,
   OnInit,
@@ -56,17 +57,17 @@ export class FormCreateOperatorComponent implements OnInit {
       color: ['red', Validators.required],
       storedId: ['', Validators.required],
     });
+
+    effect(() => this.storeId() !== '' && this.operatorForm.patchValue({ storedId: this.storeId() }) );
   }
 
   ngOnInit(): void {
-    if (this.storeId === '') {
+    if (this.storeId() === '') {
       this.getStores();
-    } else {
-      this.operatorForm.patchValue({ storedId: this.storeId });
     }
   }
 
-  @Input() storeId: string = '';
+  @Input() storeId = signal('');
 
   async onSubmit() {
     if (this.operatorForm.valid) {
@@ -80,22 +81,32 @@ export class FormCreateOperatorComponent implements OnInit {
       response.fold(
         (error) => {
           if(error.status === 400){
-            this.messageError = error.message[0];
+            const message = Array.isArray(error.message) ? error.message[0] : error.message;
+            this.messageError = message;  
           }
           this.loading.set(false);
         },
         (response) => {
           this.operatorCreated.emit();
-          this.operatorForm.reset();
+          this.resetForm();
           this.loading.set(false);
         },
       );
     }
   }
 
+  resetForm(){
+    this.operatorForm.patchValue({
+      name: '',
+      password: '',
+      color: 'red',
+      storedId: '',
+    });
+  }
+
   cancel(){
     this.operatorCancel.emit();
-    this.operatorForm.reset();
+    this.resetForm();
   }
 
   async getStores() {

@@ -6,9 +6,9 @@ export class OperatorsMapper {
     return {
       id: operator.id,
       name: operator.name,
-      phone: operator.phone,
+      phone: operator.phone || '',
       storeName: operator.store?.name || '',
-      color: operator.color,
+      color: operator.color || ''
     };
   }
 }

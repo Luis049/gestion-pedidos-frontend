@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   EventEmitter,
   Input,
   OnInit,
@@ -36,25 +37,33 @@ import { StoreModel } from '../../../../../../core/domain/context/stores/models/
 })
 export class FormEditStoreComponent implements OnInit {
   storeForm!: FormGroup;
-  @Input() storeEdit!: StoreModel | null;
+  @Input() storeEdit = signal<StoreModel | null>(null);
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    effect(() => {
+      this.storeForm.patchValue({
+        id: this.storeEdit()?.id,
+        name: this.storeEdit()?.name,
+        address: this.storeEdit()?.address,
+        username: this.storeEdit()?.user.username,
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.storeForm = this.fb.group({
-      id: new FormControl(this.storeEdit?.id, [Validators.required]),
-      name: new FormControl(this.storeEdit?.name, [Validators.required]),
-      address: new FormControl(this.storeEdit?.address, [Validators.required]),
-      username: new FormControl(this.storeEdit?.user.username, [
+      id: new FormControl(this.storeEdit()?.id, [Validators.required]),
+      name: new FormControl(this.storeEdit()?.name, [Validators.required]),
+      address: new FormControl(this.storeEdit()?.address, [Validators.required]),
+      username: new FormControl(this.storeEdit()?.user.username, [
         Validators.required,
       ]),
       password: new FormControl(''),
     });
   }
 
-  @Output() storeCreated = new EventEmitter<void>();
+  @Output() storeEdited = new EventEmitter<void>();
   @Output() storeCancel = new EventEmitter<void>();
-  @Output() storeSaved = new EventEmitter<void>();
 
   messageError = signal<string | null>(null);
 
@@ -79,7 +88,7 @@ export class FormEditStoreComponent implements OnInit {
         (response) => {
           this.messageError.set(null);
           this.storeForm.reset();
-          this.storeSaved.emit();
+          this.storeEdited.emit();
         },
       );
     }

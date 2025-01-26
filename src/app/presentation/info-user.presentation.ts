@@ -5,7 +5,7 @@ export class InfoUserPresentation implements InfoUserGateway {
 
   getInfoUser(): Promise<UserModel> {
     const user = localStorage.getItem('user');
-    return Promise.resolve(JSON.parse(user || '{}'));
+    return Promise.resolve(JSON.parse(user || '{"a":1}'));
   }
 
   saveInfoUser(user: UserModel): Promise<void> {

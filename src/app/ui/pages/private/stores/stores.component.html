@@ -74,7 +74,7 @@
             <button
               class="card__footer__btn btn-add-operator"
               (click)="modalEditStore(store.id)"
-              attr.data-test-id="btn-add-machine-{{ store.name }}"
+              attr.data-test-id="btn-edit-machine-{{ store.name }}"
             >
               <ng-icon class="icon" name="lucideCross"></ng-icon>
               <span> Editar </span>
@@ -114,9 +114,9 @@
 <sd-dialog #dialogEditStore title="Editar tienda">
   @if (storeEdit()) {
     <app-form-edit-store
-      [storeEdit]="storeEdit()"
-      (storeCreated)="dialogEditStore.closeDialog(); updateStore()"
-      (storeCancel)="dialogEditStore.closeDialog()"
+      [storeEdit]="storeEdit"
+      (storeEdited)="dialogEditStore.closeDialog(); updateStore()"
+      (storeCancel)="dialogEditStore.closeDialog(); storeEdit.set(null)"
     ></app-form-edit-store>
   }
 </sd-dialog>

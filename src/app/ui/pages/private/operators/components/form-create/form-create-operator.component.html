@@ -9,7 +9,7 @@
   }
 
   <div [formGroup]="operatorForm" class="flex flex-col gap-4">
-    @if(storeId === ''){
+    @if(storeId() === ''){
       <div class="body__item" >
         <sd-select
           [items]="storesList()"

@@ -5,7 +5,7 @@
     </div>
   }
   <form [formGroup]="machineForm">
-    @if(storeId === ''){
+    @if(storeId() === ''){
       <div class="mb-4" >
         <sd-select
           [items]="storesList()"

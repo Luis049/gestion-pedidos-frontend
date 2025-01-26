@@ -38,6 +38,7 @@ export interface OrderRowInterface {
   operador: string;
   colorBgOperador: string;
   colorTextOperador: string;
+  nameStore: string;
 }
 
 
@@ -90,6 +91,7 @@ export class OrdersComponent implements OnInit {
       { header: 'Turno', field: 'turno', sortable: true },
       { header: 'Fecha', field: 'fecha', sortable: true,  format: (value) => value ? this.formatDatePipe.transform(value, `d 'de' MMMM y, h:mm a`) || '' : '' },
       { header: 'Cliente', field: 'client', sortable: true },
+      { header: 'Tienda', field: 'nameStore', sortable: true },
       { header: 'Archivo', field: 'nameFile', sortable: true, customTemplate: true, align: 'center' },
       { header: 'Máquina', field: 'maquina', sortable: true },
       { header: 'Operador', field: 'operador', sortable: true },

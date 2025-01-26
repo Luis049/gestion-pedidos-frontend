@@ -9,16 +9,19 @@ import { OrdersComponent } from './ui/pages/private/orders/orders.component';
 import { MyOrdersComponent } from './ui/pages/private/orders/my-orders/my-orders.component';
 import { OperatorsComponent } from './ui/pages/private/operators/operators.component';
 import { MachinesComponent } from './ui/pages/private/machines/machines.component';
+import { loggoutnGuardFunction } from './shared/guards/loggout.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [loggoutnGuardFunction],
     title: 'Iniciar sesión',
   },
   {
     path: 'admin-login',
     component: LoginComponent,
+    canActivate: [loggoutnGuardFunction],
     title: 'Iniciar sesión como administrador',
   },
   {

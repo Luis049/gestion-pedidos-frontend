@@ -1,24 +1,20 @@
 <div class="container">
-  <h1 class="text-4xl font-bold text-gray-600">Pedidos</h1>
+  <h1 class="text-4xl font-bold text-gray-600" data-test-id="title">Pedidos</h1>
 
   @if (orders().length === 0) {
-    <div class="flex items-center justify-center">
-      <div class="text-center">
-        <span class="text-gray-600">No hay ordenes para mostrar</span>
-      </div>
+  <div class="flex items-center justify-center">
+    <div class="text-center">
+      <span class="text-gray-600">No hay ordenes para mostrar</span>
     </div>
+  </div>
   } @else {
-    <sd-table
-      [data]="orders()"
-      [config]="tableConfig"
-      (actionClick)="onActionClick($event)"
-    >
-      <ng-template [sdCustomColumn]="'nameFile'" let-order>
-        <div class="text-center text-blue-400 hover:text-blue-900 cursor-pointer" (click)="downloadFile(order)">
-          <ng-icon name="tablerDownload" />
-        </div>
-      </ng-template>
-    </sd-table>
+  <sd-table [data]="orders()" [config]="tableConfig" (actionClick)="onActionClick($event)">
+    <ng-template [sdCustomColumn]="'nameFile'" let-order>
+      <div class="text-center text-blue-400 hover:text-blue-900 cursor-pointer" (click)="downloadFile(order)">
+        <ng-icon name="tablerDownload" />
+      </div>
+    </ng-template>
+  </sd-table>
   }
 
   <!-- <app-filters
