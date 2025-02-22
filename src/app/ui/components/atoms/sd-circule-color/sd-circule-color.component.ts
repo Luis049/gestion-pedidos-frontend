@@ -15,11 +15,6 @@ export type TypeColors = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'rose'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SdCirculeColorComponent {
-  @Input() color: TypeColors = 'red';
-
-
-  get getClass(){
-    return `${getClassColor(this.color)} rounded-full w-6 h-6`;
-  }
+  @Input() color = '';
 
  }

@@ -50,12 +50,14 @@ export class SdDropdownComponent implements AfterViewInit {
 
   loadColors() {
     const indexButtonSelected = this.listaItems.findIndex(
-      (item) => item.value === this.itemSelected
+      (item) => item.value === this.itemSelected,
     );
+
     const element = document.querySelector(
-      `.dropdown-${this.idUnique}`
+      `.dropdown-${this.idUnique}`,
     ) as HTMLElement;
     console.log(element);
+    console.log(indexButtonSelected);
     if (indexButtonSelected !== -1) {
       element.style.backgroundColor = this.listColors[indexButtonSelected];
     }

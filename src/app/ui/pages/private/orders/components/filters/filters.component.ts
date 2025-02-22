@@ -8,7 +8,7 @@ import { jamFilter } from '@ng-icons/jam-icons';
 import { tablerUTurnLeft } from "@ng-icons/tabler-icons";
 import { SdCheckboxComponent } from "../../../../../components/atoms/sd-checkbox/sd-checkbox.component";
 import { SdSelectComponent } from "../../../../../components/atoms/sd-select/sd-select.component";
-import { apiMachines } from '../../../../../../presentation/apiRquest';
+import { SdCardComponent } from "../../../../../components/atoms/sd-card/sd-card.component";
 @Component({
   selector: 'app-filters',
   standalone: true,
@@ -17,7 +17,8 @@ import { apiMachines } from '../../../../../../presentation/apiRquest';
     NgIcon,
     SdSearchFieldComponent,
     SdCheckboxComponent,
-    SdSelectComponent
+    SdSelectComponent,
+    SdCardComponent,
 ],
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.scss',
@@ -25,12 +26,24 @@ import { apiMachines } from '../../../../../../presentation/apiRquest';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersComponent {
+  @Output() storeSelectedChange = new EventEmitter<string>();
   @Output() machineSelectedChange = new EventEmitter<string>();
+  @Output() operatorSelectedChange = new EventEmitter<string>();
   @Output() statusSelectedChange = new EventEmitter<string>();
 
+  @Input() stores: { label: string; value: string }[] = []
+  @Input() showFilterStore = signal<boolean>(false);
+  @Input() storeSelected: string = '0';
+
   @Input() machines: { label: string; value: string }[] = [];
+  @Input() showFilterMachine = signal<boolean>(false);
   @Input() machineSelected: string = '0';
 
+  @Input() operators: { label: string; value: string }[] = [];
+  @Input() showFilterOperator = signal<boolean>(false);
+  @Input() operatorSelected: string = '0';
+
   @Input() status: { label: string; value: string }[] = []
+  @Input() showFilterStatus = signal<boolean>(false);
   @Input() statusSelected: string = 'all';
  }

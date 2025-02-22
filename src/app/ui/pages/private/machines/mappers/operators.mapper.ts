@@ -1,4 +1,4 @@
-import { MachineModel } from "../../../../../core/domain/context/machines/models/machines.model";
+import { MachineModel } from "../../../../../infrastructure/context/machines/models/machines.model";
 import { MachineUi } from "../models/machine.ui";
 
 export class MachinesMapper {
@@ -7,7 +7,10 @@ export class MachinesMapper {
       id: machine.id,
       name: machine.name,
       storeName: machine.store?.name || '',
-      color: machine.color || '',
+      color: {
+        hex: machine.color.primary,
+        name: machine.color.name,
+      },
     };
   }
 }

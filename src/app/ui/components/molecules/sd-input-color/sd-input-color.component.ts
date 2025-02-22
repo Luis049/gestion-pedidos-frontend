@@ -1,15 +1,15 @@
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { SdSelectComponent } from "../../atoms/sd-select/sd-select.component";
 import { TypeColors, SdCirculeColorComponent } from '../../atoms/sd-circule-color/sd-circule-color.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherChevronDown } from '@ng-icons/feather-icons';
+import { HttpService } from '@infrastructure/shared/http/http.service';
+import { ParamsService } from '@infrastructure/context/params/params.service';
+import { ColorModel } from '@infrastructure/context/params/models/colors.model';
+import { take } from 'rxjs';
 
-export interface IColors {
-  value: TypeColors;
-  label: string;
-}
 
 @Component({
   selector: 'sd-input-color',
@@ -22,33 +22,47 @@ export interface IColors {
     NgIcon
 ],
   templateUrl: './sd-input-color.component.html',
-  providers: [provideIcons({  featherChevronDown })],
+  providers: [provideIcons({  featherChevronDown }), HttpService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SdInputColorComponent {
-  @Output() colorSelectedChange = new EventEmitter<TypeColors>();
+  private readonly paramsService = inject(ParamsService);
+  @Output() colorSelectedChange = new EventEmitter<ColorModel>();
   @Input() dataTestId: string = '';
   open = false;
-  colorsItems: IColors[] = [
-    { value: 'red', label: 'Rojo' },
-    { value: 'blue', label: 'Azul' },
-    { value: 'green', label: 'Verde' },
-    { value: 'yellow', label: 'Amarillo' },
-    { value: 'purple', label: 'Púrpura' },
-    { value: 'rose', label: 'Rosa' },
-    { value: 'indigo', label: 'Indigo' },
-  ];
+  colorItemsModel = signal<ColorModel[]>([]);
 
-  @Input() colorSelected: TypeColors = 'red';
+  @Input() colorSelectedId = signal<string>('');
+  colorSelected = computed(() => this.colorItemsModel().find((item) => item.id === this.colorSelectedId()) ?? null);
 
-  onChange(color: TypeColors) {
-    this.colorSelected = color;
-    this.open = false;
-    this.colorSelectedChange.emit(color);
+  constructor() {
+    if(this.colorItemsModel().length === 0){
+      this.paramsService.getColors()
+      .pipe(take(1))
+      .subscribe((res) => {
+        res.fold(
+          (error) => {
+            console.log(error);
+          },
+          (response) => {
+            this.colorItemsModel.set(response);
+            if(this.colorSelectedId() === ''){
+              this.colorSelectedId.set(response[0].id);
+              this.colorSelectedChange.emit(response[0]);
+            }
+          },
+        );
+      });
+    }
   }
 
-  get getLabelSelected() {
-    return this.colorsItems.find((item) => item.value === this.colorSelected)?.label;
+  onChange(idColor: string) {
+    const color = this.colorItemsModel().find((item) => item.id === idColor) ?? null;
+    if(color){
+      this.colorSelectedId.set(color?.id ?? '');
+      this.open = false;
+      this.colorSelectedChange.emit(color);
+    }
   }
 
  }

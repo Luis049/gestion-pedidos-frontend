@@ -5,6 +5,7 @@ export class CompanyTest {
 
   async createCompany(name: string, password: string) {
     // Identificar el botón de menu de empresas y hacer clic en él
+    await this.page.locator('[data-test-id="menu-item-empresas"]').waitFor({ state: 'visible' });
     const menu = this.page.locator('[data-test-id="menu-item-empresas"]');
     await menu.click();
 

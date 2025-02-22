@@ -1,0 +1,68 @@
+<div class="mx-auto max-w-md bg-white">
+  @if (messageError()) {
+    <div
+      data-test-id="messageError"
+      class="mb-4 w-full rounded-lg bg-red-400 p-3 text-sm text-white transition-all"
+    >
+      {{ messageError() }}
+    </div>
+  }
+  <form [formGroup]="machineForm">
+    <div class="mb-4">
+      <sd-select
+        [items]="storesList()"
+        [itemSelected]="this.machineForm.value.storedId"
+        dataTestId="select-store-operator"
+        (itemSelectedChange)="this.machineForm.patchValue({ storedId: $event })"
+      >
+      </sd-select>
+    </div>
+
+    <div class="mb-4">
+      <sd-input
+        dataTestId="input-name-machine"
+        id="machineName"
+        type="text"
+        formName="machineName"
+        placeholder="Nombre"
+      ></sd-input>
+
+      @if (
+        machineForm.get("machineName")?.invalid &&
+        machineForm.get("machineName")?.touched
+      ) {
+        <div class="text-sm text-red-500">Este campo es obligatorio</div>
+      }
+    </div>
+
+    <div class="mb-4">
+      <sd-input-color
+        dataTestId="input-color-machine"
+        (colorSelectedChange)="setColorSelectedId($event.id)"
+        [colorSelectedId]="colorSelectedId"
+      ></sd-input-color>
+
+      @if (
+        machineForm.get("color")?.invalid && machineForm.get("color")?.touched
+      ) {
+        <div class="text-sm text-red-500">Este campo es obligatorio</div>
+      }
+    </div>
+
+    <div class="footter">
+      <sd-button
+        dataTestId="btn-cancel-machine"
+        (click)="cancel()"
+        text="Cancelar"
+        color="white"
+      ></sd-button>
+      <sd-button
+        dataTestId="btn-save-machine"
+        [disabled]="machineForm.invalid"
+        text="Guardar"
+        color="primary"
+        (click)="onSubmit()"
+      ></sd-button>
+    </div>
+  </form>
+</div>

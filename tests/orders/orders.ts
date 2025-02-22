@@ -61,4 +61,12 @@ export class OrderTest {
     const order = this.page.locator(`[data-test-id="order-ref-${ref}"]`);
     expect(order).toHaveText(`Referencia: ${ref}`);
   }
+
+  async makeOrder(ref: string){
+    if(!this.page.url().includes('dashboard/home')){
+      // Identificar el botón de menu de empresas y hacer clic en él
+      const menu = this.page.locator('[data-test-id="menu-item-pedidos"]');
+      await menu.click();
+    }
+  }
 }

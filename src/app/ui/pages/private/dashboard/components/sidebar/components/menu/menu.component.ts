@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { GetInfoUser } from '../../../../../../../../presentation/apiRquest';
-import { TypeRole } from '../../../../../../../../core/domain/info-user/models/user.model';
+import { TypeRole } from '@infrastructure/context/auth/models/login.response';
+import { StorageService } from '@infrastructure/shared/storage/storage.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   featherHome,
@@ -109,11 +109,10 @@ export class MenusComponent implements OnInit {
   ];
 
   validMenusRoles() {
-    GetInfoUser.execute().then((response) => {
-      this.menuItems = this.menuItems.filter((item) =>
-        item.roles.some((role) => response?.roles.includes(role))
-      );
-    });
+    const user = StorageService.getUser();
+    this.menuItems = this.menuItems.filter((item) =>
+      item.roles.some((role) => user?.roles.includes(role))
+    );
   }
 
   onMenuItemClick(clickedItem: MenuItem) {

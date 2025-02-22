@@ -1,24 +1,36 @@
-<div class="grid grid-cols-4 gap-4">
-  <div class="">
-    <sd-search-field placeholder="Buscar pedidos..." />
+@if (showFilterStore() || showFilterMachine() || showFilterStatus()) {
+  <div class="mb-3 grid grid-cols-4 gap-4 rounded-lg bg-fondo p-4">
+    <!-- <div class="">
+      <sd-search-field placeholder="Buscar pedidos..." />
+    </div> -->
+    <!-- <div class="flex items-center gap-4">
+        <sd-checkbox checked="true" id="checkbox-date-now"></sd-checkbox>
+        <label for="check-arrived"> Filtrar por fecha actual </label>
+      </div> -->
+
+    <sd-select
+      *ngIf="showFilterStore()"
+      itemSelected="all"
+      [items]="stores"
+      (itemSelectedChange)="storeSelectedChange.emit($event)"
+    />
+    <sd-select
+      *ngIf="showFilterStatus()"
+      itemSelected="all"
+      [items]="status"
+      (itemSelectedChange)="statusSelectedChange.emit($event)"
+    />
+    <sd-select
+      *ngIf="showFilterMachine()"
+      [itemSelected]="machineSelected"
+      [items]="machines"
+      (itemSelectedChange)="machineSelectedChange.emit($event)"
+    />
+    <sd-select
+      *ngIf="showFilterOperator()"
+      [itemSelected]="operatorSelected"
+      [items]="operators"
+      (itemSelectedChange)="operatorSelectedChange.emit($event)"
+    />
   </div>
-  <div class="flex items-center gap-4">
-    <sd-checkbox
-      checked="true"
-      id="checkbox-date-now"
-    ></sd-checkbox>
-    <label for="check-arrived">
-      Filtrar por fecha actual
-    </label>
-  </div>
-  <sd-select
-    itemSelected="all"
-    [items]="status"
-    (itemSelectedChange)="statusSelectedChange.emit($event)"
-  />
-  <sd-select
-    [itemSelected]="machineSelected"
-    [items]="machines"
-    (itemSelectedChange)="machineSelectedChange.emit($event)"
-  />
-</div>
+}

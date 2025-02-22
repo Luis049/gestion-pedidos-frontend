@@ -1,9 +1,22 @@
-
 // table.component.ts
-import { AfterContentInit, Component, ContentChildren, Directive, EventEmitter, Input, OnInit, Output, QueryList, TemplateRef, input, output } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  Directive,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  TemplateRef,
+  effect,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 
 // Interfaces
 export interface TableColumn<T> {
@@ -41,7 +54,7 @@ export interface TableActionEvent<T> {
 
 @Directive({
   selector: '[sdCustomColumn]', // Cambiamos el selector para que sea más específico
-  standalone: true
+  standalone: true,
 })
 export class CustomColumnDirective {
   @Input('sdCustomColumn') columnName!: string;
@@ -59,61 +72,56 @@ export class CustomColumnDirective {
   selector: 'sd-table',
   standalone: true,
   imports: [CommonModule, FormsModule, CustomColumnDirective],
-  templateUrl: './sd-table.component.html'
+  templateUrl: './sd-table.component.html',
 })
 export class SdTableComponent<T> implements OnInit, AfterContentInit {
-  data = input<T[]>([]);
+  @Input() data = signal<T[]>([]);
   config = input.required<TableConfig<T>>();
   actionClick = output<TableActionEvent<T>>();
 
   @ContentChildren(CustomColumnDirective)
   customTemplates!: QueryList<CustomColumnDirective>;
 
-
   // Pagination
   currentPage = 1;
   pageSize = 10;
-  searchTerm = '';
 
   // Sorting
   sortColumn?: keyof T;
   sortDirection: 'asc' | 'desc' = 'asc';
 
   // Filtered and paginated data
-  filteredData: T[] = [];
-  paginatedData: T[] = [];
+  filteredData = signal<T[]>([]);
+  paginatedData = signal<T[]>([]);
 
   private templateMap = new Map<string, TemplateRef<any>>();
 
+  constructor() {
+    effect(() => this.applyFilters(), { allowSignalWrites: true });
+  }
+
   ngOnInit() {
-    console.log('Table Component Init');
-    console.log('Config:', this.config());
     this.pageSize = this.config().pageSize || 10;
     this.applyFilters();
   }
 
   ngAfterContentInit() {
-    console.log('After Content Init - Templates:', this.customTemplates?.length);
     this.registerCustomTemplates();
 
     this.customTemplates?.changes.subscribe(() => {
-      console.log('Templates Changed');
       this.registerCustomTemplates();
     });
   }
 
   private registerCustomTemplates() {
     this.templateMap.clear();
-    console.log('Registering templates...');
-    this.customTemplates?.forEach(item => {
-      console.log('Found template for column:', item.columnName);
+    this.customTemplates?.forEach((item) => {
       this.templateMap.set(item.columnName, item.template);
     });
   }
 
   getCustomTemplate(field: keyof T): TemplateRef<any> | null {
     const template = this.templateMap.get(field as string);
-    console.log(`Getting template for ${field as string}:`, template ? 'found' : 'not found');
     return template || null;
   }
 
@@ -150,18 +158,8 @@ export class SdTableComponent<T> implements OnInit, AfterContentInit {
   }
 
   private applyFilters(): void {
+    console.log('applyFilters');
     let filtered = [...this.data()];
-
-    // Apply search
-    if (this.searchTerm) {
-      const searchLower = this.searchTerm.toLowerCase();
-      filtered = filtered.filter((item: any) =>
-        Object.values(item).some(value =>
-          String(value).toLowerCase().includes(searchLower)
-        )
-      );
-    }
-
     // Apply sort
     if (this.sortColumn) {
       filtered.sort((a, b) => {
@@ -172,14 +170,14 @@ export class SdTableComponent<T> implements OnInit, AfterContentInit {
       });
     }
 
-    this.filteredData = filtered;
+    this.filteredData.set(filtered);
     this.updatePaginatedData();
   }
 
   private updatePaginatedData(): void {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    this.paginatedData = this.filteredData.slice(start, end);
+    this.paginatedData.set(this.filteredData().slice(start, end));
   }
 
   get totalPages(): number {

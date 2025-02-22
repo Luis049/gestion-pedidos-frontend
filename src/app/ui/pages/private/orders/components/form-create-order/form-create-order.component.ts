@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   OnInit,
   Output,
   signal,
@@ -13,11 +14,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { apiOrders, apiStores } from '../../../../../../presentation/apiRquest';
 import { SdInputComponent } from '../../../../../components/atoms/sd-input/sd-input.component';
 import { SdButtonComponent } from '../../../../../components/atoms/sd-button/sd-button.component';
 import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-select.component';
 import { FileInfo, SdFileUploadComponent } from "../../../../../components/molecules/file-upload/file-upload.component";
+import { HttpModule } from '../../../../../../infrastructure/shared/http/http.module';
+import { OrdersService } from '../../../../../../infrastructure/context/orders/orders.service';
+import { StoresService } from '../../../../../../infrastructure/context/stores/stores.service';
+import { SelectMapper } from '../../../../utils/mappers/select';
 
 @Component({
   selector: 'app-form-create-order',
@@ -29,12 +33,17 @@ import { FileInfo, SdFileUploadComponent } from "../../../../../components/molec
     SdButtonComponent,
     SdSelectComponent,
     SdFileUploadComponent,
-],
+    HttpModule,
+  ],
   templateUrl: './form-create-order.component.html',
   styleUrl: './form-create-order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCreateOrderComponent implements OnInit {
+
+  private readonly ordersService = inject(OrdersService);
+  private readonly storesService = inject(StoresService);
+
   ngOnInit(): void {
     this.getStores();
   }
@@ -57,45 +66,46 @@ export class FormCreateOrderComponent implements OnInit {
     this.formOrder.patchValue({ storeId });
   }
 
-  async getStores() {
-    const res = await apiStores.listStores.execute();
-    res.fold(
-      (error) => {
-        console.log(error);
-      },
-      (response) => {
-        const stores = response.map((store) => {
-          return {
-            label: store.name,
-            value: store.id,
-          };
-        });
-        this.formOrder.patchValue({ storeId: stores[0].value });
-        this.storeSelected = stores[0].value;
-        this.storesList.set(stores);
+  getStores() {
+     this.storesService.listStores().subscribe({
+      next: (res) => {
+        res.fold(
+          (error) => {
+            console.log(error);
+          },
+          (response) => {
+            const stores = SelectMapper.mapSelectStore(response);
+            this.formOrder.patchValue({ storeId: stores[0].value });
+            this.storeSelected = stores[0].value;
+            this.storesList.set(stores);
+          }
+        )
       }
-    );
+    })
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (this.formOrder.value.file !== null) {
-      const res = await apiOrders.createOrder.execute({
+      this.ordersService.createOrder({
         description: this.formOrder.value.description || '',
         storeId: this.formOrder.value.storeId || '',
         file: this.formOrder.value.file!,
         sizeInMB: this.formOrder.value.sizeInMB || 0,
         widthCm: this.formOrder.value.widthCm || 0,
         heightCm: this.formOrder.value.heightCm || 0,
-      });
-      res.fold(
-        (error) => {
-          console.log(error);
-        },
-        (response) => {
-          this.orderCreated.emit();
-          this.formOrder.reset();
+      }).subscribe({
+        next: (res) => {
+          res.fold(
+            (error) => {
+              console.log(error);
+            },
+            (response) => {
+              this.orderCreated.emit();
+              this.formOrder.reset();
+            }
+          );
         }
-      );
+      })
     }
   }
 

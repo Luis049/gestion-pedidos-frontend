@@ -19,10 +19,12 @@
             <label class="mb-2 text-xl text-gray-600" for="username"
               >Usuario</label
             >
+            <!-- Detectar cuando se deje de hacer focus al input -->
             <input
               class="rounded-md border-2 border-gray-300 p-2"
               data-test-id="username"
               formControlName="username"
+              [value]="this.loginForm.get('username')?.value"
               type="text"
               (input)="onNameInput($event)"
               placeholder="Nombre de usuario"

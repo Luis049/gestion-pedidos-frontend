@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgpSelect } from 'ng-primitives/select';
 
-interface IItem {
+export interface IItem {
   label: string;
   value: string;
 }

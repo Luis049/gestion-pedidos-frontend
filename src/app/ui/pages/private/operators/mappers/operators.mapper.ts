@@ -1,4 +1,4 @@
-import { OperatorModel } from "../../../../../core/domain/context/operators/model/operator.model";
+import { OperatorModel } from "../../../../../infrastructure/context/operators/model/operator.model";
 import { OperatorUi } from "../models/operator.ui";
 
 export class OperatorsMapper {
@@ -8,7 +8,10 @@ export class OperatorsMapper {
       name: operator.name,
       phone: operator.phone || '',
       storeName: operator.store?.name || '',
-      color: operator.color || ''
+      color:  {
+        hex: operator.color.primary || '',
+        name: operator.color.name || '',
+      },
     };
   }
 }

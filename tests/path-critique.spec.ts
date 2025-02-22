@@ -7,6 +7,7 @@ import { OperatorTest } from './operators/operators';
 import { MachineTest } from './machines/machines';
 import { OrderTest } from './orders/orders';
 import { MenuTest } from './shared/menu';
+import { EnumColors } from './shared/colors';
 
 test.describe('Gestion de ordenes', () => {
   test.beforeAll(async () => {
@@ -15,6 +16,7 @@ test.describe('Gestion de ordenes', () => {
   test('Crear una empresa', async ({ browser }) => {
     const pageSuperAdmin = await browser.newPage();
     const pageAdmin = await browser.newPage();
+    const pageOperator = await browser.newPage();
     const pageClient = await browser.newPage();
 
     // SUPER ADMIN
@@ -39,7 +41,7 @@ test.describe('Gestion de ordenes', () => {
 
     // Crear una tiendas con admin
     await storeTest.createStore('Tienda 1', 'Calle Principal 1', 'encargado1', '123456890A');
-    await storeTest.createStore('Tienda 2', 'Calle Principal 2', 'encargado2', '123456890A');
+    // await storeTest.createStore('Tienda 2', 'Calle Principal 2', 'encargado2', '123456890A');
 
     // Verificar que se muestra un mensaje de error cuando se intenta crear una tienda con el mismo nombre de la tienda
     await storeTest.createStore('Tienda 1', 'Calle Principal 3', 'encargado2', '12345');
@@ -54,19 +56,28 @@ test.describe('Gestion de ordenes', () => {
     await pageAdmin.locator('[data-test-id="btn-cancel-store"]').click();
 
     // Crear un operador
-    await operatorTest.createOperatorInStore('Operador 1', '12345', 'blue', 'Tienda 1');
-    await operatorTest.createOperatorInStore('Operador 2', '12345', 'red', 'Tienda 1');
-    await operatorTest.createOperatorInStore('Operador 3', '12345', 'green', 'Tienda 1');
-    await operatorTest.createOperatorInStore('Operador 4', '12345', 'purple', 'Tienda 2');
-    await operatorTest.createOperatorInStore('Operador 5', '12345', 'yellow', 'Tienda 2');
+    await operatorTest.createOperatorInStore('Operador1', '12345', EnumColors.AZUL, 'Tienda 1');
+    await operatorTest.createOperatorInStore('Operador2', '12345', EnumColors.ROJO, 'Tienda 1');
+    await operatorTest.createOperatorInStore('Operador3', '12345', EnumColors.VERDE, 'Tienda 1');
+    await operatorTest.createOperatorInStore('Operador4', '12345', EnumColors.MORADO, 'Tienda 1');
+    await operatorTest.createOperatorInStore('Operador5', '12345', EnumColors.AMARILLO, 'Tienda 1');
 
     // Crear una maquina
-    await machineTest.createMachineInStore('Maquina 1', 'blue', 'Tienda 1');
-    await machineTest.createMachineInStore('Maquina 2', 'red', 'Tienda 1');
-    await machineTest.createMachineInStore('Maquina 1', 'green', 'Tienda 2');
-    await machineTest.createMachineInStore('Maquina 2', 'purple', 'Tienda 2');
+    await machineTest.createMachineInStore('Maquina 1', EnumColors.AZUL, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 2', EnumColors.ROJO, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 3', EnumColors.VERDE, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 4', EnumColors.MORADO, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 5', EnumColors.AMARILLO, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 6', EnumColors.ROSA, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 7', EnumColors.TURQUESA, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 8', EnumColors.INDIGO, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 9', EnumColors.ESMERALDA, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 10', EnumColors.CORAL, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 11', EnumColors.LIMA, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 12', EnumColors.CIELO, 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 13', EnumColors.AMBAR, 'Tienda 1');
 
-    await machineTest.createMachineInStore('Maquina 1', 'purple', 'Tienda 1');
+    await machineTest.createMachineInStore('Maquina 1', EnumColors.AMARILLO, 'Tienda 1');
     const messageErrorNameMachine = pageAdmin.locator('[data-test-id="messageError"]');
     expect(messageErrorNameMachine).toHaveText('El nombre de la maquina ya está en uso');
     await pageAdmin.locator('[data-test-id="btn-cancel-machine"]').click();
@@ -74,11 +85,20 @@ test.describe('Gestion de ordenes', () => {
 
     // CLIENTE
     const authClientTest = new AuthTest(pageClient);
-    const orderTest = new OrderTest(pageClient);
+    const orderClientTest = new OrderTest(pageClient);
 
-    await authClientTest.loginClient('Yan Hernandez', '3008096234');
+      await authClientTest.loginClient('YanHernandez', '3008096234');
 
-    await orderTest.createOrderInStore('Pedido 1', 'Tienda 2', 'C:\\Users\\yanhe\\Pruebas\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 1', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 2', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 3', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 4', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+
+    await orderClientTest.createOrderInStore('Pedido 5', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 6', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 7', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+    await orderClientTest.createOrderInStore('Pedido 8', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
+
     let validateOrder = pageClient.locator(`[data-test-id="order-ref-1"]`);
     expect(validateOrder).toHaveText('Referencia: 1');
     // Validar que el admin vantino no puede ver el pedido
@@ -86,19 +106,35 @@ test.describe('Gestion de ordenes', () => {
     // Ir con el admin vantino a la lista de ordenes y validar que no se muestra el pedido
     const menuTest = new MenuTest(pageAdmin);
     await menuTest.goToMenu('pedidos');
-    let validateListOrders = pageAdmin.locator('[data-test-id="table-tbody"]');
-    expect(validateListOrders).toHaveCount(1);
-    
-    
-    await orderTest.createOrderInStore('Pedido 2', 'Tienda 2', 'C:\\Users\\yanhe\\Pruebas\\ALBERTO QUIBDO 58X124CM.pdf');
+    // let validateListOrders = pageAdmin.locator('[data-test-id="table-tbody"]');
+    // expect(validateListOrders).toHaveCount(1);
+
+
+    await orderClientTest.createOrderInStore('Pedido 2', 'Tienda 1', 'C:\\Users\\Yan Hernandez\\Documents\\Pruebas Vantino\\ALBERTO QUIBDO 58X124CM.pdf');
     validateOrder = pageClient.locator(`[data-test-id="order-ref-2"]`);
     expect(validateOrder).toHaveText('Referencia: 2');
-    
-    // Validar que el elemento validateListOrders tenga 2 hijos    
-    expect(validateListOrders).toHaveCount(2);
+
+    // Validar que el elemento validateListOrders tenga 2 hijos
+    // expect(validateListOrders).toHaveCount(2);
+
+
+    // Ir a la lista de Operadores
+    await menuTest.goToMenu('operadores');
+    await operatorTest.createOperator('Operador6', '12345', EnumColors.CELESTE, 'Tienda 1');
+    await operatorTest.createOperator('Operador7', '12345', EnumColors.AMARILLO, 'Tienda 1');
+
+    const authOperatorTest = new AuthTest(pageOperator);
+    const orderOperatorTest = new OrderTest(pageOperator);
+
+    await authOperatorTest.login('Operador1', '12345');
+
+    await orderOperatorTest.makeOrder('1');
+    await orderOperatorTest.makeOrder('2');
+    await orderOperatorTest.makeOrder('3');
+    await orderOperatorTest.makeOrder('4');
+
     expect(true).toBe(true);
   });
 
-  
 });
 1

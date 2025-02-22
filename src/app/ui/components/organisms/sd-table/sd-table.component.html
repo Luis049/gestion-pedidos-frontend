@@ -1,7 +1,7 @@
 
 <div class="w-full">
   <!-- Search Bar -->
-  <div *ngIf="config().showSearch" class="mb-4">
+  <!-- <div *ngIf="config().showSearch" class="mb-4">
     <input
       type="text"
       [(ngModel)]="searchTerm"
@@ -9,7 +9,7 @@
       placeholder="Buscar..."
       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
-  </div>
+  </div> -->
   <!-- Table -->
   <div class="overflow-x-auto rounded-lg shadow">
     <table [class]="'min-w-full table-auto ' + (config().customClass || '')">
@@ -52,7 +52,7 @@
 
       <!-- Body -->
       <tbody class="bg-white divide-y divide-gray-200" data-test-id="table-tbody">
-        @for (item of paginatedData; track item) {
+        @for (item of paginatedData(); track item) {
           <tr class="hover:bg-gray-50">
             <!-- En el td donde usas el template personalizado -->
           <td *ngFor="let column of config().columns" class="px-6 py-4 whitespace-nowrap">

@@ -3,11 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   signal,
   ViewChild,
 } from '@angular/core';
-import { apiStores, GetToken } from '../../../../presentation/apiRquest';
-import { StoreModel } from '../../../../core/domain/context/stores/models/store.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { jamStore } from '@ng-icons/jam-icons';
 import {
@@ -29,6 +28,9 @@ import { FormCreateMachineComponent } from "../machines/components/form-create/f
 import { SdSpinnerComponent } from "../../../components/atoms/sd-spinner/sd-spinner.component";
 import { FormEditStoreComponent } from "./componentes/form-edit-store/form-edit-store.component";
 import { SdAlertComponent } from "../../../components/atoms/sd-alert/sd-alert.component";
+import { HttpModule } from '../../../../infrastructure/shared/http/http.module';
+import { StoresService } from '../../../../infrastructure/context/stores/stores.service';
+import { StoreModel } from '../../../../infrastructure/context/stores/models/store.model';
 
 @Component({
   selector: 'app-stores',
@@ -43,7 +45,8 @@ import { SdAlertComponent } from "../../../components/atoms/sd-alert/sd-alert.co
     FormCreateMachineComponent,
     SdSpinnerComponent,
     FormEditStoreComponent,
-    SdAlertComponent
+    SdAlertComponent,
+    HttpModule
 ],
   templateUrl: './stores.component.html',
   styleUrl: './stores.component.scss',
@@ -69,6 +72,8 @@ export class StoresComponent {
   @ViewChild('dialogAddMachine') dialogAddMachine!: DialogComponent;
   @ViewChild('dialogEditStore') dialogEditStore!: DialogComponent;
 
+  storesService = inject(StoresService);
+
   storeId = signal('');
 
   storeEdit = signal<StoreModel | null>(null);
@@ -86,35 +91,40 @@ export class StoresComponent {
   async updateStore() {
     this.loading.set(true);
     this.storeId.set('');
-    const res = await apiStores.getStores.execute();
-    res.fold(
-      (error) => {
-        if(error.status === 400){
-          this.messageError.set(error.message[0]);
-        }else{
-          this.messageError.set('Error al cargar los datos');
-          this.reload.set(true);
-        }
-        this.loading.set(false);
-      },
-      (response) => {
-        const stores = response.map((store) => {
-          return {
-            id: store.id,
-            name: store.name,
-            operatorsCount: store.operatorsCount,
-            machinesCount: store.machinesCount,
-            ordersCount: store.ordersCount,
-            address: store.address,
-            user: store.user,
-          };
-        });
-        this.reload.set(false);
-        this.stores.set(stores);
-        this.loading.set(false);
-        this.messageError.set(null);
+    this.storesService.getStores().subscribe({
+      next: (res) => {
+        res.fold(
+          (error) => {
+            if(error.status === 400){
+              this.messageError.set(error.message[0]);
+            }else{
+              this.messageError.set('Error al cargar los datos');
+              this.reload.set(true);
+            }
+            this.loading.set(false);
+          },
+          (response) => {
+            const stores = response.map((store) => {
+              return {
+                id: store.id,
+                name: store.name,
+                operatorsCount: store.operatorsCount,
+                machinesCount: store.machinesCount,
+                ordersCount: store.ordersCount,
+                address: store.address,
+                user: store.user,
+              };
+            });
+            this.reload.set(false);
+            this.stores.set(stores);
+            this.loading.set(false);
+            this.messageError.set(null);
+          }
+        );
+
       }
-    );
+    }
+    )
   }
 
   modalCreateStore() {

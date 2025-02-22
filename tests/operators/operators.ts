@@ -18,6 +18,31 @@ export class OperatorTest {
     );
     await btnAddOperator.click();
 
+    await this.fillFormOperator(name, password, color);
+
+    const btnSaveOperator = this.page.locator(
+      `[data-test-id="btn-save-operator"]`,
+    );
+    await btnSaveOperator.click();
+
+  }
+
+  async createOperator(name: string, password: string, color: string, nameStore: string) {
+    const btnAddOperator = this.page.locator(
+      `[data-test-id="btn-add-operator"]`,
+    );
+    await btnAddOperator.click();
+
+    await this.fillFormOperator(name, password, color, nameStore);
+
+    const btnSaveOperator = this.page.locator(
+      `[data-test-id="btn-save-operator"]`,
+    );
+    await btnSaveOperator.click();
+
+  }
+
+  private async fillFormOperator(name: string, password: string, color: string, nameStore?: string) {
     const inputNameOperator = this.page.locator(
       `[data-test-id="input-name-operator"]`,
     );
@@ -37,11 +62,11 @@ export class OperatorTest {
     const item = this.page.locator(`[data-test-id="item-color-${color}"]`)
     await item.click();
 
-
-    const btnSaveOperator = this.page.locator(
-      `[data-test-id="btn-save-operator"]`,
-    );
-    await btnSaveOperator.click();
+    if (nameStore) {
+     const selectFormOperator = this.page.locator('[data-test-id="select-form-operator"]');
+     await selectFormOperator.selectOption({ label: nameStore });
+    }
 
   }
 }
+

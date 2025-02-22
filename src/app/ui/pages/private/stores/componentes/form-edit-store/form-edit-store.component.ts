@@ -4,6 +4,7 @@ import {
   Component,
   effect,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -18,8 +19,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { apiStores } from '../../../../../../presentation/apiRquest';
-import { StoreModel } from '../../../../../../core/domain/context/stores/models/store.model';
+import { StoreModel } from '../../../../../../infrastructure/context/stores/models/store.model';
+import { HttpModule } from '../../../../../../infrastructure/shared/http/http.module';
+import { StoresService } from '../../../../../../infrastructure/context/stores/stores.service';
 
 @Component({
   selector: 'app-form-edit-store',
@@ -30,6 +32,7 @@ import { StoreModel } from '../../../../../../core/domain/context/stores/models/
 
     SdInputComponent,
     SdButtonComponent,
+    HttpModule
   ],
   templateUrl: './form-edit-store.component.html',
   styleUrl: './form-edit-store.component.scss',
@@ -38,6 +41,8 @@ import { StoreModel } from '../../../../../../core/domain/context/stores/models/
 export class FormEditStoreComponent implements OnInit {
   storeForm!: FormGroup;
   @Input() storeEdit = signal<StoreModel | null>(null);
+
+  storesService = inject(StoresService);
 
   constructor(private fb: FormBuilder) {
     effect(() => {
@@ -69,28 +74,31 @@ export class FormEditStoreComponent implements OnInit {
 
   async onSubmit() {
     if (this.storeForm.valid) {
-      const response = await apiStores.editStore.execute({
+      this.storesService.editStore({
         id: this.storeForm.value.id!,
         name: this.storeForm.value.name!,
         address: this.storeForm.value.address!,
         username: this.storeForm.value.username!,
         password: this.storeForm.value.password!,
-      });
-      response.fold(
-        (error) => {
-          if (error.status === 400) {
-            this.messageError.set(error.message[0]);
-          }
-          if(error.status === 404){
-            this.messageError.set('No se encontro la tienda');
-          }
-        },
-        (response) => {
-          this.messageError.set(null);
-          this.storeForm.reset();
-          this.storeEdited.emit();
-        },
-      );
+      }).subscribe({
+        next: (res)=> {
+          res.fold(
+            (error) => {
+              if (error.status === 400) {
+                this.messageError.set(error.message[0]);
+              }
+              if(error.status === 404){
+                this.messageError.set('No se encontro la tienda');
+              }
+            },
+            (response) => {
+              this.messageError.set(null);
+              this.storeForm.reset();
+              this.storeEdited.emit();
+            },
+          );
+        }
+      })
     }
   }
 

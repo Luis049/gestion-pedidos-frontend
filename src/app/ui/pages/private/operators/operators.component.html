@@ -1,22 +1,26 @@
 <div class="container mx-auto pt-4">
   <h1 class="my-5 w-fit text-4xl font-bold text-gray-600">Operadores</h1>
-  <div class="flex justify-end mb-5">
+  <div class="mb-5 flex justify-end">
     <sd-button
-        data-test-id="btn-add-store"
-        (click)="modalCreateOperator()"
-        text="Agregar operador"
-        color="primary"
-      ></sd-button>
+      dataTestId="btn-add-operator"
+      (click)="modalCreateOperator()"
+      text="Agregar operador"
+      color="primary"
+    ></sd-button>
   </div>
 
   @if (messageError() && !loading()) {
-    <sd-alert type="error" text="{{ messageError() }}" [reload]="reload()" (reloadClick)="updateOperator()"></sd-alert>
-  }
-  @else {
+    <sd-alert
+      type="error"
+      text="{{ messageError() }}"
+      [reload]="reload()"
+      (reloadClick)="updateOperator()"
+    ></sd-alert>
+  } @else {
     @if (loading()) {
       <div class="flex items-center justify-center">
         <div class="text-center">
-          <sd-spinner/>
+          <sd-spinner />
         </div>
       </div>
     } @else {
@@ -28,10 +32,20 @@
         </div>
       } @else {
         <sd-table
-          [data]="operators()"
+          [data]="operators"
           [config]="tableConfig"
           (actionClick)="onActionClick($event)"
         >
+        <ng-template [sdCustomColumn]="'color'" let-operator>
+          <div class="flex items-center gap-4">
+            <sd-circule-color
+              [color]="operator.color.hex"
+            />
+            <span class="text-sm text-gray-700">
+              {{ operator.color.name }}
+            </span>
+          </div>
+        </ng-template>
         </sd-table>
       }
     }
@@ -40,7 +54,15 @@
 
 <sd-dialog #dialogAddOperator title="Agregar operador">
   <app-form-create-operator
-  (operatorCreated)="dialogAddOperator.closeDialog(); updateOperator()"
-  (operatorCancel)="dialogAddOperator.closeDialog()"
+    (operatorCreated)="dialogAddOperator.closeDialog(); updateOperator()"
+    (operatorCancel)="dialogAddOperator.closeDialog()"
   ></app-form-create-operator>
+</sd-dialog>
+
+<sd-dialog #dialogEditOperator title="Editar operador">
+  <app-form-edit-operator
+    [operatorEdit]="operatorEdit"
+    (operatorUpdated)="dialogEditOperator.closeDialog(); updateOperator()"
+    (operatorCancel)="dialogEditOperator.closeDialog()"
+  ></app-form-edit-operator>
 </sd-dialog>

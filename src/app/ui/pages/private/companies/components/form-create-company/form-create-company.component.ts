@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
-import { apiCompanies } from '../../../../../../presentation/apiRquest';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
 import { SdInputComponent } from "../../../../../components/atoms/sd-input/sd-input.component";
+import { HttpModule } from '@infrastructure/shared/http/http.module';
+import { CompaniesService } from '@infrastructure/context/companies/companies.service';
 
 @Component({
   selector: 'app-form-create-company',
@@ -12,13 +13,18 @@ import { SdInputComponent } from "../../../../../components/atoms/sd-input/sd-in
     ReactiveFormsModule,
     CommonModule,
     SdButtonComponent,
-    SdInputComponent
+    SdInputComponent,
+
+    HttpModule
 ],
   templateUrl: './form-create-company.component.html',
   styleUrl: './form-create-company.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCreateCompanyComponent {
+
+  private readonly companiesService = inject(CompaniesService);
+
   @Output() companyCreated = new EventEmitter<void>();
   @Output() companyCancel = new EventEmitter<void>();
   errorMessage: string | null = null;
@@ -32,20 +38,21 @@ export class FormCreateCompanyComponent {
   }
 
   async onSubmit(){
-    const res = await apiCompanies.createCompanies.execute({
+    this.companiesService.createCompany({
       name: this.companyForm.value.name!,
       password: this.companyForm.value.password!,
-    });
-    res.fold(
-      (error) => {
-        if(error.status === 400){
-          this.errorMessage = error.message[0];
+    }).subscribe((res) => {
+      res.fold(
+        (error) => {
+          if(error.status === 400){
+            this.errorMessage = error.message[0];
+          }
+        },
+        (response) => {
+          this.companyCreated.emit();
         }
-      },
-      (response) => {
-        this.companyCreated.emit();
-      }
-    )
+      )
+    })
   }
 
 }

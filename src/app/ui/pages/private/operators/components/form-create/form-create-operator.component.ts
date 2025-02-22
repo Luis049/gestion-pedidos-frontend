@@ -4,6 +4,7 @@ import {
   Component,
   effect,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -18,12 +19,12 @@ import {
 } from '@angular/forms';
 import { SdInputComponent } from '../../../../../components/atoms/sd-input/sd-input.component';
 import { SdButtonComponent } from '../../../../../components/atoms/sd-button/sd-button.component';
-import {
-  apiOperators,
-  apiStores,
-} from '../../../../../../presentation/apiRquest';
 import { SdInputColorComponent } from '../../../../../components/molecules/sd-input-color/sd-input-color.component';
 import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-select.component';
+import { HttpModule } from '../../../../../../infrastructure/shared/http/http.module';
+import { OperatorsService } from '../../../../../../infrastructure/context/operators/operators.service';
+import { StoresService } from '../../../../../../infrastructure/context/stores/stores.service';
+import { SelectMapper } from '../../../../utils/mappers/select';
 
 @Component({
   selector: 'app-form-create-operator',
@@ -35,17 +36,24 @@ import { SdSelectComponent } from '../../../../../components/atoms/sd-select/sd-
     ReactiveFormsModule,
     SdInputColorComponent,
     SdSelectComponent,
+
+    HttpModule,
   ],
   templateUrl: './form-create-operator.component.html',
   styleUrl: './form-create-operator.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormCreateOperatorComponent implements OnInit {
+
+  private readonly operatorsService = inject(OperatorsService);
+  private readonly storesService = inject(StoresService);
+
   storesList = signal<{ label: string; value: string }[]>([]);
 
   messageError: string | null = null;
 
   loading = signal(false);
+  colorSelectedId = signal<string>('');
 
   @Output() operatorCreated = new EventEmitter<void>();
   @Output() operatorCancel = new EventEmitter<void>();
@@ -54,7 +62,7 @@ export class FormCreateOperatorComponent implements OnInit {
     this.operatorForm = this.fb.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
-      color: ['red', Validators.required],
+      color: ['', Validators.required],
       storedId: ['', Validators.required],
     });
 
@@ -72,26 +80,29 @@ export class FormCreateOperatorComponent implements OnInit {
   async onSubmit() {
     if (this.operatorForm.valid) {
       this.loading.set(true);
-      const response = await apiOperators.createOperator.execute({
+      this.operatorsService.createOperator({
         name: this.operatorForm.value.name!,
         phone: this.operatorForm.value.password!,
-        color: this.operatorForm.value.color!,
+        colorId: this.operatorForm.value.color!,
         storeId: this.operatorForm.value.storedId!,
+      }).subscribe({
+        next: (res) => {
+          res.fold(
+            (error) => {
+              if(error.status === 400){
+                const message = Array.isArray(error.message) ? error.message[0] : error.message;
+                this.messageError = message;
+              }
+              this.loading.set(false);
+            },
+            (response) => {
+              this.operatorCreated.emit();
+              this.resetForm();
+              this.loading.set(false);
+            },
+          );
+        },
       });
-      response.fold(
-        (error) => {
-          if(error.status === 400){
-            const message = Array.isArray(error.message) ? error.message[0] : error.message;
-            this.messageError = message;  
-          }
-          this.loading.set(false);
-        },
-        (response) => {
-          this.operatorCreated.emit();
-          this.resetForm();
-          this.loading.set(false);
-        },
-      );
     }
   }
 
@@ -110,23 +121,21 @@ export class FormCreateOperatorComponent implements OnInit {
   }
 
   async getStores() {
-    const res = await apiStores.listStores.execute();
-    res.fold(
-      (error) => {
-        console.log(error);
+    this.storesService.getStores().subscribe({
+      next: (res) => {
+        res.fold(
+          (error) => {
+            console.log(error);
       },
       (response) => {
-        const stores =[
-          { label: 'Seleccionar una tienda', value: '' },
-          ...response.map((store) => {
-            return {
-              label: store.name,
-              value: store.id,
-            };
-          }),
-        ]
+        const stores = SelectMapper.mapSelectStore(response);
         this.storesList.set(stores);
-      },
-    );
+      })
+    }})
+  }
+
+  setColorSelectedId(id: string){
+    this.colorSelectedId.set(id);
+    this.operatorForm.patchValue({ color: id });
   }
 }

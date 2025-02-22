@@ -1,19 +1,28 @@
 import { TypeColors } from '../../../../../components/atoms/sd-circule-color/sd-circule-color.component';
-import { Component, effect, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
-import { apiMachines, apiStores } from '../../../../../../presentation/apiRquest';
 import { SdInputColorComponent } from "../../../../../components/molecules/sd-input-color/sd-input-color.component";
 import { SdInputComponent } from "../../../../../components/atoms/sd-input/sd-input.component";
 import { SdSelectComponent } from "../../../../../components/atoms/sd-select/sd-select.component";
+import { HttpModule } from '../../../../../../infrastructure/shared/http/http.module';
+import { StoresService } from '../../../../../../infrastructure/context/stores/stores.service';
+import { MachinesService } from '../../../../../../infrastructure/context/machines/machines.service';
+import { SelectMapper } from '../../../../utils/mappers/select';
 
 @Component({
   selector: 'app-form-create-machine',
   templateUrl: './form-create-machine.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, SdButtonComponent, SdInputColorComponent, SdInputComponent, SdSelectComponent],
+  imports: [ReactiveFormsModule, SdButtonComponent, SdInputColorComponent, SdInputComponent, SdSelectComponent, HttpModule],
 })
 export class FormCreateMachineComponent implements OnInit {
+
+  private readonly machinesService = inject(MachinesService);
+  private readonly storesService = inject(StoresService);
+
+  colorSelectedId = signal<string>('');
+
   @Input() storeId = signal<string>('');
   machineForm: FormGroup;
   storesList = signal<{ label: string; value: string }[]>([]);
@@ -28,7 +37,7 @@ export class FormCreateMachineComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.machineForm = this.fb.group({
       machineName: ['', Validators.required],
-      color: ['green', Validators.required],
+      colorId: ['', Validators.required],
       storedId: ['', Validators.required],
     });
 
@@ -40,29 +49,35 @@ export class FormCreateMachineComponent implements OnInit {
     }
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (this.machineForm.valid) {
       this.loading.set(true);
-      const res = await apiMachines.createMachines.execute({
+      this.machinesService.createMachine({
         name: this.machineForm.value.machineName,
-        color: this.machineForm.value.color,
+        colorId: this.machineForm.value.colorId,
         storeId: this.machineForm.value.storedId,
-      });
-
-      res.fold(
-        (error) => {
-          if(error.status === 400){
-            this.messageError.set(error.message[0]);
-          }
-          this.loading.set(false);
-        },
-        (response) => {
-          this.messageError.set(null);
-          this.resetForm();
-          this.machineCreated.emit();
-          this.loading.set(false);
+      }).subscribe({
+        next: (res) => {
+          res.fold(
+            (error) => {
+              if(error.status === 400){
+                if(Array.isArray(error.message)){
+                  this.messageError.set(error.message[0]);
+                }else{
+                  this.messageError.set(error.message);
+                }
+              }
+              this.loading.set(false);
+            },
+            (response) => {
+              this.messageError.set(null);
+              this.resetForm();
+              this.machineCreated.emit();
+              this.loading.set(false);
+            }
+          );
         }
-      );
+      })
     } else {
       this.messageError.set('El formulario es inválido');
     }
@@ -82,25 +97,25 @@ export class FormCreateMachineComponent implements OnInit {
     this.machineCancel.emit();
   }
 
-  async getStores() {
-    const res = await apiStores.listStores.execute();
-    res.fold(
-      (error) => {
-        console.log(error);
-      },
-      (response) => {
-        const stores =[
-          { label: 'Seleccionar una tienda', value: '' },
-          ...response.map((store) => {
-            return {
-              label: store.name,
-              value: store.id,
-            };
-          }),
-        ]
-        this.storesList.set(stores);
-      },
-    );
+  getStores() {
+    this.storesService.getStores().subscribe({
+      next: (res) => {
+        res.fold(
+          (error) => {
+            console.log(error);
+          },
+          (response) => {
+            const stores = SelectMapper.mapSelectStore(response);
+            this.storesList.set(stores);
+          },
+        );
+      }
+    })
+  }
+
+  setColorSelectedId(id: string){
+    this.machineForm.patchValue({ colorId: id });
+    this.colorSelectedId.set(id);
   }
 
 }

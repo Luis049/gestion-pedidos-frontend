@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { SdCardComponent } from "../../../../../../components/atoms/sd-card/sd-card.component";
-import { OrderModel } from '../../../../../../../core/domain/context/orders/models/order.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCalendar, lucideClock, lucideUser } from '@ng-icons/lucide';
 import { SdTagComponent } from "../../../../../../components/atoms/sd-tag/sd-tag.component";
@@ -17,10 +16,11 @@ export interface OrderCardComponentInterface {
   colorTextEstado: string;
   iconEstado: string;
   maquina: string;
-  colorMaquina: string;
+  maquinaColorBg: string;
+  maquinaColorText: string;
   operador: string;
-  colorBgOperador: string;
-  colorTextOperador: string;
+  operadorColorBg: string;
+  operadorColorText: string;
 }
 
 @Component({

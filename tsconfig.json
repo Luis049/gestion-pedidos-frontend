@@ -24,7 +24,19 @@
       "dom"
     ],
     "allowJs": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@infrastructure/*": [
+        "src/app/infrastructure/*"
+      ],
+      "@domain/*": [
+        "src/app/domain/*"
+      ],
+      "@ui/*": [
+        "src/app/ui/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

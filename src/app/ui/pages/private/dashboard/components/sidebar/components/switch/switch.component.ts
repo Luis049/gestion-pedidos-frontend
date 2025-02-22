@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { tablerArrowBarToRight } from '@ng-icons/tabler-icons';
-import { GetInfoUser } from '../../../../../../../../presentation/apiRquest';
+import { StorageService } from '@infrastructure/shared/storage/storage.service';
 
 @Component({
   selector: 'app-switch',
@@ -31,10 +31,10 @@ export class SwitchComponent {
   }
 
   async logout() {
-    const res = await GetInfoUser.execute();
+    const user = StorageService.getUser();
     let isAdmin = false;
-    if(res?.roles){
-      res?.roles.forEach((role) => {
+    if(user?.roles){
+      user?.roles.forEach((role) => {
         if (['admin', 'super-admin', 'attendant'].includes(role)) {
           isAdmin = true;
         }

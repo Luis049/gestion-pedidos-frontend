@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { EnumColors } from "../shared/colors";
 
 export class MachineTest {
   constructor(
@@ -7,7 +8,7 @@ export class MachineTest {
 
   async createMachineInStore(
     name: string,
-    color: string,
+    color: EnumColors,
     nameStore: string,
   ) {
     // Buscamos la tarjeta con el nombre de la tienda

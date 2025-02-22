@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ITokens, TOKENS_JSON } from './styles';
-import { GetInfoCompany } from "../app/presentation/apiRquest";
+import { StorageService } from '@infrastructure/shared/storage/storage.service';
 
 
 @Injectable({
@@ -9,16 +9,16 @@ import { GetInfoCompany } from "../app/presentation/apiRquest";
 export class UiPreferencesService {
 
   loadUserPreferences() {
-    GetInfoCompany.execute().then((response) => {
-      const tokens = { ...TOKENS_JSON };
-      if(response?.preferences.colorPrimary){
-        tokens.color.primary = response?.preferences.colorPrimary;
-      }
-      if(response?.preferences.colorSecondary){
-        tokens.color.secondary = response?.preferences.colorSecondary;
-      }
-      this.applyUserPreferences(tokens);
-    });
+    const company = StorageService.getCompany();
+    const tokens = { ...TOKENS_JSON };
+    if(company?.preferences?.colorPrimary){
+      tokens.color.primary = company?.preferences.colorPrimary;
+    }
+    if(company?.preferences?.colorSecondary){
+      tokens.color.secondary = company?.preferences.colorSecondary;
+    }
+    this.applyUserPreferences(tokens);
+
   }
 
   applyUserPreferences(token: ITokens) {

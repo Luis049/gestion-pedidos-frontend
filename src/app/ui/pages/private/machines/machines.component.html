@@ -23,7 +23,7 @@
       </div>
     }
     @else {
-      @if (machines().length === 0) {
+      @if (machinesTable().length === 0) {
         <div class="flex items-center justify-center">
           <div class="text-center">
             <span class="text-gray-600">No hay maquinas registradas</span>
@@ -31,15 +31,20 @@
         </div>
       } @else {
         <sd-table
-          [data]="machines()"
+          [data]="machinesTable"
           [config]="tableConfig"
           (actionClick)="onActionClick($event)"
         >
-          <!-- <ng-template [sdCustomColumn]="'status'" let-user>
-            <span [class]="getStatusClass(user.status)">
-              {{ user.status }}
-            </span>
-          </ng-template> -->
+          <ng-template [sdCustomColumn]="'color'" let-machine>
+            <div class="flex items-center gap-4">
+              <sd-circule-color
+                [color]="machine.color.hex"
+              />
+              <span class="text-sm text-gray-700">
+                {{ machine.color.name }}
+              </span>
+            </div>
+          </ng-template>
         </sd-table>
       }
     }
@@ -54,5 +59,10 @@
   ></app-form-create-machine>
 </sd-dialog>
 
-
-
+<sd-dialog #dialogEditMachine title="Editar maquina">
+  <app-form-edit-machine
+  [machineEdit]="machineEdit"
+  (machineUpdated)="dialogEditMachine.closeDialog(); updateMachines()"
+  (machineCancel)="dialogEditMachine.closeDialog()"
+  ></app-form-edit-machine>
+</sd-dialog>

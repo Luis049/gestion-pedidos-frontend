@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Output,
   signal,
 } from '@angular/core';
@@ -15,14 +16,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { apiLogin } from '../../../../../../presentation/apiRquest';
 import { UiPreferencesService } from '../../../../../../ui-preferences.service';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../../../../infrastructure/context/auth/login.service';
+import { HttpModule } from '../../../../../../infrastructure/shared/http/http.module';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-form-login',
   standalone: true,
-  imports: [CommonModule, SdCardComponent, TitleComponent, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    SdCardComponent,
+    TitleComponent,
+    ReactiveFormsModule,
+    HttpModule,
+  ],
+  providers: [LoginService],
   templateUrl: './form-login.component.html',
   styleUrl: './form-login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,14 +42,15 @@ export class FormLoginComponent {
   loginForm: FormGroup;
   loading = signal(false);
 
-  constructor(
-    private uiPreferences: UiPreferencesService,
-    private router: Router,
-    private changeDetectorRef: ChangeDetectorRef,
-    private fb: FormBuilder,
-  ) {
+  loginService = inject(LoginService);
+  uiPreferences = inject(UiPreferencesService);
+  router = inject(Router);
+  changeDetectorRef = inject(ChangeDetectorRef);
+  fb = inject(FormBuilder);
+
+  constructor() {
     this.loginForm = this.fb.group({
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required] ),
       password: new FormControl('', [
         Validators.required,
         ...(!this.isAdmin
@@ -65,48 +76,60 @@ export class FormLoginComponent {
     }
   }
 
-  async loginAdmin() {
+  loginAdmin() {
     this.loading.set(true);
-    const result = await apiLogin.loginAdmin.execute({
-      username: this.loginForm.value.username.toLowerCase().trim() || '',
-      password: this.loginForm.value.password || '',
-    });
 
-    result.fold(
-      (error) => {
-        this.credentialsInvalid = true;
-        this.changeDetectorRef.detectChanges();
-        this.loading.set(false);
-      },
-      (response) => {
-        this.credentialsInvalid = false;
-        this.uiPreferences.loadUserPreferences();
-        this.router.navigate(['/dashboard']);
-        this.loading.set(false);
-      },
-    );
+    this.loginService
+      .loginAdmin({
+        username: this.loginForm.value.username.toLowerCase().trim() || '',
+        password: this.loginForm.value.password || '',
+      })
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          result.fold(
+            (error) => {
+              this.credentialsInvalid = true;
+              this.changeDetectorRef.detectChanges();
+              this.loading.set(false);
+            },
+            (response) => {
+              console.log('login admin 1', new Date().getTime());
+              this.credentialsInvalid = false;
+              this.uiPreferences.loadUserPreferences();
+              console.log('login admin 2', new Date().getTime());
+              this.router.navigate(['/dashboard']);
+              this.loading.set(false);
+            },
+          );
+        },
+      });
   }
 
   async loginClient() {
     this.loading.set(true);
-    const result = await apiLogin.loginClient.execute({
-      username: this.loginForm.value.username.toLowerCase().trim() || '',
-      password: this.loginForm.value.password || '',
-    });
-
-    result.fold(
-      (error) => {
-        this.credentialsInvalid = true;
-        this.changeDetectorRef.detectChanges();
-        this.loading.set(false);
-      },
-      (response) => {
-        this.credentialsInvalid = false;
-        this.uiPreferences.loadUserPreferences();
-        this.router.navigate(['/dashboard']);
-        this.loading.set(false);
-      },
-    );
+    this.loginService
+      .loginClient({
+        username: this.loginForm.value.username.toLowerCase().trim() || '',
+        password: this.loginForm.value.password || '',
+      })
+      .subscribe({
+        next: (result) => {
+          result.fold(
+            (error) => {
+              this.credentialsInvalid = true;
+              this.changeDetectorRef.detectChanges();
+              this.loading.set(false);
+            },
+            (response) => {
+              this.credentialsInvalid = false;
+              this.uiPreferences.loadUserPreferences();
+              this.router.navigate(['/dashboard']);
+              this.loading.set(false);
+            },
+          );
+        },
+      });
   }
 
   get getErrorUsername() {
@@ -156,7 +179,8 @@ export class FormLoginComponent {
   onNameInput(event: Event): void {
     const input = event as InputEvent;
     const element = input.target as HTMLInputElement;
-    this.loginForm.get('username')?.setValue(element.value);
+    const trimmedValue = element.value.replace(/\s+/g, '');
+    this.loginForm.get('username')?.setValue(trimmedValue);
   }
 
   phoneNumber: string = '';
@@ -183,7 +207,10 @@ export class FormLoginComponent {
       if (limitedDigits.length > 0) {
         const parts = limitedDigits.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
         if (parts) {
-          formattedNumber = parts.slice(1).filter(part => part).join('-');
+          formattedNumber = parts
+            .slice(1)
+            .filter((part) => part)
+            .join('-');
         }
       }
 

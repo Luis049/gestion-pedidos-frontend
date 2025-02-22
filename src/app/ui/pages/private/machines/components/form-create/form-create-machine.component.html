@@ -35,8 +35,8 @@
     <div class="mb-4">
       <sd-input-color
         dataTestId="input-color-machine"
-        (colorSelectedChange)="machineForm.patchValue({ color: $event })"
-        [colorSelected]="machineForm.get('color')?.value"
+        (colorSelectedChange)="setColorSelectedId($event.id)"
+        [colorSelectedId]="colorSelectedId"
       ></sd-input-color>
 
       @if(machineForm.get('color')?.invalid &&

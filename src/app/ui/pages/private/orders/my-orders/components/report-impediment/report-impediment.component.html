@@ -1,0 +1,12 @@
+<div class="">
+  <form [formGroup]="form">
+    <sd-text-area formName="description" placeholder="Descripción" />
+    <sd-button
+      text="Enviar"
+      color="primary"
+      type="solid"
+      (click)="onSubmit()"
+      size="md"
+    />
+  </form>
+</div>

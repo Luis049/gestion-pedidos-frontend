@@ -24,16 +24,17 @@
       </div>
       <div class="mb-4 mt-4 columns-2 gap-4">
         <sd-tag
-          type="machine"
+          type="hexadecimal"
           [text]="order.maquina"
-          [bgColor]="order.colorMaquina"
+          [bgColor]="order.maquinaColorBg"
+          [textColor]="order.maquinaColorText"
           icon="lucidePrinter"
         />
         <sd-tag
           type="hexadecimal"
           [text]="order.operador"
-          [bgColor]="order.colorBgOperador"
-          [textColor]="order.colorTextOperador"
+          [bgColor]="order.operadorColorBg"
+          [textColor]="order.operadorColorText"
           icon="lucideUser"
         />
       </div>

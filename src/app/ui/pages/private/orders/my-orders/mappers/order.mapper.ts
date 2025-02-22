@@ -1,4 +1,5 @@
-import { OrderModel } from "../../../../../../core/domain/context/orders/models/order.model";
+import { machines } from './../../data/machines.data';
+import { OrderModel } from "../../../../../../infrastructure/context/orders/models/order.model";
 import { OrderRowInterface } from "../../orders.component";
 import { OrderCardComponentInterface } from "../components/order-card/order-card.component";
 
@@ -59,39 +60,40 @@ export class OrderMapper {
       colorTextEstado: OrderMapper.getColorTextEstado(order.status),
       iconEstado: OrderMapper.getIconEstado(order.status),
       maquina: order.machine?.name || 'Sin asignar',
-      colorMaquina: order.machine?.color || 'gray',
+      maquinaColorBg: order.machine?.color.primary || '#FAFAFA',
+      maquinaColorText: order.machine?.color.secondary || '#212121',
       operador: operador,
-      colorBgOperador: colorBgOperador,
-      colorTextOperador: colorTextOperador,
+      operadorColorBg: order.operator?.color.primary || '#FAFAFA',
+      operadorColorText: order.operator?.color.secondary || '#212121',
     };
   }
 
   static toOrderRow(order: OrderModel): OrderRowInterface {
     // Asignar colores al operador
-    let operador = order.operator?.name;
-    let colorBgOperador: string;
-    let colorTextOperador: string;
+    // let operador = order.operator?.name;
+    // let colorBgOperador: string;
+    // let colorTextOperador: string;
 
-    if (!operador) {
-      operador = 'Sin asignar';
-      colorBgOperador = '#9ca3af'; // Gris claro
-      colorTextOperador = '#fff'; // Gris oscuro
-    } else {
-      if (!OrderMapper.coloresOperador[operador]) {
-        // Genera un nuevo color para el operador
-        colorBgOperador = OrderMapper.generarColor(OrderMapper.indiceColorOperador);
-        colorTextOperador = OrderMapper.obtenerColorTextoAdecuado(colorBgOperador);
-        OrderMapper.coloresOperador[operador] = { colorBgOperador, colorTextOperador };
-        OrderMapper.indiceColorOperador++;
-      } else {
-        colorBgOperador = OrderMapper.coloresOperador[operador].colorBgOperador;
-        colorTextOperador = OrderMapper.coloresOperador[operador].colorTextOperador;
-      }
-    }
+    // if (!operador) {
+    //   operador = 'Sin asignar';
+    //   colorBgOperador = '#9ca3af'; // Gris claro
+    //   colorTextOperador = '#fff'; // Gris oscuro
+    // } else {
+    //   if (!OrderMapper.coloresOperador[operador]) {
+    //     // Genera un nuevo color para el operador
+    //     colorBgOperador = OrderMapper.generarColor(OrderMapper.indiceColorOperador);
+    //     colorTextOperador = OrderMapper.obtenerColorTextoAdecuado(colorBgOperador);
+    //     OrderMapper.coloresOperador[operador] = { colorBgOperador, colorTextOperador };
+    //     OrderMapper.indiceColorOperador++;
+    //   } else {
+    //     colorBgOperador = OrderMapper.coloresOperador[operador].colorBgOperador;
+    //     colorTextOperador = OrderMapper.coloresOperador[operador].colorTextOperador;
+    //   }
+    // }
 
     return {
       id: order.id,
-      ref: order.ref,
+      ref: `#${order.ref}`,
       turno: order.shiftDay,
       fecha: order.createdAt,
       client: order.client.username,
@@ -103,11 +105,11 @@ export class OrderMapper {
       colorTextEstado: OrderMapper.getColorTextEstado(order.status),
       iconEstado: OrderMapper.getIconEstado(order.status),
       maquina: order.machine?.name || 'Sin asignar',
-      colorBgMaquina: order.machine?.color || 'gray',
-      colorTextMaquina: order.machine?.color || 'status-text-archived',
-      operador: operador,
-      colorBgOperador: colorBgOperador,
-      colorTextOperador: colorTextOperador,
+      maquinaColorBg: order.machine?.color.primary || '#FAFAFA',
+      maquinaColorText: order.machine?.color.secondary || '#212121',
+      operador: order.operator?.name || 'Sin asignar',
+      operadorColorBg: order.operator?.color.primary || '#FAFAFA',
+      operadorColorText: order.operator?.color.secondary || '#212121',
     };
   }
 

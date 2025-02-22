@@ -3,5 +3,10 @@ export interface OperatorUi {
   name: string;
   phone: string;
   storeName: string;
-  color: string;
+  color: ColorUi;
+}
+
+export interface ColorUi {
+  hex: string;
+  name: string;
 }

@@ -1,0 +1,25 @@
+<div class="relative inline-block">
+  <button
+    (click)="toggleMenu()"
+    class="cursor-pointer border-none bg-transparent p-2 text-lg"
+  >
+    ⋮
+  </button>
+
+  @if (isOpen) {
+    <ul
+      class="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-300 bg-white shadow-lg"
+    >
+      @for (item of items; track item.label) {
+        <li
+          (click)="isOpen = false; item.action(item.event)"
+          class="flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100"
+          [ngClass]="{'pointer-events-none opacity-30': item.disabled}"
+          [attr.disabled]="item.disabled ? '' : null"
+        >
+          <ng-icon [name]="item.icon"></ng-icon> {{ item.label }}
+        </li>
+      }
+    </ul>
+  }
+</div>

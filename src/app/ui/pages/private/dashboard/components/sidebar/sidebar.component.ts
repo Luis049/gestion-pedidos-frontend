@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from './components/Logo/Logo.component';
-import { GetInfoCompany, GetInfoUser } from '../../../../../../presentation/apiRquest';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MenusComponent } from './components/menu/menu.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { StorageService } from '../../../../../../infrastructure/shared/storage/storage.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,12 +32,11 @@ export class SidebarComponent implements OnInit {
   }
 
   async loadUser() {
-    GetInfoCompany.execute().then((response) => {
-      this.company.name = response?.name || '';
-    });
-    GetInfoUser.execute().then((response) => {
-      this.user.name = response?.username || '';
-    });
+    const company = StorageService.getCompany();
+    this.company.name = company?.name || '';
+
+    const user = StorageService.getUser();
+    this.user.name = user?.username || '';
   }
 
   ngOnInit(): void {}

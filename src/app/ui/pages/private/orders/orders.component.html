@@ -1,20 +1,78 @@
 <div class="container">
   <h1 class="text-4xl font-bold text-gray-600" data-test-id="title">Pedidos</h1>
 
-  @if (orders().length === 0) {
-  <div class="flex items-center justify-center">
-    <div class="text-center">
-      <span class="text-gray-600">No hay ordenes para mostrar</span>
-    </div>
-  </div>
-  } @else {
-  <sd-table [data]="orders()" [config]="tableConfig" (actionClick)="onActionClick($event)">
-    <ng-template [sdCustomColumn]="'nameFile'" let-order>
-      <div class="text-center text-blue-400 hover:text-blue-900 cursor-pointer" (click)="downloadFile(order)">
-        <ng-icon name="tablerDownload" />
+  @if (orders().length === 0 && ordersModel().length === 0) {
+    <div class="flex items-center justify-center">
+      <div class="text-center">
+        <span class="text-gray-600">No hay ordenes para mostrar</span>
       </div>
-    </ng-template>
-  </sd-table>
+    </div>
+  } @else {
+    <app-filters
+      [showFilterStore]="showFilterStore"
+      [stores]="stores()"
+      [storeSelected]="storeSelected()"
+      (storeSelectedChange)="setStoreFilter($event)"
+      [showFilterMachine]="showFilterMachine"
+      [machines]="machines()"
+      [machineSelected]="machineSelected()"
+      (machineSelectedChange)="setMachineFilter($event)"
+      [showFilterOperator]="showFilterOperator"
+      [operators]="operators()"
+      [operatorSelected]="operatorSelected()"
+      (operatorSelectedChange)="setOperatorFilter($event)"
+      [showFilterStatus]="showFilterStatus"
+      [status]="status()"
+      [statusSelected]="statusSelected()"
+      (statusSelectedChange)="statusSelected.set($event)"
+    />
+    <sd-table
+      [data]="orders"
+      [config]="tableConfig"
+      (actionClick)="onActionClick($event)"
+    >
+      <ng-template [sdCustomColumn]="'nameFile'" let-order>
+        <div
+          class="cursor-pointer text-center text-blue-400 hover:text-blue-900"
+          (click)="downloadFileDiaglog(order)"
+        >
+          <ng-icon name="tablerDownload" />
+        </div>
+      </ng-template>
+      <ng-template [sdCustomColumn]="'maquina'" let-order>
+        <sd-tag
+          type="hexadecimal"
+          [text]="order.maquina"
+          [bgColor]="order.maquinaColorBg"
+          [textColor]="order.maquinaColorText"
+          icon="lucidePrinter"
+        />
+      </ng-template>
+      <ng-template [sdCustomColumn]="'operador'" let-order>
+        <sd-tag
+          type="hexadecimal"
+          [text]="order.operador"
+          [bgColor]="order.operadorColorBg"
+          [textColor]="order.operadorColorText"
+          icon="lucideUser"
+        />
+      </ng-template>
+      <ng-template [sdCustomColumn]="'estado'" let-order>
+        <sd-tag
+          type="status"
+          [text]="order.estado"
+          [bgColor]="order.colorEstado"
+          [icon]="order.iconEstado"
+          class="cursor-pointer"
+          (dblclick)="nextState(order)"
+        />
+      </ng-template>
+      <ng-template [sdCustomColumn]="'options'" let-order>
+          <sd-dropdown-menu
+            [items]="optiones(order)"
+          />
+      </ng-template>
+    </sd-table>
   }
 
   <!-- <app-filters
@@ -116,3 +174,30 @@
   </div>
 </div> -->
 </div>
+
+<sd-dialog
+  #selectMachineDialog
+  title="Selecciona la maquina donde se tomara el pedido"
+>
+  <app-select-machine
+    [machines]="machinesModel"
+    (machineSelected)="downloadFile($event)"
+  />
+</sd-dialog>
+
+<sd-dialog
+  #reportImpedimentDialog
+  title="Reporte de impedimento"
+>
+  <app-report-impediment [orderId]="orderSelected()?.id!"
+  (onSuccess)="reportImpedimentDialog.closeDialog()"
+  (onError)="reportImpedimentDialog.closeDialog()"
+  />
+</sd-dialog>
+
+<sd-dialog
+  #orderDetailDialog
+  title="Detalle del pedido"
+>
+  <app-order-detail #orderDetail />
+</sd-dialog>

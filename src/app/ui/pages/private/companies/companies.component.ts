@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@angular/core';
-import { CompanyModel } from '../../../../core/domain/context/companies/companies.model';
-import { apiCompanies } from '../../../../presentation/apiRquest';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { SdCardComponent } from "../../../components/atoms/sd-card/sd-card.component";
 import { SdButtonComponent } from "../../../components/atoms/sd-button/sd-button.component";
 import { DialogComponent } from "../../../components/molecules/dialog/dialog.component";
 import { FormCreateCompanyComponent } from "./components/form-create-company/form-create-company.component";
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideWarehouse } from '@ng-icons/lucide';
+import { CompanyModel } from '@infrastructure/context/companies/models/companies.model';
+import { HttpModule } from '@infrastructure/shared/http/http.module';
+import { CompaniesService } from '@infrastructure/context/companies/companies.service';
 
 @Component({
   selector: 'app-companies',
@@ -19,6 +20,7 @@ import { lucideWarehouse } from '@ng-icons/lucide';
     DialogComponent,
     FormCreateCompanyComponent,
     NgIcon,
+    HttpModule
 ],
   templateUrl: './companies.component.html',
   styleUrl: './companies.component.scss',
@@ -26,6 +28,8 @@ import { lucideWarehouse } from '@ng-icons/lucide';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompaniesComponent implements OnInit {
+
+  private readonly companiesService = inject(CompaniesService);
 
   @ViewChild('dialogAddCompany') dialogAddCompany!: DialogComponent;
 
@@ -35,14 +39,17 @@ export class CompaniesComponent implements OnInit {
   }
 
   async updateCompany() {
-    const res = await apiCompanies.getCompanies.execute();
-    res.fold(
-      (error) => {
-        console.log(error);
-      },
-      (response) => {
-        this.companies.set(response.companies);
+    this.companiesService.getCompanies().subscribe({
+      next: (res)=> {
+        res.fold(
+          (error) => {
+            console.log(error);
+          },
+          (response) => {
+            this.companies.set(response.data);
+          }
+        );
       }
-    );
+    })
   }
  }
