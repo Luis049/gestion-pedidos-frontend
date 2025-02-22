@@ -23,6 +23,7 @@ import { OrdersService } from '../../../../../infrastructure/context/orders/orde
 import { SelectMapper } from '../../../utils/mappers/select';
 import { ShowOrdersService } from '@infrastructure/context/orders/usecases/show-orders-use-case/show-orders-use-case';
 import { OrderMapper } from './mappers/order.mapper';
+import { OrderDetailComponent } from "./components/order-detail/order-detail.component";
 
 @Component({
   selector: 'app-my-orders',
@@ -36,9 +37,9 @@ import { OrderMapper } from './mappers/order.mapper';
     SdButtonComponent,
     DialogComponent,
     FormCreateOrderComponent,
-
     HttpModule,
-  ],
+    OrderDetailComponent
+],
   templateUrl: './my-orders.component.html',
   styleUrl: './my-orders.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +50,7 @@ export class MyOrdersComponent implements OnInit {
   showOrdersService = inject(ShowOrdersService);
 
   @ViewChild('dialogCreateOrder') dialogCreateOrder!: DialogComponent;
+  @ViewChild('dialogOrderDetail') dialogOrderDetail!: OrderDetailComponent;
   stores = signal<{ label: string; value: string }[]>([]);
   storeSelected = '0';
   status: { label: string; value: string }[] = [
@@ -95,6 +97,10 @@ export class MyOrdersComponent implements OnInit {
   }
 
   cancelOrder(orderId: string) {
-    console.log(orderId);
+    // this.dialogOrderDetail.showDetail(orderId);
+  }
+
+  showDetail(orderId: string) {
+    this.dialogOrderDetail.showDetail(orderId);
   }
 }

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SdTextAreaComponent } from "../../../../../../components/atoms/sd-text-area/sd-text-area.component";
+import { SdTextAreaComponent } from "../../../../../components/atoms/sd-text-area/sd-text-area.component";
 import { HttpModule } from '@infrastructure/shared/http/http.module';
 import { CommonModule } from '@angular/common';
-import { SdButtonComponent } from "../../../../../../components/atoms/sd-button/sd-button.component";
+import { SdButtonComponent } from "../../../../../components/atoms/sd-button/sd-button.component";
 import { OrdersService } from '@infrastructure/context/orders/orders.service';
 import { ReportImpedimentDto } from '@infrastructure/context/orders/models/report-impediment.dto';
 import { ToastrService } from 'ngx-toastr';

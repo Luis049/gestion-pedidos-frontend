@@ -48,7 +48,7 @@ import { StorageService } from '@infrastructure/shared/storage/storage.service';
 import { DialogComponent } from '../../../components/molecules/dialog/dialog.component';
 import { SelectMachineComponent } from './components/select-machine/select-machine.component';
 import { DropdownMenuComponent } from '../../../components/molecules/sd-dropdown-menu/sd-dropdown-menu.component';
-import { ReportImpedimentComponent } from "./my-orders/components/report-impediment/report-impediment.component";
+import { ReportImpedimentComponent } from "./components/report-impediment/report-impediment.component";
 import { OrderDetailComponent } from "./my-orders/components/order-detail/order-detail.component";
 import { SdAlertComponent } from "../../../components/atoms/sd-alert/sd-alert.component";
 
@@ -117,7 +117,6 @@ export interface OrderRowInterface {
 export class OrdersComponent implements OnInit {
   @ViewChild('selectMachineDialog') selectMachineDialog!: DialogComponent;
   @ViewChild('reportImpedimentDialog') reportImpedimentDialog!: DialogComponent;
-  @ViewChild('orderDetailDialog') orderDetailDialog!: DialogComponent;
   @ViewChild('orderDetail') orderDetail!: OrderDetailComponent;
 
 
@@ -322,7 +321,6 @@ export class OrdersComponent implements OnInit {
 
   showDetail(order: OrderRowInterface) {
     this.orderDetail.showDetail(order.id);
-    this.orderDetailDialog.openDialog();
   }
 
   showImpediment(order: OrderRowInterface) {

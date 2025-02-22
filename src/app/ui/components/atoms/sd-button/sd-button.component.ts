@@ -20,4 +20,5 @@ export class SdButtonComponent  {
   @Input() disabled: boolean = false;
   @Input() type: 'outline' | 'solid' = 'solid';
   @Input() dataTestId: string = '';
+  @Input() class = '';
  }

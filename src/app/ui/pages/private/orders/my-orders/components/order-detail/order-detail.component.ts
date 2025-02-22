@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SdTextAreaComponent } from "../../../../../../components/atoms/sd-text-area/sd-text-area.component";
 import { HttpModule } from '@infrastructure/shared/http/http.module';
@@ -7,6 +7,7 @@ import { SdButtonComponent } from "../../../../../../components/atoms/sd-button/
 import { OrdersService } from '@infrastructure/context/orders/orders.service';
 import { ReportImpedimentDto } from '@infrastructure/context/orders/models/report-impediment.dto';
 import { OrderModel } from '@infrastructure/context/orders/models/order.model';
+import { DialogComponent } from "../../../../../../components/molecules/dialog/dialog.component";
 
 @Component({
   selector: 'app-order-detail',
@@ -16,13 +17,15 @@ import { OrderModel } from '@infrastructure/context/orders/models/order.model';
     SdTextAreaComponent,
     ReactiveFormsModule,
     HttpModule,
-    SdButtonComponent
+    SdButtonComponent,
+    DialogComponent
 ],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderDetailComponent {
+  @ViewChild('dialog') dialog!: DialogComponent;
 
   orderModel = signal<OrderModel | null>(null);
 
@@ -38,6 +41,7 @@ export class OrderDetailComponent {
           (order) => {
             console.log(order);
             this.orderModel.set(order);
+            this.dialog.openDialog();
           }
         )
       },

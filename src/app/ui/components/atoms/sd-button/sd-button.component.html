@@ -1,7 +1,9 @@
 @if (type === "outline") {
   <button
     [attr.data-test-id]="dataTestId"
-    class="text-{{
+    class="
+    {{ class }}
+    text-{{
       size
     }} px-4 py-2 rounded-lg disabled:opacity-75 outline outline-2 outline-offset-2 text-type-text-{{
       color
@@ -15,11 +17,7 @@
 } @else {
   <button
     [attr.data-test-id]="dataTestId"
-    class="text-{{
-      size
-    }} px-4 py-2 rounded-lg disabled:opacity-75 text-type-text-{{
-      color
-    }} bg-type-bg-{{ color }}"
+    class="{{ class }}"
     [disabled]="disabled"
   >
     {{ text }}

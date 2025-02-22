@@ -1,5 +1,5 @@
-<div class="container">
-  <h1>Mis pedidos</h1>
+<div class="pt-10 mx-14">
+  <h1 class="text-2xl font-bold">Mis pedidos</h1>
   <div class="flex justify-end">
     <sd-button
       data-test-id="btn-add-my-order"
@@ -27,10 +27,11 @@
     </div>
   </div>
 
-  <div class="mt-4 gap-6 flex flex-wrap justify-center">
+  <div class="mt-4 justify-center gap-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3">
     @for (order of orders(); track order.ref) {
     <order-card
     (orderCancel)="cancelOrder(order.id)"
+    (orderDetail)="showDetail(order.id)"
     [order]="order" />
     }
   </div>
@@ -42,3 +43,8 @@
     (orderCancel)="dialogCreateOrder.closeDialog()"
   ></app-form-create-order>
 </sd-dialog>
+
+
+<app-order-detail
+  #dialogOrderDetail
+/>

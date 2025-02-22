@@ -40,5 +40,7 @@ export interface OrderCardComponentInterface {
 })
 export class OrderCardComponent {
   @Input() order!: OrderCardComponentInterface;
-  @Output() orderCancel = new EventEmitter<void>();
+  @Output() orderCancel = new EventEmitter<string>();
+  @Output() orderDetail = new EventEmitter<string>();
+  @Output() orderEdit = new EventEmitter<string>();
 }
