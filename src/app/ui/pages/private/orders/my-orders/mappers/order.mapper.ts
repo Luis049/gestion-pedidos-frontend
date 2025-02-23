@@ -4,52 +4,7 @@ import { OrderRowInterface } from "../../orders.component";
 import { OrderCardComponentInterface } from "../components/order-card/order-card.component";
 
 export class OrderMapper {
-  // Mapeo para almacenar los colores asignados a cada operador
-  private static coloresOperador: { [key: string]: { colorBgOperador: string; colorTextOperador: string } } = {};
-  private static indiceColorOperador = 0;
-
-  // Funciones auxiliares para generación de colores
-  private static generarColor(indice: number): string {
-    // Utilizamos el ángulo áureo para distribuir uniformemente los colores
-    const goldenAngle = 137.508;
-    const hue = (indice * goldenAngle) % 360;
-    return `hsl(${hue}, 70%, 50%)`;
-  }
-
-  private static obtenerColorTextoAdecuado(colorBgOperador: string): string {
-    // Extraemos los valores HSL del color de fondo
-    const hsl = colorBgOperador.match(/hsl\((\d+),\s*(\d+)%?,\s*(\d+)%?\)/);
-    if (hsl) {
-      const l = parseInt(hsl[3], 10);
-      return l > 50 ? '#000000' : '#FFFFFF';
-    } else {
-      // Valor predeterminado si no se puede analizar el color
-      return '#FFFFFF';
-    }
-  }
-
   static toOrderCard(order: OrderModel): OrderCardComponentInterface {
-    // Asignar colores al operador
-    let operador = order.operator?.name;
-    let colorBgOperador: string;
-    let colorTextOperador: string;
-
-    if (!operador) {
-      operador = 'Sin asignar';
-      colorBgOperador = '#CCCCCC'; // Gris claro
-      colorTextOperador = '#666666'; // Gris oscuro
-    } else {
-      if (!OrderMapper.coloresOperador[operador]) {
-        colorBgOperador = OrderMapper.generarColor(OrderMapper.indiceColorOperador);
-        colorTextOperador = OrderMapper.obtenerColorTextoAdecuado(colorBgOperador);
-        OrderMapper.coloresOperador[operador] = { colorBgOperador, colorTextOperador };
-        OrderMapper.indiceColorOperador++;
-      } else {
-        colorBgOperador = OrderMapper.coloresOperador[operador].colorBgOperador;
-        colorTextOperador = OrderMapper.coloresOperador[operador].colorTextOperador;
-      }
-    }
-
     return {
       id: order.id,
       ref: order.ref,
@@ -62,35 +17,13 @@ export class OrderMapper {
       maquina: order.machine?.name || 'Sin asignar',
       maquinaColorBg: order.machine?.color.primary || '#FAFAFA',
       maquinaColorText: order.machine?.color.secondary || '#212121',
-      operador: operador,
+      operador: order.operator?.name || 'Sin asignar',
       operadorColorBg: order.operator?.color.primary || '#FAFAFA',
       operadorColorText: order.operator?.color.secondary || '#212121',
     };
   }
 
   static toOrderRow(order: OrderModel): OrderRowInterface {
-    // Asignar colores al operador
-    // let operador = order.operator?.name;
-    // let colorBgOperador: string;
-    // let colorTextOperador: string;
-
-    // if (!operador) {
-    //   operador = 'Sin asignar';
-    //   colorBgOperador = '#9ca3af'; // Gris claro
-    //   colorTextOperador = '#fff'; // Gris oscuro
-    // } else {
-    //   if (!OrderMapper.coloresOperador[operador]) {
-    //     // Genera un nuevo color para el operador
-    //     colorBgOperador = OrderMapper.generarColor(OrderMapper.indiceColorOperador);
-    //     colorTextOperador = OrderMapper.obtenerColorTextoAdecuado(colorBgOperador);
-    //     OrderMapper.coloresOperador[operador] = { colorBgOperador, colorTextOperador };
-    //     OrderMapper.indiceColorOperador++;
-    //   } else {
-    //     colorBgOperador = OrderMapper.coloresOperador[operador].colorBgOperador;
-    //     colorTextOperador = OrderMapper.coloresOperador[operador].colorTextOperador;
-    //   }
-    // }
-
     return {
       id: order.id,
       ref: `#${order.ref}`,
@@ -127,6 +60,8 @@ export class OrderMapper {
         return 'Cancelado';
       case 'impeded':
         return 'Impedimento';
+      case 'archived':
+        return 'Archivado';
       default:
         return 'Recibido';
     }

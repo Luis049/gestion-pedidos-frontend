@@ -11,7 +11,7 @@ export interface OrderCardComponentInterface {
   ref: string;
   turno: number;
   fecha: string;
-  estado: 'Recibido' | 'Imprimiendo' | 'Finalizado' | 'Entregado' | 'Cancelado' | 'Impedimento';
+  estado: 'Recibido' | 'Imprimiendo' | 'Finalizado' | 'Entregado' | 'Cancelado' | 'Impedimento' | 'Archivado';
   colorEstado: string;
   colorTextEstado: string;
   iconEstado: string;

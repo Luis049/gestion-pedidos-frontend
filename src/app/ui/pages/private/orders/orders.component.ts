@@ -51,6 +51,8 @@ import { DropdownMenuComponent } from '../../../components/molecules/sd-dropdown
 import { ReportImpedimentComponent } from "./components/report-impediment/report-impediment.component";
 import { OrderDetailComponent } from "./my-orders/components/order-detail/order-detail.component";
 import { SdAlertComponent } from "../../../components/atoms/sd-alert/sd-alert.component";
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { ChangeStatusOrderComponent } from "./components/change-status-order/change-status-order.component";
 
 export interface OrderRowInterface {
   id: string;
@@ -66,7 +68,8 @@ export interface OrderRowInterface {
     | 'Finalizado'
     | 'Entregado'
     | 'Cancelado'
-    | 'Impedimento';
+    | 'Impedimento'
+    | 'Archivado';
   colorEstado: string;
   colorTextEstado: string;
   iconEstado: string;
@@ -99,6 +102,7 @@ export interface OrderRowInterface {
     ReportImpedimentComponent,
     OrderDetailComponent,
     SdAlertComponent,
+    ChangeStatusOrderComponent
 ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
@@ -118,7 +122,7 @@ export class OrdersComponent implements OnInit {
   @ViewChild('selectMachineDialog') selectMachineDialog!: DialogComponent;
   @ViewChild('reportImpedimentDialog') reportImpedimentDialog!: DialogComponent;
   @ViewChild('orderDetail') orderDetail!: OrderDetailComponent;
-
+  @ViewChild('changeStatusOrder') changeStatusOrder!: ChangeStatusOrderComponent;
 
   orderSelected = signal<OrderRowInterface | null>(null);
 
@@ -127,6 +131,7 @@ export class OrdersComponent implements OnInit {
   showOrdersService = inject(ShowOrdersService);
   machinesService = inject(MachinesService);
   operatorsService = inject(OperatorsService);
+  private readonly toastr = inject(ToastrService);
 
   showFilterStore = signal<boolean>(false);
   stores = signal<{ label: string; value: string }[]>([]);
@@ -165,7 +170,8 @@ export class OrdersComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     // Inject formatDatePipe
     private formatDatePipe: DatePipe,
-  ) {}
+  ) {
+  }
 
   orders = signal<OrderRowInterface[]>([]);
   ordersModel = signal<OrderModel[]>([]);
@@ -371,6 +377,7 @@ export class OrdersComponent implements OnInit {
 
   nextState(order: OrderRowInterface) {
     console.log(order);
+    this.changeStatusOrder.openDialog(order.id);
   }
 
   openFile(url: string) {

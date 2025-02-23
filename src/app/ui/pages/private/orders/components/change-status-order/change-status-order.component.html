@@ -1,0 +1,12 @@
+<sd-dialog #confirmationDialog>
+  <div class="flex flex-col gap-2">
+    <label for="confirmation" class="text-sm text-gray-500">{{
+      messageConfirmation()
+    }}</label>
+
+    <div class="flex justify-end gap-2">
+      <button (click)="onConfirm()">Confirmar</button>
+      <button (click)="onCancel()">Cancelar</button>
+    </div>
+  </div>
+</sd-dialog>

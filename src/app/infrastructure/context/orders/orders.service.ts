@@ -10,6 +10,9 @@ import { ProcessFailure } from "../../shared/Either/process-failure";
 import { SwitchPrintingDto } from "./models/switch-printing.dto";
 import { HttpUseCase } from "@domain/http/usecases/http.usecases";
 import { ReportImpedimentDto } from "./models/report-impediment.dto";
+import { SwitchFinishedDto } from "./models/switch-finished.dto";
+import { SwitchDeliveredDto } from "./models/switch-delivered.dto";
+import { SwitchArchivedDto } from "./models/switch-archived.dto";
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +67,7 @@ export class OrdersService {
         return of(Either.right<ProcessFailure, ResponseOk>(response));
       }),
       catchError((error: any) => {
-        return of(Either.left<ProcessFailure, ResponseOk>(error));
+        return of(Either.left<ProcessFailure, ResponseOk>(error.error));
       }),
     );
   }
@@ -75,7 +78,40 @@ export class OrdersService {
         return of(Either.right<ProcessFailure, ResponseOk>(response));
       }),
       catchError((error: any) => {
-        return of(Either.left<ProcessFailure, ResponseOk>(error));
+        return of(Either.left<ProcessFailure, ResponseOk>(error.error));
+      }),
+    );
+  }
+
+  switchFinished(order: SwitchFinishedDto) {
+    return this.http.put<ResponseOk>('orders/switch-finished', order).pipe(
+      switchMap((response) => {
+        return of(Either.right<ProcessFailure, ResponseOk>(response));
+      }),
+      catchError((error: any) => {
+        return of(Either.left<ProcessFailure, ResponseOk>(error.error));
+      }),
+    );
+  }
+
+  switchDelivered(order: SwitchDeliveredDto) {
+    return this.http.put<ResponseOk>('orders/switch-delivered', order).pipe(
+      switchMap((response) => {
+        return of(Either.right<ProcessFailure, ResponseOk>(response));
+      }),
+      catchError((error: any) => {
+        return of(Either.left<ProcessFailure, ResponseOk>(error.error));
+      }),
+    );
+  }
+
+  switchArchived(order: SwitchArchivedDto) {
+    return this.http.put<ResponseOk>('orders/switch-archived', order).pipe(
+      switchMap((response) => {
+        return of(Either.right<ProcessFailure, ResponseOk>(response));
+      }),
+      catchError((error: any) => {
+        return of(Either.left<ProcessFailure, ResponseOk>(error.error));
       }),
     );
   }
@@ -90,8 +126,4 @@ export class OrdersService {
       }),
     );
   }
-
-
-
-
 }
