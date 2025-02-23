@@ -9,6 +9,12 @@
   <div class="flex flex-col gap-2">
     <h1>{{ orderModel()?.operator?.name }}</h1>
   </div>
+  <div class="flex flex-col gap-2">
+    <h1>{{ orderModel()?.status }}</h1>
+  </div>
+  <div class="flex flex-col gap-2">
+    <h1>{{ orderModel()?.file?.url || 'No hay archivo' }}</h1>
+  </div>
 </div>
 </sd-dialog>
 

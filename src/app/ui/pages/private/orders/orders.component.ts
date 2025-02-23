@@ -376,7 +376,6 @@ export class OrdersComponent implements OnInit {
   }
 
   nextState(order: OrderRowInterface) {
-    console.log(order);
     this.changeStatusOrder.openDialog(order.id);
   }
 

@@ -38,6 +38,8 @@ export class ChangeStatusOrderComponent {
             this.order.set(order);
             if(order.status === 'received') {
               this.toastr.warning('Para pasar a imprimir el pedido, debe descargar el archivo');
+            }else if(order.status === 'archived'){
+                this.toastr.warning('El pedido ya está archivado');
             }else{
               this.confirmationDialog.openDialog();
             }
