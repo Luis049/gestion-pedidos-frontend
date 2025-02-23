@@ -95,7 +95,11 @@ export class ChangeStatusOrderComponent {
     res.fold(
       (error) => {
         this.onError.emit();
-        this.toastr.error('Error al cambiar el estado del pedido');
+        let message = 'Error al cambiar el estado del pedido';
+        if(error.status === 400){
+          message = Array.isArray(error.message) ? error.message[0]: error.message;
+        }
+        this.toastr.error(message);
         this.confirmationDialog.closeDialog();
       },
       (response) => {
