@@ -1,6 +1,6 @@
 import { SSE } from "sse.js";
 import { Observable } from "rxjs";
-import { OrderModel } from "../../models/order.model";
+import { OrderModel } from "./models/order.model";
 import { StorageService } from "@infrastructure/shared/storage/storage.service";
 import { environment } from "src/environments/environment";
 

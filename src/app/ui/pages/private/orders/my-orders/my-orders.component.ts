@@ -21,9 +21,9 @@ import { HttpModule } from '../../../../../infrastructure/shared/http/http.modul
 import { StoresService } from '../../../../../infrastructure/context/stores/stores.service';
 import { OrdersService } from '../../../../../infrastructure/context/orders/orders.service';
 import { SelectMapper } from '../../../utils/mappers/select';
-import { ShowOrdersService } from '@infrastructure/context/orders/usecases/show-orders-use-case/show-orders-use-case';
 import { OrderMapper } from './mappers/order.mapper';
 import { OrderDetailComponent } from "./components/order-detail/order-detail.component";
+import { ShowOrdersService } from '@infrastructure/context/orders/show-orders.service';
 
 @Component({
   selector: 'app-my-orders',

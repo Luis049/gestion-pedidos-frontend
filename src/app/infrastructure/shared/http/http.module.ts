@@ -9,8 +9,8 @@ import { StoresService } from "@infrastructure/context/stores/stores.service";
 import { MachinesService } from "@infrastructure/context/machines/machines.service";
 import { OperatorsService } from "@infrastructure/context/operators/operators.service";
 import { OrdersService } from "@infrastructure/context/orders/orders.service";
-import { ShowOrdersService } from "@infrastructure/context/orders/usecases/show-orders-use-case/show-orders-use-case";
 import { ParamsService } from "@infrastructure/context/params/params.service";
+import { ShowOrdersService } from "@infrastructure/context/orders/show-orders.service";
 
 @NgModule({
   imports: [HttpClientModule],

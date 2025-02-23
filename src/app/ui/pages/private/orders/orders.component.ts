@@ -43,7 +43,6 @@ import { OrderModel } from '../../../../infrastructure/context/orders/models/ord
 import { MachinesService } from '../../../../infrastructure/context/machines/machines.service';
 import { OperatorsService } from '../../../../infrastructure/context/operators/operators.service';
 import { UserModel } from '../../../../infrastructure/context/auth/models/login.response';
-import { ShowOrdersService } from '@infrastructure/context/orders/usecases/show-orders-use-case/show-orders-use-case';
 import { StorageService } from '@infrastructure/shared/storage/storage.service';
 import { DialogComponent } from '../../../components/molecules/dialog/dialog.component';
 import { SelectMachineComponent } from './components/select-machine/select-machine.component';
@@ -53,6 +52,7 @@ import { OrderDetailComponent } from "./my-orders/components/order-detail/order-
 import { SdAlertComponent } from "../../../components/atoms/sd-alert/sd-alert.component";
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { ChangeStatusOrderComponent } from "./components/change-status-order/change-status-order.component";
+import { ShowOrdersService } from '@infrastructure/context/orders/show-orders.service';
 
 export interface OrderRowInterface {
   id: string;
